@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -40,11 +41,10 @@ public class Customer {
 
     @NotBlank(message = "Please provide the customer password")
     @NotNull(message = "Please provide the customer password")
-    @Size(min = 6,max = 10,message = "min 15 and max 15 characters allowed only")
+    @Size(min = 15,max = 15,message = "min 15 and max 15 characters allowed only")
     private String aadharId;
 
 
-    @NotBlank(message = "Please select gender")
     @NotNull(message = "Please select gender")
     private Gender gender;
 
@@ -66,9 +66,10 @@ public class Customer {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "booking_id")
+//    @JsonIgnore
     private Booking booking;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
-    private List<Feedback> feedback;
+    private List<Feedback> feedback ;
 }
