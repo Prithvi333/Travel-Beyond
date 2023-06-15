@@ -63,8 +63,6 @@ public class Package {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Hotel> hotels;
 
-    @OneToOne(mappedBy = "aPackage")
-    private Booking booking;
 
 
 
