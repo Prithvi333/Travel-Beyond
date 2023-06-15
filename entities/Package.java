@@ -1,5 +1,6 @@
 package com.masaiproject.tripManagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,7 +26,6 @@ public class Package {
     @Size(min = 4,message = "min 4 is required")
     private String packageName;
 
-    @NotBlank(message = "Please provide the hotel type")
     @NotNull(message = "Please provide the hotel type")
     private HotelType hotelType;
 
@@ -34,7 +34,7 @@ public class Package {
     private String daysAndNight;
 
 
-    @NotBlank(message = "Please provide the package season")
+
     @NotNull(message = "Please provide the package season")
     private Season packageSeason;
 
@@ -53,13 +53,14 @@ public class Package {
     private String packageDescription4;
     private String packageDescription5;
 
-    @NotBlank(message = "please provide package cost")
-    private double packageCost;
+    @NotNull(message = "please provide package cost")
+    private Double packageCost;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "aPackage")
+    private List<PackageBooking> bookingList;
 
-    @Embedded
-    private PaymentDetails payment;
-
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Hotel> hotels;
 

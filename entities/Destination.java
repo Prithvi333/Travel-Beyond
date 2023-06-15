@@ -24,7 +24,6 @@ public class Destination {
     @NotNull(message = "Please provide the destination name")
     private String name;
 
-    @NotBlank(message = "Please choose  desEnvironment")
     @NotNull(message = "Please choose desEnvironment")
     private DesEnvironment desEnvironment;
 

@@ -33,5 +33,5 @@ public class Feedback {
 
     @ManyToOne()
     @JoinColumn(name = "customer_id")
-    private Customer customer;
+    private Customer customerFeedback;
 }

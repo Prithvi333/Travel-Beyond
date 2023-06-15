@@ -64,12 +64,15 @@ public class Customer {
     private String email;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "booking_id")
-//    @JsonIgnore
-    private Booking booking;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "customerBooking",fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<HotelBooking> hotelBookings;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer",fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<PackageBooking> packageBookings;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "customerFeedback")
     private List<Feedback> feedback ;
 }
