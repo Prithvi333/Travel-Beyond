@@ -10,53 +10,52 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HotelBooking{
+public class HotelBooking {
 
 //    @JsonIgnore
 //    @OneToOne(cascade = CascadeType.ALL,mappedBy = "booking")
 //    private Customer customer;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer bookingId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer bookingId;
 
-    @NotNull(message = "booking type is important")
-    private String bookingType;
+	@NotNull(message = "booking type is important")
+	private String bookingType;
 
+	private String description;
 
-    private String description;
+	@NotNull(message = "give any booking title")
+	private String bookingTitle;
 
-    @NotNull(message = "give any booking title")
-    private String bookingTitle;
+	@CreatedDate
+	private LocalDate bookingDate;
 
-    @CreatedDate
-    private LocalDate bookingDate;
+	@NotNull(message = "choose the package")
+	@NotBlank(message = "choose the package")
+	private String packageName;
 
+	@NotNull(message = "mention the number of person that will be in this trip")
+	private Integer number_Of_Person;
 
-    @NotNull(message = "choose the package")
-    @NotBlank(message = "choose the package")
-    private String packageName;
+	private boolean status;
+	@JoinColumn(name = "customer_id")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
+	private Customer customerBooking;
 
-    @NotNull(message = "mention the number of person that will be in this trip")
-    private Integer number_Of_Person;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<PaymentDetails> payment = new ArrayList<>();
 
-    @JoinColumn(name = "customer_id")
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Customer customerBooking;
-
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<PaymentDetails> payment;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Hotel hotel;
+	@OneToOne(cascade = CascadeType.ALL)
+	private Hotel hotel;
 
 }

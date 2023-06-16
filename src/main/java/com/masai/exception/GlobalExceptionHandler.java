@@ -173,4 +173,86 @@ public class GlobalExceptionHandler {
 		me.setDetails(wr.getDescription(false));
 		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
 	}
+
+	@ExceptionHandler(PackageNotFoundException.class)
+	public ResponseEntity<MyError> packageNotFoundException(PackageNotFoundException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EmptyPackageListException.class)
+	public ResponseEntity<MyError> emptyPackageListException(EmptyPackageListException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(PackageBookingNotFoundException.class)
+	public ResponseEntity<MyError> packageBookingNotFoundException(PackageBookingNotFoundException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EmptyPackageBookingListException.class)
+	public ResponseEntity<MyError> emptyPackageBookingListException(EmptyPackageBookingListException ex,
+			WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(HotelBookingNotFoundException.class)
+	public ResponseEntity<MyError> hotelBookingNotFoundException(HotelBookingNotFoundException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EmptyHotelBookingListException.class)
+	public ResponseEntity<MyError> emptyHotelBookingListException(EmptyHotelBookingListException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(PaymentDetailsNotFoundException.class)
+	public ResponseEntity<MyError> paymentDetailsNotFoundException(PaymentDetailsNotFoundException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EmptyPaymentDetialsListException.class)
+	public ResponseEntity<MyError> emptyPaymentDetailsListException(EmptyPaymentDetialsListException ex,
+			WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
 }

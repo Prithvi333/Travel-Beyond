@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Package {
+public class Packages {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,12 +55,13 @@ public class Package {
 	@NotNull(message = "please provide package cost")
 	private Double packageCost;
 
+	private boolean status;
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "aPackage")
 	private List<PackageBooking> bookingList = new ArrayList<>();
 
 	@JsonIgnore
-	@ManyToMany(cascade = CascadeType.ALL)
-	private List<Hotel> hotels = new ArrayList<>();
+	@OneToOne(cascade = CascadeType.ALL)
+	private Hotel hotel;
 
 }

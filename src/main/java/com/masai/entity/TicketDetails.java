@@ -42,7 +42,7 @@ public class TicketDetails {
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
-    private Package aPackage;
+    private Packages aPackage;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
