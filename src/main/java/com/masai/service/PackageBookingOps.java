@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.masai.entity.PackageBooking;
 
-public interface BookingOps {
+public interface PackageBookingOps {
 
-	PackageBooking makeBooking(int custoemrId,PackageBooking booking);
+	PackageBooking makeBooking(int custoemrId,int packageId,PackageBooking booking);
 
 	PackageBooking cancleBooking(int id);
 

@@ -17,22 +17,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PaymentDetails {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer paymentId;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer paymentId;
+	@NotNull(message = "type can not be null")
+	private PaymentType paymentType;
 
-    @NotNull(message = "type can not be null")
-    private PaymentType paymentType;
-
-    private PaymentStatus paymentStatus;
+	private PaymentStatus paymentStatus;
 
 //    @Column(name = "payment_money", columnDefinition = "DECIMAL(10, 2) DEFAULT 0.0")
 
-    @NotNull(message = "money can not be null")
-    private BigDecimal paymentMoney ;
+	private boolean status;
+	@NotNull(message = "money can not be null")
+	private BigDecimal paymentMoney;
 
-    private Integer bookingId;
-
+	private Integer bookingId;
 
 }

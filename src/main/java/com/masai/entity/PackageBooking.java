@@ -35,7 +35,6 @@ public class PackageBooking{
     @CreatedDate
     private LocalDate bookingDate;
 
-
     @NotNull(message = "choose the package")
     @NotBlank(message = "choose the package")
     private String packageName;
@@ -54,6 +53,6 @@ public class PackageBooking{
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "package_id")
-    private Package aPackage;
+    private Packages aPackage;
 
 }
