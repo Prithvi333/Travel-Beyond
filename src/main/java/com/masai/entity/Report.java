@@ -1,6 +1,5 @@
 package com.masai.entity;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,18 +17,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Report {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer reportId;
-    @NotNull(message = "please provide the reason")
-    @NotBlank(message = "reportName can't be empty")
-    private String reportName;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer reportId;
+	@NotNull(message = "please provide the reason")
+	@NotBlank(message = "reportName can't be empty")
+	private String reportName;
 
-    @NotNull(message = "select type")
-    private ReportType reportType;
-
-    @NotNull(message = "please provide customer ID")
-    @NotEmpty(message = "please provide customer ID")
-    private String customerId;
+	@NotNull(message = "select type")
+	private ReportType reportType;
+	private boolean status;
+	@NotNull(message = "please provide customer ID")
+	@NotEmpty(message = "please provide customer ID")
+	private String customerId;
 
 }

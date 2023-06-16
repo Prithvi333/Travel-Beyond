@@ -74,8 +74,98 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
 	}
 
-	@ExceptionHandler(EmptyFeedbackListException.class)
-	public ResponseEntity<MyError> emptyFeedbackException(EmptyFeedbackListException ex, WebRequest wr) {
+	@ExceptionHandler(BusNotFoundException.class)
+	public ResponseEntity<MyError> busNotFoundException(BusNotFoundException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EmptyBusListException.class)
+	public ResponseEntity<MyError> emptyBusListException(EmptyBusListException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(DestinationNotFoundException.class)
+	public ResponseEntity<MyError> destinationNotFoundException(DestinationNotFoundException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EmptyDestinationListException.class)
+	public ResponseEntity<MyError> emptyDestinationListException(EmptyDestinationListException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(RouteNotFoundException.class)
+	public ResponseEntity<MyError> routeNotFoundException(RouteNotFoundException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EmptyRouteListException.class)
+	public ResponseEntity<MyError> emptyRouteListException(EmptyRouteListException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(HotelNotFoundException.class)
+	public ResponseEntity<MyError> hotelNotFoundException(HotelNotFoundException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EmptyHotelListException.class)
+	public ResponseEntity<MyError> emptyHotelListException(EmptyHotelListException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(ReportNotFoundException.class)
+	public ResponseEntity<MyError> reportNotFoundException(ReportNotFoundException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EmptyReportListException.class)
+	public ResponseEntity<MyError> emptyReportListException(EmptyReportListException ex, WebRequest wr) {
 
 		MyError me = new MyError();
 		me.setLocalDateTime(LocalDateTime.now());

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -49,7 +50,7 @@ public class PackageBooking{
 
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<PaymentDetails> payment;
+    private List<PaymentDetails> payment=new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "package_id")
