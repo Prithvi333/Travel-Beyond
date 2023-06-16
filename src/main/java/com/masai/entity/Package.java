@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,54 +18,49 @@ import java.util.List;
 @AllArgsConstructor
 public class Package {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer packageId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer packageId;
 
-    @NotBlank(message = "Please provide the package name")
-    @NotNull(message = "Please provide the customer name")
-    @Size(min = 4,message = "min 4 is required")
-    private String packageName;
+	@NotBlank(message = "Please provide the package name")
+	@NotNull(message = "Please provide the customer name")
+	@Size(min = 4, message = "min 4 is required")
+	private String packageName;
 
-    @NotNull(message = "Please provide the hotel type")
-    private HotelType hotelType;
+	@NotNull(message = "Please provide the hotel type")
+	private HotelType hotelType;
 
-    @NotBlank(message = "Please provide the daysAndNight details")
-    @NotNull(message = "Please provide the daysAndNight details")
-    private String daysAndNight;
+	@NotBlank(message = "Please provide the daysAndNight details")
+	@NotNull(message = "Please provide the daysAndNight details")
+	private String daysAndNight;
 
+	@NotNull(message = "Please provide the package season")
+	private Season packageSeason;
 
+	@NotBlank(message = "At least 3 package description is required")
+	@NotNull(message = "At least 3 package description is required")
+	private String packageDescription1;
 
-    @NotNull(message = "Please provide the package season")
-    private Season packageSeason;
+	@NotBlank(message = "At least 3 package description is required")
+	@NotNull(message = "At least 3 package description is required")
+	private String packageDescription2;
 
-    @NotBlank(message = "At least 3 package description is required")
-    @NotNull(message = "At least 3 package description is required")
-    private String packageDescription1;
+	@NotBlank(message = "At least 3 package description is required")
+	@NotNull(message = "At least 3 package description is required")
+	private String packageDescription3;
 
-    @NotBlank(message = "At least 3 package description is required")
-    @NotNull(message = "At least 3 package description is required")
-    private String packageDescription2;
+	private String packageDescription4;
+	private String packageDescription5;
 
-    @NotBlank(message = "At least 3 package description is required")
-    @NotNull(message = "At least 3 package description is required")
-    private String packageDescription3;
+	@NotNull(message = "please provide package cost")
+	private Double packageCost;
 
-    private String packageDescription4;
-    private String packageDescription5;
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "aPackage")
+	private List<PackageBooking> bookingList = new ArrayList<>();
 
-    @NotNull(message = "please provide package cost")
-    private Double packageCost;
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "aPackage")
-    private List<PackageBooking> bookingList;
-
-    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Hotel> hotels;
-
-
-
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<Hotel> hotels = new ArrayList<>();
 
 }

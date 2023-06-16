@@ -1,5 +1,6 @@
 package com.masai.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,37 +16,37 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Travels {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer travelsId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer travelsId;
 
-    @NotNull(message = "travelsName is mandatory")
-    @NotBlank(message = "travelsName is mandatory")
-    private String travelsName;
+	@NotNull(message = "travelsName is mandatory")
+	@NotBlank(message = "travelsName is mandatory")
+	private String travelsName;
 
-    @NotNull(message = "agentName is mandatory")
-    @NotBlank(message = "agentName is mandatory")
-    private String agentName;
-   
-    private boolean status;
-    
-    @NotNull(message = "address is mandatory")
-    @NotBlank(message = "address is mandatory")
-    private String address;
+	@NotNull(message = "agentName is mandatory")
+	@NotBlank(message = "agentName is mandatory")
+	private String agentName;
 
-    @NotNull(message = "contact is mandatory")
-    @NotBlank(message = "contact is mandatory")
-    private String contact;
+	private boolean status;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "travel")
-    private List<Bus> buses;
+	@NotNull(message = "address is mandatory")
+	@NotBlank(message = "address is mandatory")
+	private String address;
 
+	@NotNull(message = "contact is mandatory")
+	@NotBlank(message = "contact is mandatory")
+	private String contact;
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "travel")
+	private List<Bus> buses = new ArrayList<>();
 
 }

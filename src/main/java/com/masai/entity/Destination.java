@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,23 +17,25 @@ import java.util.List;
 @AllArgsConstructor
 public class Destination {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer desId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer desId;
 
-    @NotBlank(message = "Please provide the destination name")
-    @NotNull(message = "Please provide the destination name")
-    private String name;
+	@NotBlank(message = "Please provide the destination name")
+	@NotNull(message = "Please provide the destination name")
+	private String name;
 
-    @NotNull(message = "Please choose desEnvironment")
-    private DesEnvironment desEnvironment;
+	@NotNull(message = "Please choose desEnvironment")
+	private DesEnvironment desEnvironment;
 
-    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "destinationList")
-    @JsonIgnore
-    private List<Bus> bus;
+	private boolean status;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "destination",cascade = CascadeType.ALL)
-    private List<Hotel> hotels;
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "destinationList")
+	@JsonIgnore
+	private List<Bus> bus = new ArrayList<>();
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "destination", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Hotel> hotels = new ArrayList<>();
 
 }

@@ -1,5 +1,6 @@
 package com.masai.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,36 +26,37 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Bus {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer busId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer busId;
 
-    @NotBlank(message = "Please provide the destination name")
-    @NotNull(message = "Please provide the destination name")
-    private String busType;
+	@NotBlank(message = "Please provide the destination name")
+	@NotNull(message = "Please provide the destination name")
+	private String busType;
 
-    @NotBlank(message = "Please provide the destination name")
-    @NotNull(message = "Please provide the destination name")
-    private String busNumber;
+	@NotBlank(message = "Please provide the destination name")
+	@NotNull(message = "Please provide the destination name")
+	private String busNumber;
 
-    @NotBlank(message = "Please provide the destination name")
-    @NotNull(message = "Please provide the destination name")
-    private Integer capacity;
+	@NotBlank(message = "Please provide the destination name")
+	@NotNull(message = "Please provide the destination name")
+	private Integer capacity;
 
-    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Route> routes;
+	private boolean status;
 
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<Route> routes = new ArrayList<>();
 
-    @JoinColumn(name = "travels_id")
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Travels travel;
+	@JoinColumn(name = "travels_id")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
+	private Travels travel;
 
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "bus_destination",joinColumns = {@JoinColumn(referencedColumnName = "busId")},inverseJoinColumns = {@JoinColumn(referencedColumnName = "desId")})
-    private List<Destination> destinationList;
-
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "bus_destination", joinColumns = {
+			@JoinColumn(referencedColumnName = "busId") }, inverseJoinColumns = {
+					@JoinColumn(referencedColumnName = "desId") })
+	private List<Destination> destinationList = new ArrayList<>();
 
 }
