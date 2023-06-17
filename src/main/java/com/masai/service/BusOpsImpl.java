@@ -9,10 +9,13 @@ import com.masai.entity.Bus;
 import com.masai.entity.Travels;
 import com.masai.exception.BusNotFoundException;
 import com.masai.exception.EmptyBusListException;
+import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.TravelsNotFoundException;
 import com.masai.repository.BusDao;
 import com.masai.repository.TravelDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BusOpsImpl implements BusOps {
 
 	@Autowired
@@ -38,6 +41,9 @@ public class BusOpsImpl implements BusOps {
 
 		Optional<Bus> bus = bd.findById(busId);
 		if (!bus.isEmpty()) {
+			if (!bus.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Bus is already removed");
+			}
 			bus.get().setStatus(false);
 			return bd.save(bus.get());
 		}
@@ -49,6 +55,9 @@ public class BusOpsImpl implements BusOps {
 	public Bus searchBus(int busId) {
 		Optional<Bus> bus = bd.findById(busId);
 		if (!bus.isEmpty()) {
+			if (!bus.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("This bus is not exist now");
+			}
 			return bus.get();
 		}
 		throw new BusNotFoundException("Bus not found ");
@@ -59,10 +68,12 @@ public class BusOpsImpl implements BusOps {
 		Optional<Travels> travels = td.findById(travelId);
 		if (!travels.isEmpty()) {
 			Travels travel = travels.get();
-
+			if (!travel.isStatus()) {
+				throw new EntityAlreadyAlteredException("This travels is not available now");
+			}
 			List<Bus> buses = travel.getBuses();
 			if (!buses.isEmpty())
-				return buses;
+				return buses.stream().filter(a -> a.isStatus()).toList();
 			throw new EmptyBusListException("No bus is added by this traveler yet");
 		}
 		throw new TravelsNotFoundException("Tranvels not found to add bus");
@@ -72,7 +83,7 @@ public class BusOpsImpl implements BusOps {
 	public List<Bus> viewAllBuses() {
 		List<Bus> buses = bd.findAll();
 		if (!buses.isEmpty())
-			return buses;
+			return buses.stream().filter(a -> a.isStatus()).toList();
 		throw new EmptyBusListException("Bus list is empty");
 	}
 

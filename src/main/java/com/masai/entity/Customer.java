@@ -55,7 +55,7 @@ public class Customer {
 	@NotBlank(message = "Please select your country")
 	@NotNull(message = "Please select your country")
 	private String country;
-
+	private boolean status;
 	@NotBlank(message = "Please provide the customer password")
 	@NotNull(message = "Please provide the customer password")
 	@Size(min = 10, max = 10, message = "min 10 and max 10 characters allowed only")

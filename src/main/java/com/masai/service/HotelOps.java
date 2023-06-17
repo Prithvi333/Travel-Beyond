@@ -5,9 +5,10 @@ import java.util.List;
 import com.masai.entity.Hotel;
 
 public interface HotelOps {
-	Hotel addHotel(int destinationId, Hotel hotel);
+	Hotel addHotel(Integer destinationId, Hotel hotel);
 
-	Hotel removeHotel(int hotelId);
+//	Hotel addHotel(Hotel hotel);
+	Hotel removeHotel(Integer hotelId);
 
 	Hotel searchHotel(int hotelId);
 

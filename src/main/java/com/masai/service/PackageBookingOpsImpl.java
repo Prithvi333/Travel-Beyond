@@ -11,6 +11,7 @@ import com.masai.entity.PackageBooking;
 import com.masai.entity.Packages;
 import com.masai.exception.CustomerNotFoundException;
 import com.masai.exception.EmptyPackageBookingListException;
+import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.PackageBookingNotFoundException;
 import com.masai.exception.PackageNotFoundException;
 import com.masai.repository.CustomerDao;
@@ -37,6 +38,14 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 			throw new CustomerNotFoundException("Not valid customer to make booking");
 		if (pakage.isEmpty())
 			throw new PackageNotFoundException("Package not found");
+
+		if (!customer.get().isStatus()) {
+			throw new EntityAlreadyAlteredException("Customer is not exist now");
+		}
+		if (!pakage.get().isStatus()) {
+			throw new EntityAlreadyAlteredException("Package is not exist now");
+		}
+		booking.setStatus(true);
 		booking.setCustomer(customer.get());
 		booking.setAPackage(pakage.get());
 		pakage.get().getBookingList().add(booking);
@@ -53,8 +62,11 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 		Optional<PackageBooking> booking = bd.findById(id);
 		if (!booking.isEmpty()) {
 			PackageBooking book = booking.get();
+			if (!book.isStatus()) {
+				throw new EntityAlreadyAlteredException("Unable to cancle already canceld booking");
+			}
 			book.setStatus(false);
-			return book;
+			return bd.save(book);
 		}
 		throw new PackageBookingNotFoundException("No booking found with the given id to cancle");
 	}
@@ -64,6 +76,9 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 		Optional<PackageBooking> booking = bd.findById(id);
 		if (!booking.isEmpty()) {
 			PackageBooking book = booking.get();
+			if (!book.isStatus()) {
+				throw new EntityAlreadyAlteredException("Booking is not exist now");
+			}
 			return book;
 		}
 		throw new PackageBookingNotFoundException("No booking found with the given id to view");
@@ -75,7 +90,7 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 
 		List<PackageBooking> bookingList = bd.findAll();
 		if (!bookingList.isEmpty())
-			return bookingList;
+			return bookingList.stream().filter(a -> a.isStatus()).toList();
 		throw new EmptyPackageBookingListException("Booking list is empty");
 	}
 

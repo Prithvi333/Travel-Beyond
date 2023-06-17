@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import com.masai.entity.Travels;
 import com.masai.entity.TravelsDto;
 import com.masai.exception.EmptyTravelListException;
+import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.TravelsNotFoundException;
 import com.masai.repository.TravelDao;
+
 @Service
 public class TravelsOpsImpl implements TravelsOps {
 
@@ -25,12 +27,15 @@ public class TravelsOpsImpl implements TravelsOps {
 	}
 
 	@Override
-	public Travels updateTravels(int id, TravelsDto travelsdto) {
+	public Travels updateTravels(int travelsId, TravelsDto travelsdto) {
 
-		Optional<Travels> travels = td.findById(id);
+		Optional<Travels> travels = td.findById(travelsId);
 		if (!travels.isEmpty()) {
 
 			Travels travel = travels.get();
+			if (!travel.isStatus()) {
+				throw new EntityAlreadyAlteredException("Travel is not available to update ");
+			}
 			travel.setAgentName(travelsdto.getAgentName());
 			travel.setAddress(travelsdto.getAgentName());
 			travel.setContact(travelsdto.getContact());
@@ -45,9 +50,11 @@ public class TravelsOpsImpl implements TravelsOps {
 
 		Optional<Travels> travels = td.findById(id);
 		if (!travels.isEmpty()) {
-
+			if (!travels.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Travel is not available to remove ");
+			}
 			travels.get().setStatus(false);
-			return travels.get();
+			return td.save(travels.get());
 		}
 		throw new TravelsNotFoundException("Travels not found to remove");
 
@@ -58,6 +65,9 @@ public class TravelsOpsImpl implements TravelsOps {
 
 		Optional<Travels> travels = td.findById(id);
 		if (!travels.isEmpty()) {
+			if (!travels.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Travel is not available now");
+			}
 			return travels.get();
 		}
 		throw new TravelsNotFoundException("Travels not found to view");
@@ -69,7 +79,7 @@ public class TravelsOpsImpl implements TravelsOps {
 		List<Travels> travelsList = td.findAll();
 
 		if (!travelsList.isEmpty()) {
-			return travelsList;
+			return travelsList.stream().filter(a -> a.isStatus()).toList();
 		}
 		throw new EmptyTravelListException("Travels list is empty");
 	}
