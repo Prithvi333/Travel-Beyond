@@ -56,6 +56,7 @@ public class Packages {
 	private Double packageCost;
 
 	private boolean status;
+
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "aPackage")
 	private List<PackageBooking> bookingList = new ArrayList<>();
@@ -63,5 +64,12 @@ public class Packages {
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
 	private Hotel hotel;
+
+
+
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "destination_id")
+	private Destination destination;
 
 }

@@ -28,10 +28,10 @@ public class HotelController {
 	@Autowired
 	HotelOps h;
 	
-	@PostMapping("/Hotel/{DestinationID}")
-	public ResponseEntity<Hotel> addHotel(@PathVariable("DestinationID") Integer id,@RequestBody @Valid Hotel hotel){
+	@PostMapping("/hotel/{destinationID}")
+	public ResponseEntity<Hotel> addHotel(@PathVariable("destinationID") Integer id,@RequestBody @Valid Hotel hotel){
 		
-		return new ResponseEntity<>(h.addHotel(id, hotel),HttpStatus.CREATED);
+		return new ResponseEntity<>(h.addHotel(id,hotel),HttpStatus.CREATED);
 		
 	}
 	
@@ -51,7 +51,7 @@ public class HotelController {
 		return new ResponseEntity<>(h.viewHotelsBydestinationId(id),HttpStatus.ACCEPTED);
 	}
 	
-	@GetMapping("/Hotel}")
+	@GetMapping("/Hotel")
 	public ResponseEntity<List<Hotel>> getAllHotel(){
 		return new ResponseEntity<>(h.viewAllHotels(),HttpStatus.ACCEPTED);
 	}

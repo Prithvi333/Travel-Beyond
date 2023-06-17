@@ -12,30 +12,69 @@ import com.masai.exception.EmptyHotelListException;
 import com.masai.exception.HotelNotFoundException;
 import com.masai.repository.DestinationDao;
 import com.masai.repository.HotelDao;
+import org.springframework.stereotype.Service;
 
-public class HotelOpsImpl implements HotelOps {
+@Service
+public class HotelOpsImpl implements HotelOps{
 
 	@Autowired
 	DestinationDao dd;
 	@Autowired
 	HotelDao hd;
 
-	@Override
-	public Hotel addHotel(int destinationId, Hotel hotel) {
+//	@Override
+//	public Hotel addHotel(int destinationId, Hotel hotel) {
+//
+//		Optional<Destination> destination = dd.findById(destinationId);
+//		if (destination.isPresent()) {
+//			Destination dest = destination.get();
+//			hotel.setDestination(dest);
+//			hotel.setStats(true);
+//			dest.getHotels().add(hotel);
+//			return hd.save(hotel);
+//		}
+//		throw new DestinationNotFoundException("No destination found");
+//	}
 
-		Optional<Destination> destination = dd.findById(destinationId);
-		if (!destination.isEmpty()) {
-			Destination dest = destination.get();
-			hotel.setDestination(dest);
-			hotel.setStats(true);
-			dest.getHotels().add(hotel);
-			return hd.save(hotel);
+	@Override
+	public Hotel addHotel(Integer destinationId, Hotel hotel) {
+
+//		Optional<Destination> destination = dd.findById(destinationId);
+//		if(destination.isEmpty()){
+//			throw new DestinationNotFoundException("No destination available with this id");
+//		}
+//		Optional<Hotel> hotelOptional = hd.findById(hotel.getHotelId());
+//		if(hotelOptional.isPresent()){
+//			throw new DestinationNotFoundException(" hotel already available");
+//
+//		}
+//
+//		hotel.setDestination(destination.get());
+//		destination.get().getHotels().add(hotel);
+//		return hd.save(hotel);
+
+
+		Destination destination = dd.findById(destinationId)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid destination ID"));
+
+
+		Optional<Hotel> hotelOptional = hd.findById(hotel.getHotelId());
+		if(hotelOptional.isPresent()){
+			throw new DestinationNotFoundException(" hotel already available");
+
 		}
-		throw new DestinationNotFoundException("No destination found");
+		hotel.setDestination(destination);
+
+		return hd.save(hotel);
+
+
+
+
+
 	}
 
 	@Override
-	public Hotel removeHotel(int hotelId) {
+	public Hotel removeHotel(Integer hotelId) {
 
 		Optional<Hotel> hotel = hd.findById(hotelId);
 		if (!hotel.isEmpty()) {

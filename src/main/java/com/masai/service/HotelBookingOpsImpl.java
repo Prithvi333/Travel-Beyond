@@ -15,7 +15,9 @@ import com.masai.exception.HotelNotFoundException;
 import com.masai.repository.CustomerDao;
 import com.masai.repository.HotelBookingDao;
 import com.masai.repository.HotelDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class HotelBookingOpsImpl implements HotelBookingOps {
 
 	@Autowired

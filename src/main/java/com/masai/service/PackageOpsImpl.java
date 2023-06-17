@@ -12,7 +12,9 @@ import com.masai.exception.HotelNotFoundException;
 import com.masai.exception.PackageNotFoundException;
 import com.masai.repository.HotelDao;
 import com.masai.repository.PackageDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PackageOpsImpl implements PackageOps {
 
 	@Autowired

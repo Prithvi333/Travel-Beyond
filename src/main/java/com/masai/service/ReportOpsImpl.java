@@ -12,7 +12,9 @@ import com.masai.exception.EmptyReportListException;
 import com.masai.exception.ReportNotFoundException;
 import com.masai.repository.CustomerDao;
 import com.masai.repository.ReportDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ReportOpsImpl implements ReportOps {
 
 	@Autowired

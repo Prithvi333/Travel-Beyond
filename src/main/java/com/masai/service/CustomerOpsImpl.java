@@ -27,18 +27,28 @@ public class CustomerOpsImpl implements CustomerOps {
 	public Customer updateCustomer(Customer customer) {
 
 		Optional<Customer> cust = cd.findById(customer.getCustomerId());
-		if (!cust.isEmpty()) {
+		if (cust.isPresent()) {
 			Customer cus = cust.get();
 
-			customer.setCustomerName(cus.getCustomerName());
-			customer.setCustomerPassword(cus.getCustomerPassword());
-			customer.setAddress(cus.getAddress());
-			customer.setAadharId(cus.getAadharId());
-			customer.setGender(cus.getGender());
-			customer.setCountry(cus.getCountry());
-			customer.setMobileNo(cus.getMobileNo());
-			customer.setEmail(cus.getMobileNo());
-			return cd.save(customer);
+//			customer.setCustomerName(cus.getCustomerName());
+//			customer.setCustomerPassword(cus.getCustomerPassword());
+//			customer.setAddress(cus.getAddress());
+//			customer.setAadharId(cus.getAadharId());
+//			customer.setGender(cus.getGender());
+//			customer.setCountry(cus.getCountry());
+//			customer.setMobileNo(cus.getMobileNo());
+//			customer.setEmail(cus.getEmail());
+//			return cd.save(customer);
+
+			cus.setCustomerName(customer.getCustomerName());
+			cus.setCustomerPassword(customer.getCustomerPassword());
+			cus.setAddress(customer.getAddress());
+			cus.setAadharId(customer.getAadharId());
+			cus.setGender(customer.getGender());
+			cus.setCountry(customer.getCountry());
+			cus.setMobileNo(customer.getMobileNo());
+			cus.setEmail(customer.getEmail());
+			return cd.save(cus);
 		}
 		throw new CustomerNotFoundException("Customer not found with the given id to update");
 	}

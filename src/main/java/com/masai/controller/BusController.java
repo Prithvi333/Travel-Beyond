@@ -47,7 +47,7 @@ public class BusController {
 		return new ResponseEntity<>(b.viewBusByTravelsId(id),HttpStatus.ACCEPTED);
 	}
 	
-	@GetMapping("/bus}")
+	@GetMapping("/bus")
 	public ResponseEntity<List<Bus>> getAllBus(){
 		return new ResponseEntity<>(b.viewAllBuses(),HttpStatus.ACCEPTED);
 	}

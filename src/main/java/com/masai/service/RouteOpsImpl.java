@@ -12,7 +12,9 @@ import com.masai.exception.EmptyRouteListException;
 import com.masai.exception.RouteNotFoundException;
 import com.masai.repository.BusDao;
 import com.masai.repository.RouteDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RouteOpsImpl implements RouteOps {
 
 	@Autowired

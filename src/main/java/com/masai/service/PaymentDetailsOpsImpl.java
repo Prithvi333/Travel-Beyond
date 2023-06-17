@@ -12,7 +12,9 @@ import com.masai.exception.HotelBookingNotFoundException;
 import com.masai.exception.PaymentDetailsNotFoundException;
 import com.masai.repository.HotelBookingDao;
 import com.masai.repository.PaymentDetailsDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PaymentDetailsOpsImpl implements PaymentDetailsOps {
 
 	@Autowired

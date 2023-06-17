@@ -12,7 +12,9 @@ import com.masai.exception.EmptyBusListException;
 import com.masai.exception.TravelsNotFoundException;
 import com.masai.repository.BusDao;
 import com.masai.repository.TravelDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BusOpsImpl implements BusOps {
 
 	@Autowired

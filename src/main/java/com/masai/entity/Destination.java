@@ -38,4 +38,8 @@ public class Destination {
 	@OneToMany(mappedBy = "destination", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Hotel> hotels = new ArrayList<>();
 
+	@JsonIgnore
+	@OneToMany(mappedBy = "destination",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Packages> packagesList = new ArrayList<>();
+
 }
