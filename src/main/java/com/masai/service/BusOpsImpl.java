@@ -9,6 +9,7 @@ import com.masai.entity.Bus;
 import com.masai.entity.Travels;
 import com.masai.exception.BusNotFoundException;
 import com.masai.exception.EmptyBusListException;
+import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.TravelsNotFoundException;
 import com.masai.repository.BusDao;
 import com.masai.repository.TravelDao;
@@ -38,6 +39,9 @@ public class BusOpsImpl implements BusOps {
 
 		Optional<Bus> bus = bd.findById(busId);
 		if (!bus.isEmpty()) {
+			if (!bus.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Bus is already removed");
+			}
 			bus.get().setStatus(false);
 			return bd.save(bus.get());
 		}
@@ -71,8 +75,10 @@ public class BusOpsImpl implements BusOps {
 	@Override
 	public List<Bus> viewAllBuses() {
 		List<Bus> buses = bd.findAll();
-		if (!buses.isEmpty())
-			return buses;
+		if (!buses.isEmpty()) {
+			return buses.stream().filter(a -> a.isStatus()).toList();
+
+		}
 		throw new EmptyBusListException("Bus list is empty");
 	}
 

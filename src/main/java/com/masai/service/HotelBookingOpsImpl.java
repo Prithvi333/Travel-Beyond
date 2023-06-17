@@ -10,6 +10,7 @@ import com.masai.entity.Hotel;
 import com.masai.entity.HotelBooking;
 import com.masai.exception.CustomerNotFoundException;
 import com.masai.exception.EmptyHotelBookingListException;
+import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.HotelBookingNotFoundException;
 import com.masai.exception.HotelNotFoundException;
 import com.masai.repository.CustomerDao;
@@ -46,6 +47,9 @@ public class HotelBookingOpsImpl implements HotelBookingOps {
 
 		Optional<HotelBooking> hotelBooking = hbd.findById(id);
 		if (!hotelBooking.isEmpty()) {
+			if (!hotelBooking.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Booking is already cancled");
+			}
 			hotelBooking.get().setStatus(false);
 			return hbd.save(hotelBooking.get());
 		}
@@ -67,7 +71,7 @@ public class HotelBookingOpsImpl implements HotelBookingOps {
 
 		List<HotelBooking> hotelBookingList = hbd.findAll();
 		if (!hotelBookingList.isEmpty())
-			return hotelBookingList;
+			return hotelBookingList.stream().filter(a -> a.isStatus()).toList();
 		throw new EmptyHotelBookingListException("Hotel booking list is empty");
 	}
 

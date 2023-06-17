@@ -10,6 +10,7 @@ import com.masai.entity.Destination;
 import com.masai.exception.BusNotFoundException;
 import com.masai.exception.DestinationNotFoundException;
 import com.masai.exception.EmptyDestinationListException;
+import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.repository.BusDao;
 import com.masai.repository.DestinationDao;
 
@@ -38,6 +39,9 @@ public class DestinationOpsImpl implements DestinationOps {
 	public Destination removeDestination(int destinationId) {
 		Optional<Destination> destination = dd.findById(destinationId);
 		if (!destination.isEmpty()) {
+			if (!destination.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Destination is already removed");
+			}
 			Destination dest = destination.get();
 			dest.setStatus(false);
 			return dd.save(dest);
@@ -62,7 +66,7 @@ public class DestinationOpsImpl implements DestinationOps {
 			Bus b = bus.get();
 			List<Destination> destinations = b.getDestinationList();
 			if (!destinations.isEmpty())
-				return destinations;
+				return destinations.stream().filter(a -> a.isStatus()).toList();
 			throw new EmptyDestinationListException("Given bus not go any destination yet");
 		}
 		throw new BusNotFoundException("Bus not found with the given id");
@@ -73,7 +77,7 @@ public class DestinationOpsImpl implements DestinationOps {
 
 		List<Destination> destinations = dd.findAll();
 		if (!destinations.isEmpty())
-			return destinations;
+			return destinations.stream().filter(a -> a.isStatus()).toList();
 		throw new EmptyDestinationListException("Destination list is empty");
 	}
 

@@ -9,6 +9,7 @@ import com.masai.entity.Destination;
 import com.masai.entity.Hotel;
 import com.masai.exception.DestinationNotFoundException;
 import com.masai.exception.EmptyHotelListException;
+import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.HotelNotFoundException;
 import com.masai.repository.DestinationDao;
 import com.masai.repository.HotelDao;
@@ -39,6 +40,9 @@ public class HotelOpsImpl implements HotelOps {
 
 		Optional<Hotel> hotel = hd.findById(hotelId);
 		if (!hotel.isEmpty()) {
+			if (!hotel.get().isStats()) {
+				throw new EntityAlreadyAlteredException("Hotel is already removed");
+			}
 			hotel.get().setStats(false);
 			return hd.save(hotel.get());
 		}
@@ -49,6 +53,10 @@ public class HotelOpsImpl implements HotelOps {
 	public Hotel searchHotel(int hotelId) {
 		Optional<Hotel> hotel = hd.findById(hotelId);
 		if (!hotel.isEmpty()) {
+			if (!hotel.get().isStats()) {
+				throw new EntityAlreadyAlteredException("This hotel is not available now");
+
+			}
 			return hotel.get();
 		}
 		throw new HotelNotFoundException("Hotel not found to view");
@@ -60,8 +68,10 @@ public class HotelOpsImpl implements HotelOps {
 		Optional<Destination> destination = dd.findById(destinationId);
 		if (!destination.isEmpty()) {
 			List<Hotel> hotels = destination.get().getHotels();
-			if (!hotels.isEmpty())
+			if (!hotels.isEmpty()) {
+
 				return hotels;
+			}
 			throw new EmptyHotelListException("Empty hotel list");
 		}
 		throw new DestinationNotFoundException("No destination is found with the given id");
@@ -71,7 +81,7 @@ public class HotelOpsImpl implements HotelOps {
 	public List<Hotel> viewAllHotels() {
 		List<Hotel> hotels = hd.findAll();
 		if (!hotels.isEmpty())
-			return hotels;
+			return hotels.stream().filter(a -> a.isStats()).toList();
 		throw new EmptyHotelListException("Hotels list is empty");
 	}
 

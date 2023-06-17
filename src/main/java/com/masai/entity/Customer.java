@@ -34,6 +34,7 @@ public class Customer {
 	@NotNull(message = "Please provide the customer name")
 	private String customerName;
 
+	private boolean status;
 	@NotBlank(message = "Please provide the customer password")
 	@NotNull(message = "Please provide the customer password")
 	@Size(min = 6, max = 10, message = "min 6 and max 10 characters allowed only")

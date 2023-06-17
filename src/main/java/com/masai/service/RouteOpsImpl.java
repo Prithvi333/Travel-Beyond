@@ -9,6 +9,7 @@ import com.masai.entity.Bus;
 import com.masai.entity.Route;
 import com.masai.exception.BusNotFoundException;
 import com.masai.exception.EmptyRouteListException;
+import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.RouteNotFoundException;
 import com.masai.repository.BusDao;
 import com.masai.repository.RouteDao;
@@ -38,6 +39,9 @@ public class RouteOpsImpl implements RouteOps {
 		Optional<Route> rt = rd.findById(route.getRouteId());
 		if (!rt.isEmpty()) {
 			Route rot = rt.get();
+			if (!rot.isStatus()) {
+				throw new EntityAlreadyAlteredException("Unable to update a deleted route");
+			}
 			route.setRouteFrom(rot.getRouteFrom());
 			route.setRouteTo(rot.getRouteTo());
 			route.setArrivalTime(rot.getArrivalTime());
@@ -53,6 +57,9 @@ public class RouteOpsImpl implements RouteOps {
 		Optional<Route> route = rd.findById(routeId);
 		if (!route.isEmpty()) {
 			Route rut = route.get();
+			if (!rut.isStatus()) {
+				throw new EntityAlreadyAlteredException("Unable to delete already deleted route");
+			}
 			rut.setStatus(false);
 			return rd.save(rut);
 		}
@@ -73,7 +80,7 @@ public class RouteOpsImpl implements RouteOps {
 
 		List<Route> routeList = rd.findAll();
 		if (!routeList.isEmpty())
-			return routeList;
+			return routeList.stream().filter(a -> a.isStatus()).toList();
 		throw new EmptyRouteListException("Empty route list");
 	}
 

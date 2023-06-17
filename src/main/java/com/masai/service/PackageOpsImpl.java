@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.masai.entity.Hotel;
 import com.masai.entity.Packages;
 import com.masai.exception.EmptyPackageListException;
+import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.HotelNotFoundException;
 import com.masai.exception.PackageNotFoundException;
 import com.masai.repository.HotelDao;
@@ -39,6 +40,9 @@ public class PackageOpsImpl implements PackageOps {
 
 		Optional<Packages> packages = pd.findById(packageId);
 		if (!packages.isEmpty()) {
+			if (!packages.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("This package is already deleted");
+			}
 			packages.get().setStatus(false);
 			return pd.save(packages.get());
 		}
@@ -58,7 +62,7 @@ public class PackageOpsImpl implements PackageOps {
 	public List<Packages> viewAllPackages() {
 		List<Packages> packages = pd.findAll();
 		if (!packages.isEmpty())
-			return packages;
+			return packages.stream().filter(a -> a.isStatus()).toList();
 		throw new EmptyPackageListException("Package list is empty");
 	}
 

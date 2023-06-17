@@ -255,4 +255,14 @@ public class GlobalExceptionHandler {
 		me.setDetails(wr.getDescription(false));
 		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
 	}
+
+	@ExceptionHandler(EntityAlreadyAlteredException.class)
+	public ResponseEntity<MyError> entityAlreadyDeleted(EntityAlreadyAlteredException ex, WebRequest wr) {
+
+		MyError me = new MyError();
+		me.setLocalDateTime(LocalDateTime.now());
+		me.setMessage(ex.getMessage());
+		me.setDetails(wr.getDescription(false));
+		return new ResponseEntity<>(me, HttpStatus.BAD_REQUEST);
+	}
 }

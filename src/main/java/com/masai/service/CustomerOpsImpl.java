@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.masai.entity.Customer;
 import com.masai.exception.CustomerNotFoundException;
 import com.masai.exception.EmptyCustomerListException;
+import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.repository.CustomerDao;
+
 @Service
 public class CustomerOpsImpl implements CustomerOps {
 
@@ -18,7 +20,7 @@ public class CustomerOpsImpl implements CustomerOps {
 
 	@Override
 	public Customer addCustomer(Customer customer) {
-
+		customer.setStatus(true);
 		return cd.save(customer);
 
 	}
@@ -29,7 +31,9 @@ public class CustomerOpsImpl implements CustomerOps {
 		Optional<Customer> cust = cd.findById(customer.getCustomerId());
 		if (!cust.isEmpty()) {
 			Customer cus = cust.get();
-
+			if (!cus.isStatus()) {
+				throw new EntityAlreadyAlteredException("Customer is already deleted");
+			}
 			customer.setCustomerName(cus.getCustomerName());
 			customer.setCustomerPassword(cus.getCustomerPassword());
 			customer.setAddress(cus.getAddress());
@@ -48,9 +52,11 @@ public class CustomerOpsImpl implements CustomerOps {
 
 		Optional<Customer> cust = cd.findById(customer.getCustomerId());
 		if (!cust.isEmpty()) {
-
-			cd.delete(cust.get());
-			return cust.get();
+			if (!cust.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Customer is already deleted");
+			}
+			cust.get().setStatus(false);
+			return cd.save(cust.get());
 		}
 		throw new CustomerNotFoundException("Customer not found with the given id to delete");
 	}
@@ -67,7 +73,7 @@ public class CustomerOpsImpl implements CustomerOps {
 	public List<Customer> viewAllCustomer() {
 		List<Customer> customers = cd.findAll();
 		if (!customers.isEmpty())
-			return customers;
+			return customers.stream().filter(a -> a.isStatus()).toList();
 		throw new EmptyCustomerListException("Customer list is empty");
 	}
 

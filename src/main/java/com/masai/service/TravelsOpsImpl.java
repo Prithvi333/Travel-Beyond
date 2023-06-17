@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import com.masai.entity.Travels;
 import com.masai.entity.TravelsDto;
 import com.masai.exception.EmptyTravelListException;
+import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.TravelsNotFoundException;
 import com.masai.repository.TravelDao;
+
 @Service
 public class TravelsOpsImpl implements TravelsOps {
 
@@ -31,6 +33,9 @@ public class TravelsOpsImpl implements TravelsOps {
 		if (!travels.isEmpty()) {
 
 			Travels travel = travels.get();
+			if (!travel.isStatus()) {
+				throw new EntityAlreadyAlteredException("Unable to update a deleted travels");
+			}
 			travel.setAgentName(travelsdto.getAgentName());
 			travel.setAddress(travelsdto.getAgentName());
 			travel.setContact(travelsdto.getContact());
@@ -45,7 +50,9 @@ public class TravelsOpsImpl implements TravelsOps {
 
 		Optional<Travels> travels = td.findById(id);
 		if (!travels.isEmpty()) {
-
+			if (!travels.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Unable to remove already deleted travels");
+			}
 			travels.get().setStatus(false);
 			return travels.get();
 		}
@@ -69,7 +76,7 @@ public class TravelsOpsImpl implements TravelsOps {
 		List<Travels> travelsList = td.findAll();
 
 		if (!travelsList.isEmpty()) {
-			return travelsList;
+			return travelsList.stream().filter(a -> a.isStatus()).toList();
 		}
 		throw new EmptyTravelListException("Travels list is empty");
 	}

@@ -9,6 +9,7 @@ import com.masai.entity.Customer;
 import com.masai.entity.Report;
 import com.masai.exception.CustomerNotFoundException;
 import com.masai.exception.EmptyReportListException;
+import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.ReportNotFoundException;
 import com.masai.repository.CustomerDao;
 import com.masai.repository.ReportDao;
@@ -37,6 +38,9 @@ public class ReportOpsImpl implements ReportOps {
 
 		Optional<Report> report = rd.findById(reportId);
 		if (!report.isEmpty()) {
+			if (!report.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Report is already deleted");
+			}
 			report.get().setStatus(false);
 			return rd.save(report.get());
 		}
@@ -56,7 +60,7 @@ public class ReportOpsImpl implements ReportOps {
 	public List<Report> viewAllReport() {
 		List<Report> reportList = rd.findAll();
 		if (!reportList.isEmpty())
-			return reportList;
+			return reportList.stream().filter(a -> a.isStatus()).toList();
 		throw new EmptyReportListException("No report found");
 	}
 
