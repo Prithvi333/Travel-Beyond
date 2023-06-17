@@ -257,7 +257,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(EntityAlreadyAlteredException.class)
-	public ResponseEntity<MyError> entityAlreadyDeleted(EntityAlreadyAlteredException ex, WebRequest wr) {
+	public ResponseEntity<MyError> enityAlreadyAlteredException(EntityAlreadyAlteredException ex, WebRequest wr) {
 
 		MyError me = new MyError();
 		me.setLocalDateTime(LocalDateTime.now());

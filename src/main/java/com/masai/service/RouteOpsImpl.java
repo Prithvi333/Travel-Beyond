@@ -13,7 +13,9 @@ import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.RouteNotFoundException;
 import com.masai.repository.BusDao;
 import com.masai.repository.RouteDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RouteOpsImpl implements RouteOps {
 
 	@Autowired
@@ -27,6 +29,9 @@ public class RouteOpsImpl implements RouteOps {
 		Optional<Bus> bus = bd.findById(busId);
 		if (!bus.isEmpty()) {
 			Bus b = bus.get();
+			if (!b.isStatus()) {
+				throw new EntityAlreadyAlteredException("Bus is not exist now");
+			}
 			route.setStatus(true);
 			b.getRoutes().add(route);
 			return rd.save(route);
@@ -40,7 +45,7 @@ public class RouteOpsImpl implements RouteOps {
 		if (!rt.isEmpty()) {
 			Route rot = rt.get();
 			if (!rot.isStatus()) {
-				throw new EntityAlreadyAlteredException("Unable to update a deleted route");
+				throw new EntityAlreadyAlteredException("Route is not available to update now");
 			}
 			route.setRouteFrom(rot.getRouteFrom());
 			route.setRouteTo(rot.getRouteTo());
@@ -58,7 +63,7 @@ public class RouteOpsImpl implements RouteOps {
 		if (!route.isEmpty()) {
 			Route rut = route.get();
 			if (!rut.isStatus()) {
-				throw new EntityAlreadyAlteredException("Unable to delete already deleted route");
+				throw new EntityAlreadyAlteredException("Route is not available to remove now");
 			}
 			rut.setStatus(false);
 			return rd.save(rut);
@@ -70,6 +75,9 @@ public class RouteOpsImpl implements RouteOps {
 	public Route searchRoute(int routeId) {
 		Optional<Route> route = rd.findById(routeId);
 		if (!route.isEmpty()) {
+			if (!route.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Route is not available now");
+			}
 			return route.get();
 		}
 		throw new RouteNotFoundException("Route not found to view");

@@ -13,7 +13,9 @@ import com.masai.exception.HotelBookingNotFoundException;
 import com.masai.exception.PaymentDetailsNotFoundException;
 import com.masai.repository.HotelBookingDao;
 import com.masai.repository.PaymentDetailsDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PaymentDetailsOpsImpl implements PaymentDetailsOps {
 
 	@Autowired
@@ -27,6 +29,9 @@ public class PaymentDetailsOpsImpl implements PaymentDetailsOps {
 		Optional<HotelBooking> hotelBooking = hb.findById(hotelBookingId);
 
 		if (!hotelBooking.isEmpty()) {
+			if (!hotelBooking.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Hotel not exist now");
+			}
 			paymentDetails.setStatus(true);
 			paymentDetails.setBookingId(hotelBookingId);
 			hotelBooking.get().getPayment().add(paymentDetails);
@@ -42,7 +47,7 @@ public class PaymentDetailsOpsImpl implements PaymentDetailsOps {
 		Optional<PaymentDetails> paymentDetails = pd.findById(paymentId);
 		if (!paymentDetails.isEmpty()) {
 			if (!paymentDetails.get().isStatus()) {
-				throw new EntityAlreadyAlteredException("Payment with the given id is already cancled");
+				throw new EntityAlreadyAlteredException("Unable to cancle already cancled payment");
 			}
 			paymentDetails.get().setStatus(false);
 			return pd.save(paymentDetails.get());

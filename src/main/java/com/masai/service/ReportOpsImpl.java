@@ -13,7 +13,9 @@ import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.ReportNotFoundException;
 import com.masai.repository.CustomerDao;
 import com.masai.repository.ReportDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ReportOpsImpl implements ReportOps {
 
 	@Autowired
@@ -26,11 +28,14 @@ public class ReportOpsImpl implements ReportOps {
 
 		Optional<Customer> customer = cd.findById(customerId);
 		if (!customer.isEmpty()) {
+			if (!customer.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Customer is invalid now to report");
+			}
 			report.setCustomerId(customerId + "");
 			report.setStatus(true);
 			return rd.save(report);
 		}
-		throw new CustomerNotFoundException("Custmer not found to report");
+		throw new CustomerNotFoundException("Customer not found to report");
 	}
 
 	@Override
@@ -39,7 +44,7 @@ public class ReportOpsImpl implements ReportOps {
 		Optional<Report> report = rd.findById(reportId);
 		if (!report.isEmpty()) {
 			if (!report.get().isStatus()) {
-				throw new EntityAlreadyAlteredException("Report is already deleted");
+				throw new EntityAlreadyAlteredException("Unable to delete already deleted report");
 			}
 			report.get().setStatus(false);
 			return rd.save(report.get());
@@ -51,6 +56,9 @@ public class ReportOpsImpl implements ReportOps {
 	public Report viewReport(int reportId) {
 		Optional<Report> report = rd.findById(reportId);
 		if (!report.isEmpty()) {
+			if (!report.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Report is not available now");
+			}
 			return report.get();
 		}
 		throw new ReportNotFoundException("Report not found to view");

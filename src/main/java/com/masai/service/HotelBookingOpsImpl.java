@@ -16,7 +16,9 @@ import com.masai.exception.HotelNotFoundException;
 import com.masai.repository.CustomerDao;
 import com.masai.repository.HotelBookingDao;
 import com.masai.repository.HotelDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class HotelBookingOpsImpl implements HotelBookingOps {
 
 	@Autowired
@@ -35,6 +37,12 @@ public class HotelBookingOpsImpl implements HotelBookingOps {
 			throw new CustomerNotFoundException("Customer not found");
 		if (hotel.isEmpty())
 			throw new HotelNotFoundException("Hotel not found");
+		if (!hotel.get().isStats()) {
+			throw new EntityAlreadyAlteredException("Hotel is not available");
+		}
+		if (!customer.get().isStatus()) {
+			throw new EntityAlreadyAlteredException("Customer is not valid for booking");
+		}
 		hotelBooking.setStatus(true);
 		hotelBooking.setCustomerBooking(customer.get());
 		hotelBooking.setHotel(hotel.get());
@@ -48,7 +56,7 @@ public class HotelBookingOpsImpl implements HotelBookingOps {
 		Optional<HotelBooking> hotelBooking = hbd.findById(id);
 		if (!hotelBooking.isEmpty()) {
 			if (!hotelBooking.get().isStatus()) {
-				throw new EntityAlreadyAlteredException("Booking is already cancled");
+				throw new EntityAlreadyAlteredException("Booking  is already cancled for this hotel");
 			}
 			hotelBooking.get().setStatus(false);
 			return hbd.save(hotelBooking.get());
@@ -61,6 +69,9 @@ public class HotelBookingOpsImpl implements HotelBookingOps {
 
 		Optional<HotelBooking> hotelBooking = hbd.findById(id);
 		if (!hotelBooking.isEmpty()) {
+			if (!hotelBooking.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Booking is not exist now");
+			}
 			return hotelBooking.get();
 		}
 		throw new HotelBookingNotFoundException("No hotel booking found with the given id to view");

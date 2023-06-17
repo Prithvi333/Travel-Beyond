@@ -31,11 +31,11 @@ public class Hotel {
 	private String hotelName;
 
 	@NotNull(message = "Please provide the hotel type")
-	@NotEmpty(message = "Please provide the hotel type")
+
 	private HotelType hotelType;
 
 	@NotNull(message = "Please provide the hotel description")
-	@NotEmpty(message = "Please provide the hotel description")
+
 	private String hotelDescription;
 
 	@NotNull(message = "Please provide the hotel address")
@@ -43,16 +43,19 @@ public class Hotel {
 	private String address;
 
 	@NotNull(message = "Please provide the rent details")
-	@NotEmpty(message = "Please provide the rent details")
+
 	private Double rent;
+
 	private boolean stats;
 	@NotNull(message = "Please provide the STATUS")
-	@NotEmpty(message = "Please provide the STATUS")
+
 	private HotelStatus status;
 
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "destin_id")
 	private Destination destination;
+
+
 
 }

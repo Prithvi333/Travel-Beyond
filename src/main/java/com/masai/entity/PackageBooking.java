@@ -17,41 +17,42 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PackageBooking {
+public class PackageBooking{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer bookingId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer bookingId;
 
-	@NotNull(message = "booking type is important")
-	private String bookingType;
+    @NotNull(message = "booking type is important")
+    private String bookingType;
 
-	private String description;
-	private boolean status;
-	@NotNull(message = "give any booking title")
-	private String bookingTitle;
 
-	@CreatedDate
-	private LocalDate bookingDate;
+    private String description;
+    private boolean status;
+    @NotNull(message = "give any booking title")
+    private String bookingTitle;
 
-	@NotNull(message = "choose the package")
-	@NotBlank(message = "choose the package")
-	private String packageName;
+    @CreatedDate
+    private LocalDate bookingDate;
 
-	@NotNull(message = "mention the number of person that will be in this trip")
-	private Integer number_Of_Person;
+    @NotNull(message = "choose the package")
+    @NotBlank(message = "choose the package")
+    private String packageName;
 
-	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "customer_id")
-	private Customer customer;
+    @NotNull(message = "mention the number of person that will be in this trip")
+    private Integer number_Of_Person;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JsonIgnore
-	private List<PaymentDetails> payment = new ArrayList<>();
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "package_id")
-	private Packages aPackage;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<PaymentDetails> payment=new ArrayList<>();
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "package_id")
+    private Packages aPackage;
 
 }

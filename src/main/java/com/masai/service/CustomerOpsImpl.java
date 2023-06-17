@@ -20,7 +20,7 @@ public class CustomerOpsImpl implements CustomerOps {
 
 	@Override
 	public Customer addCustomer(Customer customer) {
-		customer.setStatus(true);
+
 		return cd.save(customer);
 
 	}
@@ -29,20 +29,30 @@ public class CustomerOpsImpl implements CustomerOps {
 	public Customer updateCustomer(Customer customer) {
 
 		Optional<Customer> cust = cd.findById(customer.getCustomerId());
-		if (!cust.isEmpty()) {
+		if (cust.isPresent()) {
 			Customer cus = cust.get();
 			if (!cus.isStatus()) {
-				throw new EntityAlreadyAlteredException("Customer is already deleted");
+				throw new EntityAlreadyAlteredException("Unable to update already deleted customer");
 			}
-			customer.setCustomerName(cus.getCustomerName());
-			customer.setCustomerPassword(cus.getCustomerPassword());
-			customer.setAddress(cus.getAddress());
-			customer.setAadharId(cus.getAadharId());
-			customer.setGender(cus.getGender());
-			customer.setCountry(cus.getCountry());
-			customer.setMobileNo(cus.getMobileNo());
-			customer.setEmail(cus.getMobileNo());
-			return cd.save(customer);
+//			customer.setCustomerName(cus.getCustomerName());
+//			customer.setCustomerPassword(cus.getCustomerPassword());
+//			customer.setAddress(cus.getAddress());
+//			customer.setAadharId(cus.getAadharId());
+//			customer.setGender(cus.getGender());
+//			customer.setCountry(cus.getCountry());
+//			customer.setMobileNo(cus.getMobileNo());
+//			customer.setEmail(cus.getEmail());
+//			return cd.save(customer);
+
+			cus.setCustomerName(customer.getCustomerName());
+			cus.setCustomerPassword(customer.getCustomerPassword());
+			cus.setAddress(customer.getAddress());
+			cus.setAadharId(customer.getAadharId());
+			cus.setGender(customer.getGender());
+			cus.setCountry(customer.getCountry());
+			cus.setMobileNo(customer.getMobileNo());
+			cus.setEmail(customer.getEmail());
+			return cd.save(cus);
 		}
 		throw new CustomerNotFoundException("Customer not found with the given id to update");
 	}
@@ -53,10 +63,10 @@ public class CustomerOpsImpl implements CustomerOps {
 		Optional<Customer> cust = cd.findById(customer.getCustomerId());
 		if (!cust.isEmpty()) {
 			if (!cust.get().isStatus()) {
-				throw new EntityAlreadyAlteredException("Customer is already deleted");
+				throw new EntityAlreadyAlteredException("Unable to remove already deleted customer");
 			}
-			cust.get().setStatus(false);
-			return cd.save(cust.get());
+			cd.delete(cust.get());
+			return cust.get();
 		}
 		throw new CustomerNotFoundException("Customer not found with the given id to delete");
 	}
@@ -64,8 +74,12 @@ public class CustomerOpsImpl implements CustomerOps {
 	@Override
 	public Customer viewCustomerById(int id) {
 		Optional<Customer> cust = cd.findById(id);
-		if (!cust.isEmpty())
+		if (!cust.isEmpty()) {
+			if (!cust.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("This customer is not exist now");
+			}
 			return cust.get();
+		}
 		throw new CustomerNotFoundException("Customer not found with the given id to delete");
 	}
 

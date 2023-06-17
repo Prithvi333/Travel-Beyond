@@ -38,6 +38,13 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 			throw new CustomerNotFoundException("Not valid customer to make booking");
 		if (pakage.isEmpty())
 			throw new PackageNotFoundException("Package not found");
+
+		if (!customer.get().isStatus()) {
+			throw new EntityAlreadyAlteredException("Customer is not exist now");
+		}
+		if (!pakage.get().isStatus()) {
+			throw new EntityAlreadyAlteredException("Package is not exist now");
+		}
 		booking.setStatus(true);
 		booking.setCustomer(customer.get());
 		booking.setAPackage(pakage.get());
@@ -56,10 +63,10 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 		if (!booking.isEmpty()) {
 			PackageBooking book = booking.get();
 			if (!book.isStatus()) {
-				throw new EntityAlreadyAlteredException("This package booking is already cancled");
+				throw new EntityAlreadyAlteredException("Unable to cancle already canceld booking");
 			}
 			book.setStatus(false);
-			return book;
+			return bd.save(book);
 		}
 		throw new PackageBookingNotFoundException("No booking found with the given id to cancle");
 	}
@@ -69,7 +76,9 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 		Optional<PackageBooking> booking = bd.findById(id);
 		if (!booking.isEmpty()) {
 			PackageBooking book = booking.get();
-
+			if (!book.isStatus()) {
+				throw new EntityAlreadyAlteredException("Booking is not exist now");
+			}
 			return book;
 		}
 		throw new PackageBookingNotFoundException("No booking found with the given id to view");

@@ -27,14 +27,14 @@ public class TravelsOpsImpl implements TravelsOps {
 	}
 
 	@Override
-	public Travels updateTravels(int id, TravelsDto travelsdto) {
+	public Travels updateTravels(int travelsId, TravelsDto travelsdto) {
 
-		Optional<Travels> travels = td.findById(id);
+		Optional<Travels> travels = td.findById(travelsId);
 		if (!travels.isEmpty()) {
 
 			Travels travel = travels.get();
 			if (!travel.isStatus()) {
-				throw new EntityAlreadyAlteredException("Unable to update a deleted travels");
+				throw new EntityAlreadyAlteredException("Travel is not available to update ");
 			}
 			travel.setAgentName(travelsdto.getAgentName());
 			travel.setAddress(travelsdto.getAgentName());
@@ -51,10 +51,10 @@ public class TravelsOpsImpl implements TravelsOps {
 		Optional<Travels> travels = td.findById(id);
 		if (!travels.isEmpty()) {
 			if (!travels.get().isStatus()) {
-				throw new EntityAlreadyAlteredException("Unable to remove already deleted travels");
+				throw new EntityAlreadyAlteredException("Travel is not available to remove ");
 			}
 			travels.get().setStatus(false);
-			return travels.get();
+			return td.save(travels.get());
 		}
 		throw new TravelsNotFoundException("Travels not found to remove");
 
@@ -65,6 +65,9 @@ public class TravelsOpsImpl implements TravelsOps {
 
 		Optional<Travels> travels = td.findById(id);
 		if (!travels.isEmpty()) {
+			if (!travels.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Travel is not available now");
+			}
 			return travels.get();
 		}
 		throw new TravelsNotFoundException("Travels not found to view");
