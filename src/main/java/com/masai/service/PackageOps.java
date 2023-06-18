@@ -6,7 +6,7 @@ import com.masai.entity.Packages;
 
 public interface PackageOps {
 
-	Packages addPackage(int hotelId, Packages pack);
+	Packages addPackage(int hotelId, int destinationId, Packages pack);
 
 	Packages deletePackage(int packageId);
 

@@ -44,7 +44,7 @@ public class Hotel {
 
 	@NotNull(message = "Please provide the rent details")
 
-	private Double rent;
+	private String rent;
 
 	private boolean stats;
 	@NotNull(message = "Please provide the STATUS")

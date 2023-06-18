@@ -4,16 +4,18 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.masai.entity.Destination;
 import com.masai.entity.Hotel;
 import com.masai.entity.Packages;
 import com.masai.exception.EmptyPackageListException;
 import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.HotelNotFoundException;
 import com.masai.exception.PackageNotFoundException;
+import com.masai.repository.DestinationDao;
 import com.masai.repository.HotelDao;
 import com.masai.repository.PackageDao;
-import org.springframework.stereotype.Service;
 
 @Service
 public class PackageOpsImpl implements PackageOps {
@@ -22,22 +24,32 @@ public class PackageOpsImpl implements PackageOps {
 	PackageDao pd;
 	@Autowired
 	HotelDao hd;
+	@Autowired
+	DestinationDao dd;
 
 	@Override
-	public Packages addPackage(int hotelId, Packages pack) {
+	public Packages addPackage(int hotelId, int destinationId, Packages pack) {
 
 		Optional<Hotel> hotel = hd.findById(hotelId);
+		Optional<Destination> destination = dd.findById(destinationId);
 
 		if (!hotel.isEmpty()) {
 			if (!hotel.get().isStats()) {
 				throw new EntityAlreadyAlteredException("Unable to add package in deleted hotel");
 			}
+		}
+		if (!hotel.isEmpty()) {
+			if (!destination.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Unable to add package in deleted destination");
+			}
 			pack.setStatus(true);
+			pack.setDestination(destination.get());
+			destination.get().getPackagesList().add(pack);
 			pack.setHotel(hotel.get());
 			return pd.save(pack);
-
 		}
 		throw new HotelNotFoundException("Hotel not found with the given id");
+
 	}
 
 	@Override

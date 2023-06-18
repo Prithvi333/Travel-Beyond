@@ -1,5 +1,6 @@
 package com.masai.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,8 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 		if (!pakage.get().isStatus()) {
 			throw new EntityAlreadyAlteredException("Package is not exist now");
 		}
+		booking.setPackageName(pakage.get().getPackageName());
+		booking.setBookingDate(LocalDate.now());
 		booking.setStatus(true);
 		booking.setCustomer(customer.get());
 		booking.setAPackage(pakage.get());

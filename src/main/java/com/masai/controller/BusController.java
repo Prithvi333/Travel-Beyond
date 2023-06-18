@@ -23,36 +23,39 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "*")
 @RequestMapping("/travel")
 public class BusController {
-	
+
 	@Autowired
 	BusOps b;
-	
+
 	@PostMapping("/Bus/{travelID}")
-	public ResponseEntity<Bus> addBus(@PathVariable("travelID") Integer id,@RequestBody @Valid Bus bus){
-		return new ResponseEntity<>(b.addBus(id, bus),HttpStatus.ACCEPTED);
+	public ResponseEntity<Bus> addBus(@PathVariable("travelID") Integer id, @RequestBody @Valid Bus bus) {
+		return new ResponseEntity<>(b.addBus(id, bus), HttpStatus.ACCEPTED);
 	}
-	
+
+	@PostMapping("/adddestination/{destId}/{bId}")
+	public ResponseEntity<Bus> adddestination(@PathVariable Integer destId, @PathVariable Integer bId) {
+		System.out.println(bId);
+		return new ResponseEntity<>(b.addDestination(destId, bId), HttpStatus.ACCEPTED);
+	}
+
 	@PutMapping("/bus/{travelID}")
-	public ResponseEntity<Bus> removeBus(@PathVariable("travelID") Integer id){
-		return new ResponseEntity<>(b.removeBus(id),HttpStatus.ACCEPTED);
+	public ResponseEntity<Bus> removeBus(@PathVariable("travelID") Integer id) {
+		return new ResponseEntity<>(b.removeBus(id), HttpStatus.ACCEPTED);
 	}
-	
+
 	@GetMapping("/bus/{busID}")
-	public ResponseEntity<Bus> searchBus(@PathVariable("busID") Integer id){
-		return new ResponseEntity<>(b.searchBus(id),HttpStatus.ACCEPTED);
+	public ResponseEntity<Bus> searchBus(@PathVariable("busID") Integer id) {
+		return new ResponseEntity<>(b.searchBus(id), HttpStatus.ACCEPTED);
 	}
-	
+
 	@GetMapping("/bus/travel/{travelID}")
-	public ResponseEntity<List<Bus>> getBusByTravelID(@PathVariable("travelID") Integer id){
-		return new ResponseEntity<>(b.viewBusByTravelsId(id),HttpStatus.ACCEPTED);
+	public ResponseEntity<List<Bus>> getBusByTravelID(@PathVariable("travelID") Integer id) {
+		return new ResponseEntity<>(b.viewBusByTravelsId(id), HttpStatus.ACCEPTED);
 	}
-	
+
 	@GetMapping("/bus")
-	public ResponseEntity<List<Bus>> getAllBus(){
-		return new ResponseEntity<>(b.viewAllBuses(),HttpStatus.ACCEPTED);
+	public ResponseEntity<List<Bus>> getAllBus() {
+		return new ResponseEntity<>(b.viewAllBuses(), HttpStatus.ACCEPTED);
 	}
-	
-	
-	
 
 }

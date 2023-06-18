@@ -1,43 +1,64 @@
 package com.masai.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.masai.entity.HotelBooking;
+import com.masai.entity.PackageBooking;
 import com.masai.entity.PaymentDetails;
 import com.masai.exception.EmptyPaymentDetialsListException;
 import com.masai.exception.EntityAlreadyAlteredException;
-import com.masai.exception.HotelBookingNotFoundException;
+import com.masai.exception.PackageBookingNotFoundException;
 import com.masai.exception.PaymentDetailsNotFoundException;
-import com.masai.repository.HotelBookingDao;
+import com.masai.repository.PackageBookingDao;
 import com.masai.repository.PaymentDetailsDao;
-import org.springframework.stereotype.Service;
 
 @Service
 public class PaymentDetailsOpsImpl implements PaymentDetailsOps {
 
 	@Autowired
-	HotelBookingDao hb;
+	PackageBookingDao pbd;
 	@Autowired
 	PaymentDetailsDao pd;
 
+//	@Override
+//	public PaymentDetails makePayment(int hotelBookingId, PaymentDetails paymentDetails) {
+//
+//		Optional<HotelBooking> hotelBooking = hb.findById(hotelBookingId);
+//
+//		if (!hotelBooking.isEmpty()) {
+//			if (!hotelBooking.get().isStatus()) {
+//				throw new EntityAlreadyAlteredException("Hotel not exist now");
+//			}
+//            
+//			paymentDetails.setStatus(true);
+//			paymentDetails.setBookingId(hotelBookingId);
+//			hotelBooking.get().getPayment().add(paymentDetails);
+//			return pd.save(paymentDetails);
+//		}
+//		throw new HotelBookingNotFoundException("No hotel booking found with the given id");
+//
+//	}
 	@Override
-	public PaymentDetails makePayment(int hotelBookingId, PaymentDetails paymentDetails) {
+	public PaymentDetails makePayment(int packgageBookingId, PaymentDetails paymentDetails) {
 
-		Optional<HotelBooking> hotelBooking = hb.findById(hotelBookingId);
+		Optional<PackageBooking> packageBooking = pbd.findById(packgageBookingId);
 
-		if (!hotelBooking.isEmpty()) {
-			if (!hotelBooking.get().isStatus()) {
-				throw new EntityAlreadyAlteredException("Hotel not exist now");
+		if (!packageBooking.isEmpty()) {
+			if (!packageBooking.get().isStatus()) {
+				throw new EntityAlreadyAlteredException("Package Booking not exist now");
 			}
+			paymentDetails.setLocalDate(LocalDate.now());
+			paymentDetails.setPaymentMoney(packageBooking.get().getAPackage().getPackageCost());
 			paymentDetails.setStatus(true);
-			paymentDetails.setBookingId(hotelBookingId);
-			hotelBooking.get().getPayment().add(paymentDetails);
+			paymentDetails.setBookingId(packgageBookingId);
+			packageBooking.get().getPayment().add(paymentDetails);
 			return pd.save(paymentDetails);
 		}
-		throw new HotelBookingNotFoundException("No hotel booking found with the given id");
+		throw new PackageBookingNotFoundException("No hotel booking found with the given id");
 
 	}
 

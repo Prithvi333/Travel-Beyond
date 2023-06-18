@@ -75,6 +75,6 @@ public class Customer {
 	private List<PackageBooking> packageBookings = new ArrayList<>();
 
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customerFeedback")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customerFeedback", fetch = FetchType.EAGER)
 	private List<Feedback> feedback = new ArrayList<>();
 }

@@ -53,7 +53,7 @@ public class Packages {
 	private String packageDescription5;
 
 	@NotNull(message = "please provide package cost")
-	private Double packageCost;
+	private String packageCost;
 
 	private boolean status;
 

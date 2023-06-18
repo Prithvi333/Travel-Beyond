@@ -40,13 +40,13 @@ public class DestinationOpsImpl implements DestinationOps {
 	@Override
 	public Destination addDestination(Destination destination) {
 
-		Optional<Destination> destinationOptional = dd.findById(destination.getDesId());
-		if (destinationOptional.isEmpty()) {
-			destination.setStatus(true);
-			dd.save(destination);
-			return destination;
-		}
-		throw new DestinationNotFoundException("Destination already exist");
+//		Optional<Destination> destinationOptional = dd.findById(destination.getDesId());
+//		if (destinationOptional.isEmpty()) {
+		destination.setStatus(true);
+		return dd.save(destination);
+
+//		}
+//		throw new DestinationNotFoundException("Destination already exist");
 	}
 
 	@Override

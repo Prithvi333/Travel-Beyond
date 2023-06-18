@@ -1,6 +1,6 @@
 package com.masai.entity;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,13 +24,14 @@ public class PaymentDetails {
 	@NotNull(message = "type can not be null")
 	private PaymentType paymentType;
 
+	private LocalDate localDate;
+
 	private PaymentStatus paymentStatus;
 
 //    @Column(name = "payment_money", columnDefinition = "DECIMAL(10, 2) DEFAULT 0.0")
 
 	private boolean status;
-	@NotNull(message = "money can not be null")
-	private BigDecimal paymentMoney;
+	private String paymentMoney;
 
 	private Integer bookingId;
 
