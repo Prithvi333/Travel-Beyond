@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.entity.Route;
+import com.masai.entity.RouteDto;
 import com.masai.repository.RouteDao;
 import com.masai.service.RouteOps;
 
@@ -25,38 +26,36 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "*")
 @RequestMapping("/travel")
 public class RouteController {
-	
+
 	@Autowired
 	RouteOps r;
-	
+
 	@Autowired
 	RouteDao routedto;
-	
+
 	@PostMapping("/route/{BusId}")
-	public ResponseEntity<Route> addRoute(@PathVariable("BusId") Integer id,@RequestBody @Valid Route route){
-		return new ResponseEntity<>(r.addRoute(id, route),HttpStatus.CREATED);
+	public ResponseEntity<Route> addRoute(@PathVariable("BusId") Integer id, @RequestBody @Valid Route route) {
+		return new ResponseEntity<>(r.addRoute(id, route), HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/route/{routeID}")
-	public ResponseEntity<Route> deleteRoute(@PathVariable("BusId") Integer id){
-		return new ResponseEntity<>(r.removeRoute(id),HttpStatus.OK);
+	public ResponseEntity<Route> deleteRoute(@PathVariable("BusId") Integer id) {
+		return new ResponseEntity<>(r.removeRoute(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/route/{routeID}")
-	public ResponseEntity<Route> getRoute(@PathVariable("BusId") Integer id){
-		return new ResponseEntity<>(r.searchRoute(id),HttpStatus.FOUND);
+	public ResponseEntity<Route> getRoute(@PathVariable("routeID") Integer id) {
+		return new ResponseEntity<>(r.searchRoute(id), HttpStatus.FOUND);
 	}
-	
-	@PutMapping("/route/update")
-	public ResponseEntity<Route> updateRoute(RouteDao routedto,@RequestBody @Valid Route route){
-		return new ResponseEntity<>(r.updateRoute(routedto, route),HttpStatus.FOUND);
+
+	@PutMapping("/route/update/{routeId}")
+	public ResponseEntity<Route> updateRoute(@RequestBody @Valid RouteDto routedto, @PathVariable Integer routeId) {
+		return new ResponseEntity<>(r.updateRoute(routedto, routeId), HttpStatus.FOUND);
 	}
+
 	@GetMapping("/route")
-	public ResponseEntity<List<Route>> getAllRoute(){
-		return new ResponseEntity<>(r.viewRouteList(),HttpStatus.FOUND);
+	public ResponseEntity<List<Route>> getAllRoute() {
+		return new ResponseEntity<>(r.viewRouteList(), HttpStatus.FOUND);
 	}
-	
-	
-	
 
 }

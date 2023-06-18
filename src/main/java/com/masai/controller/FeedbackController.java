@@ -39,7 +39,7 @@ public class FeedbackController {
 	}
 	
 	@GetMapping("/feedback/customer/{customerId}")
-	public ResponseEntity<Feedback> getFeedbackbyCustomerId(@PathVariable("customerId") Integer id){
+	public ResponseEntity<List<Feedback>> getFeedbackbyCustomerId(@PathVariable("customerId") Integer id){
 		return new ResponseEntity<>(f.findFeedbackbyCustomerId(id),HttpStatus.OK);
 	}
 	

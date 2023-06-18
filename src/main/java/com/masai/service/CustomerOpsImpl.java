@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.masai.entity.Customer;
+import com.masai.entity.CustomerDto;
 import com.masai.exception.CustomerNotFoundException;
 import com.masai.exception.EmptyCustomerListException;
 import com.masai.exception.EntityAlreadyAlteredException;
@@ -26,9 +27,9 @@ public class CustomerOpsImpl implements CustomerOps {
 	}
 
 	@Override
-	public Customer updateCustomer(Customer customer) {
+	public Customer updateCustomer(int cusId, CustomerDto customer) {
 
-		Optional<Customer> cust = cd.findById(customer.getCustomerId());
+		Optional<Customer> cust = cd.findById(cusId);
 		if (cust.isPresent()) {
 			Customer cus = cust.get();
 			if (!cus.isStatus()) {
@@ -80,7 +81,7 @@ public class CustomerOpsImpl implements CustomerOps {
 			}
 			return cust.get();
 		}
-		throw new CustomerNotFoundException("Customer not found with the given id to delete");
+		throw new CustomerNotFoundException("Customer not found with the given id to view");
 	}
 
 	@Override

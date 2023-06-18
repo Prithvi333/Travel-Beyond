@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.masai.entity.Bus;
 import com.masai.entity.Destination;
+import com.masai.entity.DestinationDto;
 import com.masai.exception.BusNotFoundException;
 import com.masai.exception.DestinationNotFoundException;
 import com.masai.exception.EmptyDestinationListException;
@@ -50,14 +51,15 @@ public class DestinationOpsImpl implements DestinationOps {
 	}
 
 	@Override
-	public Destination updateDestination(Destination destination, Integer desId) {
+	public Destination updateDestination(DestinationDto destination, Integer desId) {
 
 		Optional<Destination> destinationOptional = dd.findById(desId);
 		if (destinationOptional.isPresent()) {
 			Destination des = destinationOptional.get();
 			if (des.isStatus()) {
-				dd.save(destination);
-				return destination;
+				des.setName(destination.getName());
+				des.setDesEnvironment(destination.getDesEnvironment());
+				return dd.save(des);
 			}
 		}
 		throw new DestinationNotFoundException("Destination does not exist");

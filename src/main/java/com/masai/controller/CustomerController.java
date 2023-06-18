@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.entity.Customer;
-
+import com.masai.entity.CustomerDto;
 import com.masai.service.CustomerOps;
 
 import jakarta.validation.Valid;
@@ -28,40 +28,34 @@ public class CustomerController {
 
 	@Autowired
 	CustomerOps co;
-	
 
 	@PostMapping("/customer/signup")
 	public ResponseEntity<Customer> registerCustomer(@RequestBody @Valid Customer customer) {
 		Customer c = co.addCustomer(customer);
 		return new ResponseEntity<>(c, HttpStatus.OK);
 	}
-	
-	
-	@PutMapping("/customer/update")
-	public ResponseEntity<Customer> updateCustomer(@RequestBody @Valid Customer customer) {
-		Customer c = co.updateCustomer(customer);
-		return new ResponseEntity<>(c,HttpStatus.OK);
+
+	@PutMapping("/customer/update/{cusId}")
+	public ResponseEntity<Customer> updateCustomer(@PathVariable int cusId, @RequestBody @Valid CustomerDto customer) {
+		Customer c = co.updateCustomer(cusId, customer);
+		return new ResponseEntity<>(c, HttpStatus.OK);
 	}
-	
-	
+
 	@DeleteMapping("/customer/delete")
 	public ResponseEntity<Customer> deleteCustomer(@RequestBody @Valid Customer customer) {
 		Customer c = co.deleteCustomer(customer);
-		return new ResponseEntity<>(c,HttpStatus.OK);
+		return new ResponseEntity<>(c, HttpStatus.OK);
 	}
-	
-	
+
 	@GetMapping("/customer/{id}")
 	public ResponseEntity<Customer> getCustomer(@PathVariable("id") Integer id) {
 		Customer c = co.viewCustomerById(id);
-		return new ResponseEntity<>(c,HttpStatus.FOUND);
+		return new ResponseEntity<>(c, HttpStatus.FOUND);
 	}
-	
-	@GetMapping("/customers")
-	public ResponseEntity<List<Customer>> viewAllCustomer(){
-		return new ResponseEntity<>(co.viewAllCustomer(),HttpStatus.OK);
-	}
-	
 
-	
+	@GetMapping("/customers")
+	public ResponseEntity<List<Customer>> viewAllCustomer() {
+		return new ResponseEntity<>(co.viewAllCustomer(), HttpStatus.OK);
+	}
+
 }

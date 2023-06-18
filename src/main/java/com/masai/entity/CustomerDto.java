@@ -29,10 +29,9 @@ public class CustomerDto {
 
 	@NotBlank(message = "Please provide the customer password")
 	@NotNull(message = "Please provide the customer password")
-	@Size(min = 6, max = 10, message = "min 15 and max 15 characters allowed only")
+	@Size(min = 12, max = 12, message = "min 12 and max 12 characters allowed only")
 	private String aadharId;
 
-	@NotBlank(message = "Please select gender")
 	@NotNull(message = "Please select gender")
 	private Gender gender;
 

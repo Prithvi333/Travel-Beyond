@@ -46,13 +46,13 @@ public class FeedbackOpsImpl implements FeedbackOps {
 	}
 
 	@Override
-	public Feedback findFeedbackbyCustomerId(int customerId) {
+	public List<Feedback> findFeedbackbyCustomerId(int customerId) {
 		Optional<Customer> customer = cd.findById(customerId);
 		if (!customer.isEmpty()) {
-			Optional<Feedback> feedback = fd.findById(customer.get().getCustomerId());
+			List<Feedback> feedbacks = customer.get().getFeedback();
 
-			if (!feedback.isEmpty())
-				return feedback.get();
+			if (!feedbacks.isEmpty())
+				return feedbacks;
 			throw new FeedbackNotFoundException("Customer gave no feedback yet");
 
 		}

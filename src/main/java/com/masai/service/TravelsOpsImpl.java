@@ -37,7 +37,7 @@ public class TravelsOpsImpl implements TravelsOps {
 				throw new EntityAlreadyAlteredException("Travel is not available to update ");
 			}
 			travel.setAgentName(travelsdto.getAgentName());
-			travel.setAddress(travelsdto.getAgentName());
+			travel.setAddress(travelsdto.getAddress());
 			travel.setContact(travelsdto.getContact());
 			return td.save(travel);
 		}

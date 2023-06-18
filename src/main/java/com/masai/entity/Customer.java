@@ -46,7 +46,7 @@ public class Customer {
 
 	@NotBlank(message = "Please provide the customer password")
 	@NotNull(message = "Please provide the customer password")
-	@Size(min = 15, max = 15, message = "min 15 and max 15 characters allowed only")
+	@Size(min = 12, max = 12, message = "min 12 and max 12 characters allowed only")
 	private String aadharId;
 
 	@NotNull(message = "Please select gender")

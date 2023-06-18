@@ -33,7 +33,7 @@ public class TravelController {
 		return new ResponseEntity<>(t.addTravels(Travel),HttpStatus.ACCEPTED);
 	}
 	
-	@PostMapping("/travels/update/{id}")
+	@PutMapping("/travels/update/{id}")
 	public ResponseEntity<Travels> updateTravel(@PathVariable("id") Integer id,@RequestBody @Valid TravelsDto Travel){
 		return new ResponseEntity<>(t.updateTravels(id, Travel),HttpStatus.ACCEPTED);
 	}

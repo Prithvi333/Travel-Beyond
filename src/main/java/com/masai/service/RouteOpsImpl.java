@@ -5,16 +5,17 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.masai.entity.Bus;
 import com.masai.entity.Route;
+import com.masai.entity.RouteDto;
 import com.masai.exception.BusNotFoundException;
 import com.masai.exception.EmptyRouteListException;
 import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.RouteNotFoundException;
 import com.masai.repository.BusDao;
 import com.masai.repository.RouteDao;
-import org.springframework.stereotype.Service;
 
 @Service
 public class RouteOpsImpl implements RouteOps {
@@ -42,18 +43,18 @@ public class RouteOpsImpl implements RouteOps {
 	}
 
 	@Override
-	public Route updateRoute(RouteDao routedto, Route route) {
-		Optional<Route> rt = rd.findById(route.getRouteId());
+	public Route updateRoute(RouteDto routedto, int routeId) {
+		Optional<Route> rt = rd.findById(routeId);
 		if (!rt.isEmpty()) {
 			Route rot = rt.get();
 			if (!rot.isStatus()) {
 				throw new EntityAlreadyAlteredException("Route is not available to update now");
 			}
-			route.setRouteFrom(rot.getRouteFrom());
-			route.setRouteTo(rot.getRouteTo());
-			route.setArrivalTime(rot.getArrivalTime());
-			route.setDepartureTime(rot.getDepartureTime());
-			rd.save(route);
+			rot.setRouteFrom(routedto.getRouteFrom());
+			rot.setRouteTo(routedto.getRouteTo());
+			rot.setArrivalTime(routedto.getArrivalTime());
+			rot.setDepartureTime(routedto.getDepartureTime());
+			return rd.save(rot);
 		}
 		throw new RouteNotFoundException("Route not found to update ");
 	}

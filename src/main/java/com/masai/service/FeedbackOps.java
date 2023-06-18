@@ -10,7 +10,7 @@ public interface FeedbackOps {
 
 	Feedback findFeedbackbyFeedbackId(int feedbackId);
 
-	Feedback findFeedbackbyCustomerId(int customerId);
+	List<Feedback> findFeedbackbyCustomerId(int customerId);
 
 	List<Feedback> getAllFeedback();
 

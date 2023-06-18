@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.entity.Destination;
+import com.masai.entity.DestinationDto;
 import com.masai.service.DestinationOps;
 
 import jakarta.validation.Valid;
@@ -38,7 +39,7 @@ public class DestinationController {
 	}
 
 	@PutMapping("/destination/{desId}")
-	public ResponseEntity<Destination> updateDestination(@RequestBody @Valid Destination destination,@PathVariable Integer desId){
+	public ResponseEntity<Destination> updateDestination(@RequestBody @Valid DestinationDto destination,@PathVariable Integer desId){
 		return new ResponseEntity<>(d.updateDestination(destination,desId),HttpStatus.CREATED);
 	}
 	@PutMapping("/Destination/{DestinationID}")
