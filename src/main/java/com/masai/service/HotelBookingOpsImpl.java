@@ -1,5 +1,6 @@
 package com.masai.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,7 @@ public class HotelBookingOpsImpl implements HotelBookingOps {
 		if (!customer.get().isStatus()) {
 			throw new EntityAlreadyAlteredException("Customer is not valid for booking");
 		}
+		hotelBooking.setBookingDate(LocalDate.now());
 		hotelBooking.setStatus(true);
 		hotelBooking.setCustomerBooking(customer.get());
 		hotelBooking.setHotel(hotel.get());

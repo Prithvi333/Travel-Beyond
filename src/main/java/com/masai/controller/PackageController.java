@@ -26,33 +26,34 @@ public class PackageController {
 
 	@Autowired
 	PackageOps p;
-	
-	@PostMapping("/Packages/{HotelId}")
-	public ResponseEntity<Packages> addPackage(@PathVariable("HotelId") Integer id,@RequestBody @Valid Packages pakage){
-		
-		return new ResponseEntity<>(p.addPackage(id, pakage),HttpStatus.CREATED);
-		
+
+	@PostMapping("/Packages/{HotelId}/{destinationId}")
+	public ResponseEntity<Packages> addPackage(@PathVariable("HotelId") Integer id,
+			@PathVariable("destinationId") int destId, @RequestBody @Valid Packages pakage) {
+
+		return new ResponseEntity<>(p.addPackage(id, destId, pakage), HttpStatus.CREATED);
+
 	}
-	
+
 	@DeleteMapping("/Packages/{packagesId}")
-	public ResponseEntity<Packages> deletePackage(@PathVariable("packagesId") Integer id){
-		
-		return new ResponseEntity<>(p.deletePackage(id),HttpStatus.OK);
-		
+	public ResponseEntity<Packages> deletePackage(@PathVariable("packagesId") Integer id) {
+
+		return new ResponseEntity<>(p.deletePackage(id), HttpStatus.OK);
+
 	}
-	
+
 	@GetMapping("/Packages/{packagesId}")
-	public ResponseEntity<Packages> getPackage(@PathVariable("packagesId") Integer id){
-		
-		return new ResponseEntity<>(p.viewPackage(id),HttpStatus.ACCEPTED);
-		
+	public ResponseEntity<Packages> getPackage(@PathVariable("packagesId") Integer id) {
+
+		return new ResponseEntity<>(p.viewPackage(id), HttpStatus.ACCEPTED);
+
 	}
-	
+
 	@GetMapping("/Packages")
-	public ResponseEntity<List<Packages>> getAllPackage(){
-		
-		return new ResponseEntity<>(p.viewAllPackages(),HttpStatus.ACCEPTED);
-		
+	public ResponseEntity<List<Packages>> getAllPackage() {
+
+		return new ResponseEntity<>(p.viewAllPackages(), HttpStatus.ACCEPTED);
+
 	}
-	
+
 }

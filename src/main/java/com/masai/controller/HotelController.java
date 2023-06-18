@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.masai.entity.Hotel;
 import com.masai.service.HotelOps;
 
@@ -27,32 +26,31 @@ public class HotelController {
 
 	@Autowired
 	HotelOps h;
-	
-	@PostMapping("/hotel/{destinationID}")
-	public ResponseEntity<Hotel> addHotel(@PathVariable("destinationID") Integer id,@RequestBody @Valid Hotel hotel){
-		
-		return new ResponseEntity<>(h.addHotel(id,hotel),HttpStatus.CREATED);
-		
+
+	@PostMapping("/hotel/{desID}")
+	public ResponseEntity<Hotel> addHotel(@PathVariable Integer desID, @RequestBody @Valid Hotel hotel) {
+
+		return new ResponseEntity<>(h.addHotel(desID, hotel), HttpStatus.CREATED);
+
 	}
-	
-	
+
 	@PutMapping("/Hotel/{HotelID}")
-	public ResponseEntity<Hotel> removeHotel(@PathVariable("HotelID") Integer id){
-		return new ResponseEntity<>(h.removeHotel(id),HttpStatus.OK);
+	public ResponseEntity<Hotel> removeHotel(@PathVariable("HotelID") Integer id) {
+		return new ResponseEntity<>(h.removeHotel(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/Hotel/{HotelID}")
-	public ResponseEntity<Hotel> searchDestination(@PathVariable("HotelID") Integer id){
-		return new ResponseEntity<>(h.searchHotel(id),HttpStatus.FOUND);
+	public ResponseEntity<Hotel> searchDestination(@PathVariable("HotelID") Integer id) {
+		return new ResponseEntity<>(h.searchHotel(id), HttpStatus.FOUND);
 	}
-	
+
 	@GetMapping("/Hotel/Destination/{DestinationID}")
-	public ResponseEntity<List<Hotel>> getHotelByDestinationID(@PathVariable("DestinationID") Integer id){
-		return new ResponseEntity<>(h.viewHotelsBydestinationId(id),HttpStatus.ACCEPTED);
+	public ResponseEntity<List<Hotel>> getHotelByDestinationID(@PathVariable("DestinationID") Integer id) {
+		return new ResponseEntity<>(h.viewHotelsBydestinationId(id), HttpStatus.ACCEPTED);
 	}
-	
+
 	@GetMapping("/Hotel")
-	public ResponseEntity<List<Hotel>> getAllHotel(){
-		return new ResponseEntity<>(h.viewAllHotels(),HttpStatus.ACCEPTED);
+	public ResponseEntity<List<Hotel>> getAllHotel() {
+		return new ResponseEntity<>(h.viewAllHotels(), HttpStatus.ACCEPTED);
 	}
 }

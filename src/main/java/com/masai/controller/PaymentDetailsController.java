@@ -27,8 +27,8 @@ public class PaymentDetailsController {
 	@Autowired
 	PaymentDetailsOps p;
 	
-	@PostMapping("/Payment/{HotelBookingID}")
-	public ResponseEntity<PaymentDetails> makePayment(@PathVariable("HotelBookingID") Integer id, @RequestBody @Valid PaymentDetails payment){
+	@PostMapping("/Payment/{PackageBookingID}")
+	public ResponseEntity<PaymentDetails> makePayment(@PathVariable("PackageBookingID") Integer id, @RequestBody @Valid PaymentDetails payment){
 		return new ResponseEntity<>(p.makePayment(id, payment),HttpStatus.CREATED);
 	}
 	@DeleteMapping("/Payment/{PaymentID}")

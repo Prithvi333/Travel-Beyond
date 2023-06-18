@@ -40,7 +40,7 @@ public class Bus {
 
 	@NotBlank(message = "Please provide the destination name")
 	@NotNull(message = "Please provide the destination name")
-	private Integer capacity;
+	private String capacity;
 
 	private boolean status;
 

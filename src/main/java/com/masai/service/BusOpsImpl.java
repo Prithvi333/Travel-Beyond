@@ -4,16 +4,19 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.masai.entity.Bus;
+import com.masai.entity.Destination;
 import com.masai.entity.Travels;
 import com.masai.exception.BusNotFoundException;
+import com.masai.exception.DestinationNotFoundException;
 import com.masai.exception.EmptyBusListException;
 import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.TravelsNotFoundException;
 import com.masai.repository.BusDao;
+import com.masai.repository.DestinationDao;
 import com.masai.repository.TravelDao;
-import org.springframework.stereotype.Service;
 
 @Service
 public class BusOpsImpl implements BusOps {
@@ -22,18 +25,35 @@ public class BusOpsImpl implements BusOps {
 	BusDao bd;
 	@Autowired
 	TravelDao td;
+	@Autowired
+	DestinationDao dd;
 
 	@Override
 	public Bus addBus(int travelId, Bus bus) {
 
 		Optional<Travels> travels = td.findById(travelId);
 		if (!travels.isEmpty()) {
+			bus.setStatus(true);
 			travels.get().setStatus(true);
 			travels.get().getBuses().add(bus);
 			bus.setTravel(travels.get());
 			return bd.save(bus);
 		}
 		throw new TravelsNotFoundException("Tranvels not found to add bus");
+	}
+
+	public Bus addDestination(int destId, int bId) {
+
+		Optional<Destination> destination = dd.findById(destId);
+		Optional<Bus> bus = bd.findById(bId);
+
+		if (destination.isEmpty() || !destination.get().isStatus())
+			throw new DestinationNotFoundException("Destination is not found");
+		if (bus.isEmpty() || !bus.get().isStatus())
+			throw new BusNotFoundException("Bus not found");
+		bus.get().getDestinationList().add(destination.get());
+		destination.get().getBus().add(bus.get());
+		return bd.save(bus.get());
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class DestinationController {
 //		return new ResponseEntity<>(d.addDestination(id, destination),HttpStatus.CREATED);
 //	}
 
-	@PostMapping("/Destination")
+	@PostMapping("/destination")
 	public ResponseEntity<Destination> addDestination(@RequestBody @Valid Destination destination){
 		return new ResponseEntity<>(d.addDestination(destination),HttpStatus.CREATED);
 	}

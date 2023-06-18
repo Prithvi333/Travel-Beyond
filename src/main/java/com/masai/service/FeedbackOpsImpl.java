@@ -1,5 +1,6 @@
 package com.masai.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,9 +28,10 @@ public class FeedbackOpsImpl implements FeedbackOps {
 		Optional<Customer> customer = cd.findById(customerId);
 
 		if (!customer.isEmpty()) {
+			feedback.setSubmitDate(LocalDate.now());
 			customer.get().getFeedback().add(feedback);
 			feedback.setCustomerFeedback(customer.get());
-			return feedback;
+			return fd.save(feedback);
 		}
 		throw new CustomerNotFoundException("Customer not valid");
 	}

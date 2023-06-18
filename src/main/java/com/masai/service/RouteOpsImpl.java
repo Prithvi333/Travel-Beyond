@@ -1,5 +1,6 @@
 package com.masai.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,7 @@ public class RouteOpsImpl implements RouteOps {
 		Optional<Bus> bus = bd.findById(busId);
 		if (!bus.isEmpty()) {
 			Bus b = bus.get();
+			route.setDoj(LocalDate.now());
 			if (!b.isStatus()) {
 				throw new EntityAlreadyAlteredException("Bus is not exist now");
 			}

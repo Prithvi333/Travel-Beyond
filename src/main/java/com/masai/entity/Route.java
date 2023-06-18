@@ -1,7 +1,6 @@
 package com.masai.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,15 +33,13 @@ public class Route {
 	@NotBlank(message = "Please provide the departureTime")
 	@NotNull(message = "Please provide the departureTime")
 
-	private LocalDateTime departureTime;
+	private String departureTime;
 
 	private boolean status;
 	@NotBlank(message = "Please provide the arrivalTime")
 	@NotNull(message = "Please provide the arrivalTime")
-	private LocalDateTime arrivalTime;
-
-	@NotBlank(message = "Please provide the doj")
-	@NotNull(message = "Please provide the doj")
+	private String arrivalTime;
+	
 	private LocalDate doj;
 
 	@NotBlank(message = "Please provide the pickupPoint")
@@ -50,6 +47,6 @@ public class Route {
 	private String pickupPoint;
 
 	@NotBlank(message = "Please provide the fare price")
-	private double fare;
+	private String fare;
 
 }

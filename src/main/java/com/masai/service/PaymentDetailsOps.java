@@ -6,7 +6,7 @@ import com.masai.entity.PaymentDetails;
 
 public interface PaymentDetailsOps {
 
-	PaymentDetails makePayment(int hotelBookingId, PaymentDetails paymentDetails);
+	PaymentDetails makePayment(int packgageBookingId, PaymentDetails paymentDetails);
 
 	PaymentDetails canclePayment(int paymentId);
 

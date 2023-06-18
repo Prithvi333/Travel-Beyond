@@ -20,7 +20,7 @@ public class CustomerOpsImpl implements CustomerOps {
 
 	@Override
 	public Customer addCustomer(Customer customer) {
-
+		customer.setStatus(true);
 		return cd.save(customer);
 
 	}

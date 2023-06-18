@@ -41,30 +41,31 @@ public class HotelOpsImpl implements HotelOps {
 	public Hotel addHotel(Integer destinationId, Hotel hotel) {
 
 //		Optional<Destination> destination = dd.findById(destinationId);
-//		if(destination.isEmpty()){
+//		if (destination.isEmpty()) {
 //			throw new DestinationNotFoundException("No destination available with this id");
 //		}
 //		Optional<Hotel> hotelOptional = hd.findById(hotel.getHotelId());
-//		if(hotelOptional.isPresent()){
-//			throw new DestinationNotFoundException(" hotel already available");
+//		if (hotelOptional.isPresent()) {
+//			throw new DestinationNotFoundException(" Hotel already available");
 //
 //		}
-//
+//		hotel.setStats(true);
 //		hotel.setDestination(destination.get());
 //		destination.get().getHotels().add(hotel);
 //		return hd.save(hotel);
-
+		System.out.println(destinationId);
 		Destination destination = dd.findById(destinationId)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid destination ID"));
 
 		if (!destination.isStatus()) {
 			throw new EntityAlreadyAlteredException("Destination is not available");
 		}
-		Optional<Hotel> hotelOptional = hd.findById(hotel.getHotelId());
-		if (hotelOptional.isPresent()) {
-			throw new DestinationNotFoundException(" hotel already available");
-
-		}
+//		Optional<Hotel> hotelOptional = hd.findById(hotel.getHotelId());
+//		if (hotelOptional.isPresent()) {
+//			throw new DestinationNotFoundException(" Hotel already available");
+//
+//		}
+		hotel.setStats(true);
 		hotel.setDestination(destination);
 
 		return hd.save(hotel);

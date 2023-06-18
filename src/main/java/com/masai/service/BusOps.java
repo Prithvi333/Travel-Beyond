@@ -8,6 +8,8 @@ public interface BusOps {
 
 	Bus addBus(int travelId, Bus bus);
 
+	Bus addDestination(int destId, int bId);
+
 	Bus removeBus(int busId);
 
 	Bus searchBus(int busId);
