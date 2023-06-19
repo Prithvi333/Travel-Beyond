@@ -7,12 +7,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.masai.entity.Customer;
 import com.masai.entity.PackageBooking;
 import com.masai.entity.PaymentDetails;
+import com.masai.exception.CustomerNotFoundException;
 import com.masai.exception.EmptyPaymentDetialsListException;
 import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.exception.PackageBookingNotFoundException;
 import com.masai.exception.PaymentDetailsNotFoundException;
+import com.masai.repository.CustomerDao;
 import com.masai.repository.PackageBookingDao;
 import com.masai.repository.PaymentDetailsDao;
 
@@ -23,6 +26,8 @@ public class PaymentDetailsOpsImpl implements PaymentDetailsOps {
 	PackageBookingDao pbd;
 	@Autowired
 	PaymentDetailsDao pd;
+	@Autowired
+	CustomerDao cd;
 
 //	@Override
 //	public PaymentDetails makePayment(int hotelBookingId, PaymentDetails paymentDetails) {
@@ -43,14 +48,18 @@ public class PaymentDetailsOpsImpl implements PaymentDetailsOps {
 //
 //	}
 	@Override
-	public PaymentDetails makePayment(int packgageBookingId, PaymentDetails paymentDetails) {
+	public PaymentDetails makePayment(int packgageBookingId, int customerId, PaymentDetails paymentDetails) {
 
 		Optional<PackageBooking> packageBooking = pbd.findById(packgageBookingId);
+		Optional<Customer> customer = cd.findById(customerId);
+		if (customer.isEmpty())
+			throw new CustomerNotFoundException("Please enter valid customer id");
 
 		if (!packageBooking.isEmpty()) {
 			if (!packageBooking.get().isStatus()) {
 				throw new EntityAlreadyAlteredException("Package Booking not exist now");
 			}
+			paymentDetails.setCustomerId(customerId);
 			paymentDetails.setLocalDate(LocalDate.now());
 			paymentDetails.setPaymentMoney(packageBooking.get().getAPackage().getPackageCost());
 			paymentDetails.setStatus(true);

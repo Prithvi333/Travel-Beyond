@@ -1,17 +1,23 @@
 package com.masai.controller;
 
-import com.masai.entity.Admin;
-import com.masai.entity.Customer;
-import com.masai.repository.CustomerDao;
-import com.masai.service.AdminOps;
-import com.masai.service.CustomerOps;
-
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.masai.entity.Admin;
+import com.masai.entity.Customer;
+import com.masai.service.AdminOps;
+import com.masai.service.CustomerOps;
+
+import jakarta.validation.Valid;
 
 @RestController
 //@CrossOrigin(origins = "*")
@@ -24,7 +30,7 @@ public class EntryController {
     @Autowired
     private AdminOps adminService;
     @GetMapping("/cusLogin")
-    public ResponseEntity<String> loginCustomerHandler(Authentication auth){
+	public ResponseEntity<String> loginCustomerHandler(Authentication auth){
         System.out.println(auth); // principal object
 
         Customer customer = customerService.getCustomerByEmail(auth.getName());

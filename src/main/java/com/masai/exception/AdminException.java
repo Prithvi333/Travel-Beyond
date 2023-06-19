@@ -1,11 +1,13 @@
 package com.masai.exception;
 
-public class AdminException extends RuntimeException{
+@SuppressWarnings("serial")
+public class AdminException extends RuntimeException {
 
-    public  AdminException(){
+	public AdminException() {
 
-    }
-    public AdminException(String str){
-        super(str);
-    }
+	}
+
+	public AdminException(String str) {
+		super(str);
+	}
 }

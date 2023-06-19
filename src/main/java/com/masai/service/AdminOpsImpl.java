@@ -1,15 +1,14 @@
 package com.masai.service;
 
-import com.masai.entity.Admin;
-import com.masai.entity.Customer;
-import com.masai.exception.AdminException;
-import com.masai.exception.CustomerNotFoundException;
-import com.masai.repository.AdminDao;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import com.masai.entity.Admin;
+import com.masai.exception.AdminException;
+import com.masai.repository.AdminDao;
 
 @Service
 public class AdminOpsImpl implements AdminOps{

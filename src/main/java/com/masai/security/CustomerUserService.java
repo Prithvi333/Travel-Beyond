@@ -1,10 +1,10 @@
 package com.masai.security;
 
 
-import com.masai.entity.Customer;
-import com.masai.entity.UserType;
-import com.masai.repository.CustomerDao;
-import com.masai.service.CustomerOps;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,9 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.masai.entity.Customer;
+import com.masai.repository.CustomerDao;
 
 @Service
 public class CustomerUserService implements UserDetailsService {

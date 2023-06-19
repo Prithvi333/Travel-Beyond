@@ -26,18 +26,21 @@ public class PaymentDetailsController {
 
 	@Autowired
 	PaymentDetailsOps p;
-	
-	@PostMapping("/Payment/{PackageBookingID}")
-	public ResponseEntity<PaymentDetails> makePayment(@PathVariable("PackageBookingID") Integer id, @RequestBody @Valid PaymentDetails payment){
-		return new ResponseEntity<>(p.makePayment(id, payment),HttpStatus.CREATED);
+
+	@PostMapping("/Payment/{PackageBookingID}/{customerId}")
+	public ResponseEntity<PaymentDetails> makePayment(@PathVariable("PackageBookingID") Integer id,
+			@PathVariable Integer customerId, @RequestBody @Valid PaymentDetails payment) {
+		return new ResponseEntity<>(p.makePayment(id, customerId, payment), HttpStatus.CREATED);
 	}
+
 	@DeleteMapping("/Payment/{PaymentID}")
-	public ResponseEntity<PaymentDetails> cancelPayment(@PathVariable("PaymentID") Integer id){
-		return new ResponseEntity<>(p.canclePayment(id),HttpStatus.OK);
+	public ResponseEntity<PaymentDetails> cancelPayment(@PathVariable("PaymentID") Integer id) {
+		return new ResponseEntity<>(p.canclePayment(id), HttpStatus.OK);
 	}
+
 	@GetMapping("/Payment")
-	public ResponseEntity<List<PaymentDetails>> getAllPayment(){
-		return new ResponseEntity<>(p.viewPaymentList(),HttpStatus.OK);
+	public ResponseEntity<List<PaymentDetails>> getAllPayment() {
+		return new ResponseEntity<>(p.viewPaymentList(), HttpStatus.OK);
 	}
-	
+
 }
