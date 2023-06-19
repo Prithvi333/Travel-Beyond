@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.masai.entity.Customer;
@@ -17,10 +18,28 @@ public class CustomerOpsImpl implements CustomerOps {
 
 	@Autowired
 	CustomerDao cd;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public Customer addCustomer(Customer customer) {
 		customer.setStatus(true);
+
+		customer.setCustomerPassword(passwordEncoder.encode(customer.getCustomerPassword()));
+		if(customer.getRole()==null){
+			customer.setRole("ROLE_USER");
+		}
+		 if(customer.getRole().equals("ADMIN")){
+			customer.setRole("ROLE_ADMIN");
+		}else if(customer.getRole().equals("USER")){
+			customer.setRole("ROLE_USER");
+		}else if(customer.getRole().equals("ROLE_USER")){
+			 customer.setRole("ROLE_USER");
+		}else if(customer.getRole().equals("ROLE_ADMIN")){
+			 customer.setRole("ROLE_ADMIN");
+		}else{
+			customer.setRole("ROLE_USER");
+		}
 		return cd.save(customer);
 
 	}
@@ -52,6 +71,7 @@ public class CustomerOpsImpl implements CustomerOps {
 			cus.setCountry(customer.getCountry());
 			cus.setMobileNo(customer.getMobileNo());
 			cus.setEmail(customer.getEmail());
+
 			return cd.save(cus);
 		}
 		throw new CustomerNotFoundException("Customer not found with the given id to update");
@@ -89,6 +109,12 @@ public class CustomerOpsImpl implements CustomerOps {
 		if (!customers.isEmpty())
 			return customers.stream().filter(a -> a.isStatus()).toList();
 		throw new EmptyCustomerListException("Customer list is empty");
+	}
+
+	@Override
+	public Customer getCustomerByEmail(String email) {
+		Customer customer = cd.findByEmail(email).orElseThrow(()-> new CustomerNotFoundException("username and password is not matched with our database"));
+		return customer;
 	}
 
 }

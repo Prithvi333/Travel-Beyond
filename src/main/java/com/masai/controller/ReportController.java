@@ -43,7 +43,7 @@ public class ReportController {
 		return new ResponseEntity<>(ro.viewReport(id),HttpStatus.ACCEPTED);
 	}
 	
-	@GetMapping("/report")
+	@GetMapping("/reports")
 	public ResponseEntity<List<Report>> getAllReport(){
 		return new ResponseEntity<>(ro.viewAllReport(),HttpStatus.ACCEPTED);
 	}

@@ -16,4 +16,7 @@ public interface CustomerOps {
 
 	List<Customer> viewAllCustomer();
 
+
+	Customer getCustomerByEmail(String email);
+
 }

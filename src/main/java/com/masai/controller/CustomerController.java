@@ -22,7 +22,7 @@ import com.masai.service.CustomerOps;
 import jakarta.validation.Valid;
 
 @RestController
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @RequestMapping("/travel")
 public class CustomerController {
 

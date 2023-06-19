@@ -20,7 +20,7 @@ import com.masai.service.DestinationOps;
 import jakarta.validation.Valid;
 
 @RestController
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @RequestMapping("/travel")
 public class DestinationController {
 	
@@ -51,7 +51,7 @@ public class DestinationController {
 		return new ResponseEntity<>(d.searchDestination(id),HttpStatus.FOUND);
 	}
 	
-	@GetMapping("/Destination/travel/{BusID}")
+	@GetMapping("/Destination/travels/{BusID}")
 	public ResponseEntity<List<Destination>> getDestinationByBusID(@PathVariable("BusID") Integer id){
 		return new ResponseEntity<>(d.viewDestinationByBusId(id),HttpStatus.ACCEPTED);
 	}

@@ -5,13 +5,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,12 +31,14 @@ public class Customer {
 
 	@NotBlank(message = "Please provide the customer password")
 	@NotNull(message = "Please provide the customer password")
-	@Size(min = 6, max = 10, message = "min 6 and max 10 characters allowed only")
+//	@Size(min = 6, max = 10, message = "min 6 and max 10 characters allowed only")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
 	private String customerPassword;
 
 	@NotBlank(message = "Please provide the customer password")
 	@NotNull(message = "Please provide the customer password")
-	@Size(min = 6, message = "min 6 is characters required")
+	@Size(min = 3, message = "min 6 is characters required")
 	private String address;
 
 	@NotBlank(message = "Please provide the customer password")
@@ -64,7 +61,10 @@ public class Customer {
 	@Email(message = "email is not in correct format")
 	@NotBlank(message = "Please provide the  email")
 	@NotNull(message = "Please provide the  email")
+	@Column(unique = true)
 	private String email;
+
+	private String role;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customerBooking", fetch = FetchType.EAGER)
 	@JsonIgnore
