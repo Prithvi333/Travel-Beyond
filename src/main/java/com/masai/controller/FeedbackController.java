@@ -19,7 +19,7 @@ import com.masai.service.FeedbackOps;
 import jakarta.validation.Valid;
 
 @RestController
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @RequestMapping("/travel")
 public class FeedbackController {
 	
