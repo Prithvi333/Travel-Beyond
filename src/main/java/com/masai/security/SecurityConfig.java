@@ -67,6 +67,7 @@ public class SecurityConfig {
                                     "travel/Hotel/Destination","travel/package","travel/Payment","travel/report").hasRole("USER")
 
 
+                            .requestMatchers("/swagger-ui*/**","/v3/api-docs/**").permitAll()
                             .requestMatchers( "travel/customers/**","travel/HotelBooking","travel/Hotel","packages").hasAnyRole("ADMIN","USER")
                             .anyRequest().authenticated();
 
