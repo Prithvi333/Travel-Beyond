@@ -35,4 +35,6 @@ public class PaymentDetails {
 
 	private Integer bookingId;
 
+	private Integer customerId;
+
 }
