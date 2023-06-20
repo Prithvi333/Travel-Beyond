@@ -1,0 +1,219 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.navbar {
+  width: 100vw;
+  height: 25vh;
+  background-color: #003580;
+}
+#navmid {
+  display: flex;
+  flex-direction: column;
+  height: 25vh;
+  /* border: 2px solid blue; */
+}
+.plane {
+  transition: all 0.2s ease-in;
+}
+.plane:hover {
+  transform: rotate(45deg);
+}
+#topnavmid {
+  align-items: center;
+  background: cyan;
+  width: 60%;
+  margin: auto;
+  /* border: 2px solid black; */
+  display: flex;
+  justify-content: space-between;
+  border-radius: 14px;
+}
+#topnavmid > ul {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px;
+  font-size: 21px;
+
+  list-style: none;
+}
+#topnavmid li {
+  transition: all 0.2s ease-in-out;
+  padding: 0px 34px;
+}
+#topnavmid li:hover {
+  color: darkcyan;
+  transform: rotate(3deg);
+  cursor: pointer;
+  text-decoration: underline;
+}
+.tag {
+  border-radius: 9px;
+  /* border: 2px solid green; */
+  background-color: cyan;
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  align-items: center;
+  padding: 10px;
+}
+.tag > div > h1 {
+  font-size: -webkit-xxx-large;
+}
+.tag > div > p {
+  font-size: 24px;
+}
+.maincontent {
+  width: 60%;
+  /* height: 75vh; */
+  margin: auto;
+  /* background: paleturquoise; */
+  /* border: 2px solid brown; */
+}
+.maincontent > .head-1 {
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.maincontent > .flex-1 {
+  display: flex;
+
+  justify-content: space-between;
+  /* border: 2px solid pink; */
+}
+.flex-1 > img {
+  width: 50%;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 5px;
+}
+.lf-1 {
+  display: flex;
+  justify-content: space-between;
+  /* border: 2px solid black; */
+  width: 50%;
+  align-items: center;
+  padding: 25px;
+}
+.lf-1 > img {
+  width: 50%;
+  border-radius: 5px;
+}
+.cont1 {
+  display: flex;
+  width: 70%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.cont1 > img {
+  width: 75%;
+  padding: 10px 0px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 5px;
+}
+.globalhead {
+  display: flex;
+  flex-direction: column;
+  height: 8vh;
+  justify-content: space-around;
+  padding: 25px;
+}
+.grid-1 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 7px;
+  justify-items: center;
+  /* border: 2px springgreen; */
+}
+.grid-1 img {
+  transition: all 0.2s ease-in-out;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 5px;
+}
+.grid-1 img:hover {
+  transform: translate(-5px, -5px);
+  cursor: pointer;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.flex-2 {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  /* border: 2px solid gold; */
+  margin-bottom: 50px;
+}
+.flex-2 img {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 5px;
+}
+.flex-2 div {
+  transition: all 0.3s ease-out;
+}
+.flex-2 div:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+.flex-2 > div > img {
+  width: 90%;
+  /* height: 70%; */
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  justify-items: center;
+  /* border: 2px solid purple; */
+}
+.grid-2 img {
+  width: 90%;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 5px;
+}
+.grid-2 > div {
+  text-align: center;
+  transition: all 0.3s ease-in;
+}
+.grid-2 > div:hover {
+  cursor: pointer;
+  transform: translate(10px, 10px);
+}
+.flex-3 {
+  display: flex;
+  justify-content: space-evenly;
+  /* border: 2px solid violet; */
+}
+.flex-3 img {
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 5px;
+}
+div h3 {
+  padding: 6px 0px;
+}
+.flex-3 div {
+  transition: all 0.3s ease-in 0.1s;
+}
+.flex-3 div:hover {
+  cursor: pointer;
+  transform: scale(0.9);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.logo img {
+  width: 100px;
+}
+.tag button {
+  padding: 10px;
+  border-radius: 10px;
+  font-size: large;
+  transition: all 0.2s ease-out;
+  background-color: black;
+  color: cyan;
+}
+.tag button:hover {
+  cursor: pointer;
+  background: cyan;
+  color: black;
+}
