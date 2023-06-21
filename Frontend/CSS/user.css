@@ -1,0 +1,82 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.navbar {
+  width: 100vw;
+  height: 25vh;
+  background-color: #003580;
+}
+#navmid {
+  display: flex;
+  flex-direction: column;
+  height: 25vh;
+  /* border: 2px solid blue; */
+}
+.plane {
+  transition: all 0.2s ease-in;
+}
+.plane:hover {
+  transform: rotate(45deg);
+}
+#topnavmid {
+  align-items: center;
+  background: cyan;
+  width: 60%;
+  margin: auto;
+  /* border: 2px solid black; */
+  display: flex;
+  justify-content: space-between;
+  border-radius: 14px;
+}
+#topnavmid > ul {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px;
+  font-size: 21px;
+
+  list-style: none;
+}
+#topnavmid li {
+  transition: all 0.2s ease-in-out;
+  padding: 0px 34px;
+}
+#topnavmid li:hover {
+  color: darkcyan;
+  transform: rotate(3deg);
+  cursor: pointer;
+  text-decoration: underline;
+}
+.logo img {
+  width: 100px;
+}
+.tag {
+  border-radius: 9px;
+  /* border: 2px solid green; */
+  background-color: cyan;
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  align-items: center;
+  padding: 10px;
+}
+.tag > div > h1 {
+  font-size: -webkit-xxx-large;
+}
+.tag > div > p {
+  font-size: 24px;
+}
+.tag button {
+  padding: 10px;
+  border-radius: 10px;
+  font-size: large;
+  transition: all 0.2s ease-out;
+  background-color: black;
+  color: cyan;
+}
+.tag button:hover {
+  cursor: pointer;
+  background: cyan;
+  color: black;
+}

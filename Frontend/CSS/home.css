@@ -1,6 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
 * {
   margin: 0;
   padding: 0;
+  font-family: "Ubuntu", sans-serif;
 }
 .navbar {
   width: 100vw;
@@ -21,7 +23,7 @@
 }
 #topnavmid {
   align-items: center;
-  background: cyan;
+  background: white;
   width: 60%;
   margin: auto;
   /* border: 2px solid black; */
@@ -42,7 +44,7 @@
   padding: 0px 34px;
 }
 #topnavmid li:hover {
-  color: darkcyan;
+  color: #003580;
   transform: rotate(3deg);
   cursor: pointer;
   text-decoration: underline;
@@ -50,7 +52,7 @@
 .tag {
   border-radius: 9px;
   /* border: 2px solid green; */
-  background-color: cyan;
+  background-color: white;
   width: 60%;
   display: flex;
   justify-content: space-between;
@@ -150,7 +152,7 @@
   border-radius: 5px;
 }
 .flex-2 div {
-  transition: all 0.3s ease-out;
+  transition: all 0.6s ease-out;
 }
 .flex-2 div:hover {
   transform: scale(1.1);
@@ -195,6 +197,7 @@ div h3 {
 }
 .flex-3 div {
   transition: all 0.3s ease-in 0.1s;
+  padding: 10px;
 }
 .flex-3 div:hover {
   cursor: pointer;
@@ -210,10 +213,90 @@ div h3 {
   font-size: large;
   transition: all 0.2s ease-out;
   background-color: black;
-  color: cyan;
+  color: white;
 }
 .tag button:hover {
   cursor: pointer;
-  background: cyan;
-  color: black;
+  background: #003580;
+  color: white;
+}
+
+.bottom1 {
+  width: 100vw;
+  height: 21vh;
+  /* border: 2px solid black; */
+  background-color: #003580;
+  margin-top: 25px;
+}
+.b1 {
+  width: 20%;
+  margin: auto;
+  color: white;
+  /* border: 2px solid green; */
+  text-align: center;
+  padding: 30px 0px;
+}
+.b2 {
+  width: 20%;
+  margin: auto;
+  /* border: 2px solid green; */
+}
+.b2 input {
+  border-radius: 4px;
+  padding: 12px 31px;
+  border: none;
+}
+.b2 button {
+  padding: 10px 26px;
+  margin-left: 10px;
+}
+.bottom2 {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin: auto;
+  /* border: 2px solid blue; */
+  padding: 35px;
+}
+.bottom2 div li {
+  list-style: none;
+  line-height: 1.5;
+  /* transition: all 0.2s ease-out; */
+}
+.bottom2 div li:hover {
+  cursor: pointer;
+  color: #003580;
+}
+.bottom3 {
+  width: 55%;
+  margin: auto;
+  /* border: 2px solid black; */
+  padding: 24px 0px;
+}
+.bottom3 p:nth-child(2) {
+  text-align: center;
+}
+.bottom3 p:nth-child(1) {
+  margin-bottom: 45px;
+}
+.dbottom {
+  display: flex;
+  justify-content: space-evenly;
+  width: 60%;
+  margin: auto;
+  border: 2px solid orange;
+}
+.bottom3 > p {
+  margin: 15px;
+}
+.dbottom img {
+  cursor: pointer;
+}
+.b2 button {
+  color: white;
+  background-color: #003580;
+  border-color: white;
+}
+.b2 button:hover {
+  cursor: pointer;
 }
