@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/Frontend/CSS/user.css" />
+    <title>admin</title>
+    <link rel="stylesheet" href="/Frontend/CSS/admin.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div id="navmid">
+        <div id="topnavmid">
+          <div class="logo">
+            <img src="/Frontend/Travel  Beyond-logos_transparent.png" alt="" />
+          </div>
+          <ul>
+            <li>Hotel</li>
+            <li>Buses</li>
+            <li>Travels</li>
+            <li>Destination</li>
+            <li>Packages</li>
+          </ul>
+        </div>
+        <div class="tag">
+          <div>
+            <h1>Find you next stay</h1>
+            <p>Search low price hotels,buses and much more...</p>
+          </div>
+          <div>
+            <button>Register</button>
+            <button>SignIn</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <div class="maincontainer">
+        <div class="left">
+          <h2 id="user">Welcome to user menu</h2>
+          <form id="form" action="submit"></form>
+        </div>
+        <div class="grid-1">
+          <div class="bus">
+            <h2>Bus</h2>
+            <h3>Add Bus</h3>
+            <h3>Link Bus with destination</h3>
+            <h3>Search bus</h3>
+            <h3>Remove bus</h3>
+            <h3>Get bus by travels id</h3>
+            <h3>View all buses</h3>
+          </div>
+          <div class="destination">
+            <h2>Destination</h2>
+            <h3>Add destination</h3>
+            <h3>Update destination</h3>
+            <h3>Remove destination</h3>
+            <h3>View all destinations</h3>
+            <h3>Search destination</h3>
+            <h3>Get destination by bus id</h3>
+          </div>
+          <div class="route">
+            <h2>Route</h2>
+            <h3>Add route</h3>
+            <h3>Delete route</h3>
+            <h3>Update route</h3>
+            <h3>View route</h3>
+            <h3>Show all routes</h3>
+          </div>
+          <div class="customer">
+            <h2>Customer</h2>
+            <h3>Get customer by id</h3>
+            <h3>View all customer</h3>
+            <h3>Update customer</h3>
+            <h3>Delete customer</h3>
+          </div>
+          <div class="hotel">
+            <h2>Hotel</h2>
+            <h3>Add hotel</h3>
+            <h3>Remove hotel</h3>
+            <h3>Veiw all hotels</h3>
+            <h3>Show hotel by destination Id</h3>
+          </div>
+          <div class="travels">
+            <h2>Travels</h2>
+            <h3>Add travels</h3>
+            <h3>Update travels</h3>
+            <h3>Remove travels</h3>
+            <h3>View all travels</h3>
+          </div>
+          <div class="report">
+            <h2>Report</h2>
+            <h3>View report</h3>
+            <h3>Delete report</h3>
+            <h3>Get all reports</h3>
+          </div>
+          <div class="feedback">
+            <h2>Feedback</h2>
+            <h3>Get feedback by feedback Id</h3>
+            <h3>View feedback by customer Id</h3>
+            <h3>Show all feedbacks</h3>
+          </div>
+          <div class="payment">
+            <h2>Payment</h2>
+            <h3>Get payment list</h3>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="bottom1">
+        <div class="popup" id="pop">
+          <img src="/Frontend/404-tick.png" alt="thanks" />
+          <h2>Thanks</h2>
+          <h3>We will reach to you soon!</h3>
+          <button id="close" onclick="closepopup()">Close</button>
+        </div>
+        <div class="b1">
+          <h1>Save time, save money!</h1>
+          <p>Sign up and we'll send the best deals to you</p>
+        </div>
+        <div class="b2">
+          <input
+            id="inp"
+            type="text"
+            name="email"
+            placeholder="Enter you email"
+          />
+          <button id="subs" onclick="openpopup()">Subscribe</button>
+        </div>
+      </div>
+      <div class="bottom2">
+        <div class="c1">
+          <ul>
+            <li>Countries</li>
+            <li>Regions</li>
+            <li>Cities</li>
+            <li>Districts</li>
+            <li>Hotels</li>
+          </ul>
+        </div>
+        <div class="c2">
+          <ul>
+            <li>Apartments</li>
+            <li>Resort</li>
+            <li>Villas</li>
+            <li>Destinations</li>
+            <li>Discover</li>
+          </ul>
+        </div>
+        <div class="c3">
+          <ul>
+            <li>Booking</li>
+            <li>Packages</li>
+            <li>Coronavirus</li>
+            <li>Customer service help</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bottom3">
+        <p>Copyright © 1996–2023 Travelbeyond.com™. All rights reserved.</p>
+        <p>
+          Booking.com is part of Booking Holdings Inc., the world leader in
+          online travel and related services.
+        </p>
+        <div class="dbottom">
+          <img
+            src="https://cf.bstatic.com/static/img/tfl/group_logos/logo_priceline/f80e129541f2a952d470df2447373390f3dd4e44.png"
+            alt=""
+          />
+          <img
+            src="https://cf.bstatic.com/static/img/tfl/group_logos/logo_kayak/83ef7122074473a6566094e957ff834badb58ce6.png"
+            alt=""
+          />
+          <img
+            src="https://cf.bstatic.com/static/img/tfl/group_logos/logo_agoda/1c9191b6a3651bf030e41e99a153b64f449845ed.png"
+            alt=""
+          />
+          <img
+            src="https://cf.bstatic.com/static/img/tfl/group_logos/logo_rentalcars/6bc5ec89d870111592a378bbe7a2086f0b01abc4.png"
+            alt=""
+          />
+          <img
+            src="https://cf.bstatic.com/static/img/tfl/group_logos/logo_opentable/a4b50503eda6c15773d6e61c238230eb42fb050d.png"
+            alt=""
+          />
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+<script src="/Frontend/JavaScript/admin.js"></script>
