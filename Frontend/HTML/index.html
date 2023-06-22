@@ -168,15 +168,20 @@
     </main>
     <footer>
        <div class="bottom1">
+        <div class="popup" id="pop">
+          <img src="/Frontend/404-tick.png" alt="thanks">
+          <h2>Thanks</h2>
+          <h3>We will reach to you soon!</h3>
+          <button id="close" onclick="closepopup()" >Close</button>
+        </div>
         <div class="b1">
           <h1>Save time, save money!</h1>
           <p>Sign up and we'll send the best deals to you</p>
         </div>
          <div class="b2">
 
-          <input type="text" name="email" placeholder="Enter you email" >
-          <button>Subscribe</button>
-
+          <input id="inp" type="text"  name="email" placeholder="Enter you email" >
+          <button id="subs" onclick="openpopup()" >Subscribe</button>
          </div>
        </div>
        <div class="bottom2">
@@ -220,4 +225,5 @@
        </div>
     </footer>
   </body>
-</html>
+  </html>
+  <script src="/Frontend/JavaScript/home.js"></script>

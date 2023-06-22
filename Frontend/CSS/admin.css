@@ -221,6 +221,138 @@ div h3 {
   color: white;
 }
 
+bottom1 {
+  width: 100vw;
+  height: 21vh;
+  /* border: 2px solid black; */
+  background-color: #003580;
+  margin-top: 25px;
+}
+.b1 {
+  width: 20%;
+  margin: auto;
+  color: white;
+  /* border: 2px solid green; */
+  text-align: center;
+  padding: 30px 0px;
+}
+.b2 {
+  width: 20%;
+  margin: auto;
+  /* border: 2px solid green; */
+}
+.b2 input {
+  border-radius: 4px;
+  padding: 12px 31px;
+  border: none;
+  outline: none;
+}
+.b2 button {
+  padding: 10px 26px;
+  margin-left: 10px;
+}
+.bottom2 {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin: auto;
+  /* border: 2px solid blue; */
+  padding: 35px;
+}
+.bottom2 div li {
+  list-style: none;
+  line-height: 1.5;
+  /* transition: all 0.2s ease-out; */
+}
+.bottom2 div li:hover {
+  cursor: pointer;
+  color: #003580;
+}
+.bottom3 {
+  width: 55%;
+  margin: auto;
+  /* border: 2px solid black; */
+  padding: 24px 0px;
+}
+.bottom3 p:nth-child(2) {
+  text-align: center;
+}
+.bottom3 p:nth-child(1) {
+  margin-bottom: 45px;
+}
+.dbottom {
+  display: flex;
+  justify-content: space-evenly;
+  width: 60%;
+  margin: auto;
+  border: 2px solid orange;
+  padding: 2px;
+}
+.bottom3 > p {
+  margin: 15px;
+}
+.dbottom img {
+  cursor: pointer;
+}
+.b2 button {
+  color: white;
+  background-color: #003580;
+  border-color: white;
+}
+.b2 button:hover {
+  cursor: pointer;
+}
+.maincontainer {
+  width: 80%;
+  margin: auto;
+  /* border: 2px solid black; */
+
+  text-align: center;
+  /* background-color: aquamarine; */
+}
+.grid-1 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* border: 2px solid red; */
+  gap: 25px;
+  line-height: 2;
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 20px;
+}
+.grid-1 div {
+  /* border: 2px solid black; */
+  width: 80%;
+  padding: 10px;
+  border-radius: 10px;
+  transition: all 0.3s ease-out;
+  border: none;
+  background: #e1f5fe;
+}
+.grid-1 div:hover {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.grid-1 div h3 {
+  transition: all 0.1s ease-in;
+}
+.grid-1 div h3:hover {
+  cursor: pointer;
+  background-color: white;
+  transform: scale(1.1);
+}
+#user {
+  font-size: 38px;
+  margin: 24px;
+}
+.grid-1 div h2 {
+  text-decoration: underline;
+  color: brown;
+}
+
+#form {
+  border: 2px solid black;
+}
+
 .bottom1 {
   width: 100vw;
   height: 21vh;
