@@ -53,7 +53,7 @@ public class HotelOpsImpl implements HotelOps {
 //		hotel.setDestination(destination.get());
 //		destination.get().getHotels().add(hotel);
 //		return hd.save(hotel);
-		System.out.println(destinationId);
+//		System.out.println(destinationId);
 		Destination destination = dd.findById(destinationId)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid destination ID"));
 

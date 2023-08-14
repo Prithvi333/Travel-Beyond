@@ -31,7 +31,7 @@ public class EntryController {
     private AdminOps adminService;
     @GetMapping("/cusLogin")
 	public ResponseEntity<String> loginCustomerHandler(Authentication auth){
-        System.out.println(auth); // principal object
+//        System.out.println(auth); // principal object
 
         Customer customer = customerService.getCustomerByEmail(auth.getName());
 

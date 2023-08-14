@@ -7,7 +7,7 @@ import com.masai.entity.Destination;
 public interface DestinationOps {
 //	Destination addDestination(int busId, Destination destination);
 
-	Destination addDestination(Destination destination);
+	Destination addDestination(int busId,Destination destination);
 
 	Destination updateDestination(Destination destination,Integer desId);
 	Destination removeDestination(int destinationId);
