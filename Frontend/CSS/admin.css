@@ -125,7 +125,7 @@
 }
 .grid-1 {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto, 1fr);
   gap: 7px;
   justify-items: center;
   /* border: 2px springgreen; */
@@ -472,4 +472,40 @@ bottom1 {
   transform: scale(1);
   visibility: visible;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.form {
+  border: 2px solid black;
+  padding: 20px;
+  /* text-align: center;
+  position: absolute;
+  top: 45%;
+  right: 43%; */
+  background-color: white;
+  border-radius: 7px;
+}
+.form label h4 {
+  margin-top: 20px;
+}
+.sub {
+  margin-top: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: large;
+  transition: all 0.2s ease-out;
+  background-color: black;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+}
+.inputElement input {
+  padding: 2px;
+  border-radius: 6px;
+}
+#cb {
+  position: relative;
+  top: 0px;
+  right: 0px;
+  margin: 7px;
+  cursor: pointer;
 }

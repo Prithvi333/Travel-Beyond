@@ -8,9 +8,9 @@ public interface CustomerOps {
 
 	Customer addCustomer(Customer customer);
 
-	Customer updateCustomer(Customer customer);
+	Customer updateCustomer(Integer cid, Customer customer);
 
-	Customer deleteCustomer(Customer customer);
+	Customer deleteCustomer(Integer cid);
 
 	Customer viewCustomerById(int id);
 

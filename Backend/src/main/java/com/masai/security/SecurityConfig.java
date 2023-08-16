@@ -54,14 +54,14 @@ public class SecurityConfig {
 							.hasRole("ADMIN")
 
 							.requestMatchers("travel/Destination", "travel/Destination/travels", "travel/feedback",
-									"travel/Packages", "travel/reports", "travel/route", "travel/travels")
+									"travel/Packages", "travel/reports", "travel/route","travel/route/update", "travel/travels")
 							.hasRole("ADMIN")
 
 							.requestMatchers("travel/customers", "travel/bus", "travel/customers",
 									"travel/customer/delete", "travel/customer/update", "travel/customer",
 									"travel/Destination", "travel/feedback/customer", "travel/Hotel/Destination",
 									"travel/package", "travel/Payment", "travel/report")
-							.hasRole("USER")
+							.hasAnyRole("USER","ADMIN")
 
 							.requestMatchers("/swagger-ui*/**", "/v3/api-docs/**").permitAll()
 							.requestMatchers("travel/customers/**", "travel/HotelBooking", "travel/Hotel", "packages")

@@ -23,31 +23,31 @@ public class DestinationOpsImpl implements DestinationOps {
 	@Autowired
 	BusDao bd;
 
-	@Override
-	public Destination addDestination(int busId, Destination destination) {
-
-		Optional<Bus> bus = bd.findById(busId);
-		if (!bus.isEmpty()) {
-			destination.setStatus(true);
-			Bus b = bus.get();
-			b.getDestinationList().add(destination);
-			destination.getBus().add(b);
-			return dd.save(destination);
-		}
-		throw new BusNotFoundException("Bus not found with the given id");
-	}
-
 //	@Override
-//	public Destination addDestination(Destination destination) {
+//	public Destination addDestination(int busId, Destination destination) {
 //
-////		Optional<Destination> destinationOptional = dd.findById(destination.getDesId());
-////		if (destinationOptional.isEmpty()) {
-//		destination.setStatus(true);
-//		return dd.save(destination);
-
+//		Optional<Bus> bus = bd.findById(busId);
+//		if (!bus.isEmpty()) {
+//			destination.setStatus(true);
+//			Bus b = bus.get();
+//			b.getDestinationList().add(destination);
+//			destination.getBus().add(b);
+//			return dd.save(destination);
 //		}
-//		throw new DestinationNotFoundException("Destination already exist");
+//		throw new BusNotFoundException("Bus not found with the given id");
 //	}
+
+	@Override
+	public Destination addDestination(Destination destination) {
+
+//		Optional<Destination> destinationOptional = dd.findById(destination.getDesId());
+//		if (destinationOptional.isEmpty()) {
+		destination.setStatus(true);
+		return dd.save(destination);
+
+		}
+//		throw new DestinationNotFoundException("Destination already exist");
+//		}
 
 	@Override
 	public Destination updateDestination(Destination destination, Integer desId) {
@@ -56,8 +56,9 @@ public class DestinationOpsImpl implements DestinationOps {
 		if (destinationOptional.isPresent()) {
 			Destination des = destinationOptional.get();
 			if (des.isStatus()) {
-				dd.save(destination);
-				return destination;
+				des.setName(destination.getName());
+				des.setDesEnvironment(destination.getDesEnvironment());
+              return dd.save(des);
 			}
 		}
 		throw new DestinationNotFoundException("Destination does not exist");

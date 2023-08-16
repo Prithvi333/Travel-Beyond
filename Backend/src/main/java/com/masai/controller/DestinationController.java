@@ -31,9 +31,9 @@ public class DestinationController {
 //		return new ResponseEntity<>(d.addDestination(id, destination),HttpStatus.CREATED);
 //	}
 
-	@PostMapping("/destination/{busId}")
-	public ResponseEntity<Destination> addDestination(@PathVariable int busId,@RequestBody @Valid Destination destination){
-		return new ResponseEntity<>(d.addDestination(busId,destination),HttpStatus.CREATED);
+	@PostMapping("/destination")
+	public ResponseEntity<Destination> addDestination(@RequestBody @Valid Destination destination){
+		return new ResponseEntity<>(d.addDestination(destination),HttpStatus.CREATED);
 	}
 
 	@PutMapping("/destination/{desId}")

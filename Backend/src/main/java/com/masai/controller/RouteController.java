@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.entity.Route;
+import com.masai.entity.RouteDto;
 import com.masai.repository.RouteDao;
 import com.masai.service.RouteOps;
 
@@ -38,18 +39,18 @@ public class RouteController {
 	}
 	
 	@DeleteMapping("/route/{routeID}")
-	public ResponseEntity<Route> deleteRoute(@PathVariable("BusId") Integer id){
+	public ResponseEntity<Route> deleteRoute(@PathVariable("routeID") Integer id){
 		return new ResponseEntity<>(r.removeRoute(id),HttpStatus.OK);
 	}
 	
 	@GetMapping("/route/{routeID}")
-	public ResponseEntity<Route> getRoute(@PathVariable("BusId") Integer id){
+	public ResponseEntity<Route> getRoute(@PathVariable("routeID") Integer id){
 		return new ResponseEntity<>(r.searchRoute(id),HttpStatus.FOUND);
 	}
 	
-	@PutMapping("/route/update")
-	public ResponseEntity<Route> updateRoute(RouteDao routedto,@RequestBody @Valid Route route){
-		return new ResponseEntity<>(r.updateRoute(routedto, route),HttpStatus.FOUND);
+	@PutMapping("/route/update/{routeId}")
+	public ResponseEntity<Route> updateRoute(RouteDto routedto, @PathVariable Integer  routeId){
+		return new ResponseEntity<>(r.updateRoute(routedto, routeId),HttpStatus.FOUND);
 	}
 	@GetMapping("/route")
 	public ResponseEntity<List<Route>> getAllRoute(){

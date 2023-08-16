@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>admin</title>
     <link rel="stylesheet" href="/CSS/admin.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
   </head>
   <body>
     <nav class="navbar">
@@ -28,13 +32,13 @@
           </div>
           <div>
             <button>Register</button>
-            <button>SignIn</button>
+            <button onclick="signIn()">SignIn</button>
           </div>
         </div>
       </div>
     </nav>
     <main>
-      <div class="maincontainer">
+      <div id="mc" class="maincontainer">
         <div class="left">
           <h2 id="user">Welcome to user menu</h2>
           <form id="form" action="submit"></form>
@@ -42,66 +46,70 @@
         <div class="grid-1">
           <div class="bus">
             <h2>Bus</h2>
-            <h3>Add Bus</h3>
-            <h3>Link Bus with destination</h3>
-            <h3>Search bus</h3>
-            <h3>Remove bus</h3>
-            <h3>Get bus by travels id</h3>
-            <h3>View all buses</h3>
+            <h3 onclick="addBus()">Add Bus</h3>
+            <!-- <h3>Link Bus with destination</h3> -->
+            <h3 onclick="searchBusById()">Search bus</h3>
+            <h3 onclick="removeBus()">Remove bus</h3>
+            <h3 onclick="getBusByTravelId()">Get bus by travels id</h3>
+            <h3 onclick="viewAllBuses()">View all buses</h3>
           </div>
           <div class="destination">
             <h2>Destination</h2>
-            <h3>Add destination</h3>
-            <h3>Update destination</h3>
-            <h3>Remove destination</h3>
-            <h3>View all destinations</h3>
-            <h3>Search destination</h3>
-            <h3>Get destination by bus id</h3>
+            <h3 onclick="addDestination()">Add destination</h3>
+            <h3 onclick="updateDestination()">Update destination</h3>
+            <h3 onclick="removeDestination()">Remove destination</h3>
+            <h3 onclick="veiwAllDestination()">View all destinations</h3>
+            <h3 onclick="searchDestination()">Search destination</h3>
+            <!-- <h3 onclick="getDestinationByBusId()">Get destination by bus id</h3> -->
           </div>
           <div class="route">
             <h2>Route</h2>
-            <h3>Add route</h3>
-            <h3>Delete route</h3>
-            <h3>Update route</h3>
-            <h3>View route</h3>
-            <h3>Show all routes</h3>
+            <h3 onclick="addRoute()">Add route</h3>
+            <h3 onclick="removeRoute()">Delete route</h3>
+            <h3 onclick="updateRoute()">Update route</h3>
+            <h3 onclick="searchRoute()">View route</h3>
+            <h3 onclick="viewAllRoute()">Show all routes</h3>
           </div>
           <div class="customer">
             <h2>Customer</h2>
-            <h3>Get customer by id</h3>
-            <h3>View all customer</h3>
-            <h3>Update customer</h3>
-            <h3>Delete customer</h3>
+            <h3 onclick="searchCustomer()">Get customer by id</h3>
+            <h3 onclick="viewAllCustomer()">View all customer</h3>
+            <h3 onclick="updateCustomer()">Update customer</h3>
+            <h3 onclick="removeCustomer()">Delete customer</h3>
           </div>
           <div class="hotel">
             <h2>Hotel</h2>
-            <h3>Add hotel</h3>
-            <h3>Remove hotel</h3>
-            <h3>Veiw all hotels</h3>
-            <h3>Show hotel by destination Id</h3>
+            <h3 onclick="addHotel()">Add hotel</h3>
+            <h3 onclick="removeHotel()">Remove hotel</h3>
+            <h3 onclick="viewAllHotel()">Veiw all hotels</h3>
+            <h3 onclick="showByDesId()">Show hotel by destination Id</h3>
           </div>
           <div class="travels">
             <h2>Travels</h2>
-            <h3>Add travels</h3>
-            <h3>Update travels</h3>
-            <h3>Remove travels</h3>
-            <h3>View all travels</h3>
+            <h3 onclick="addTravel()">Add travels</h3>
+            <h3 onclick="updateTravel()">Update travels</h3>
+            <h3 onclick="removeTravel()">Remove travels</h3>
+            <h3 onclick="viewAllTravel()">View all travels</h3>
           </div>
-          <div class="report">
+          <!-- <div class="report">
             <h2>Report</h2>
             <h3>View report</h3>
             <h3>Delete report</h3>
             <h3>Get all reports</h3>
-          </div>
+          </div> -->
           <div class="feedback">
             <h2>Feedback</h2>
-            <h3>Get feedback by feedback Id</h3>
-            <h3>View feedback by customer Id</h3>
-            <h3>Show all feedbacks</h3>
+            <h3 onclick="searchFeedBackByfeedBackId()">
+              Get feedback by feedback Id
+            </h3>
+            <h3 onclick="searchFeedBackByCustomerId()">
+              View feedback by customer Id
+            </h3>
+            <h3 onclick="viewAllFeedBack()">Show all feedbacks</h3>
           </div>
           <div class="payment">
             <h2>Payment</h2>
-            <h3>Get payment list</h3>
+            <h3 onclick="viewAllPayment()">Get payment list</h3>
           </div>
         </div>
       </div>
@@ -187,5 +195,18 @@
       </div>
     </footer>
   </body>
+
+  <!-- <form action="/">
+    <div class="inputElement">
+      <label for="userName">Enter the user name</label>
+      <input type="text" name="user" id="userName" />
+    </div>
+    <div class="inputElement">
+      <label for="userPass">Enter the user password</label>
+      <input type="text" name="env" id="userPass" />
+    </div>
+
+    <input type="submit" name="Login" id="" />
+  </form> -->
 </html>
-<script src="/Frontend/JavaScript/admin.js"></script>
+<script src="/JavaScript/admin.js"></script>

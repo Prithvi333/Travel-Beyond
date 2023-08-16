@@ -35,16 +35,16 @@ public class CustomerController {
 	}
 	
 	
-	@PutMapping("/customer/update")
-	public ResponseEntity<Customer> updateCustomer(@RequestBody @Valid Customer customer) {
-		Customer c = co.updateCustomer(customer);
+	@PutMapping("/customer/update/{cid}")
+	public ResponseEntity<Customer> updateCustomer( @PathVariable Integer cid, @RequestBody @Valid Customer customer) {
+		Customer c = co.updateCustomer(cid,customer);
 		return new ResponseEntity<>(c,HttpStatus.OK);
 	}
 	
 	
-	@DeleteMapping("/customer/delete")
-	public ResponseEntity<Customer> deleteCustomer(@RequestBody @Valid Customer customer) {
-		Customer c = co.deleteCustomer(customer);
+	@DeleteMapping("/customer/delete/{cid}")
+	public ResponseEntity<Customer> deleteCustomer(@PathVariable Integer cid) {
+		Customer c = co.deleteCustomer(cid);
 		return new ResponseEntity<>(c,HttpStatus.OK);
 	}
 	

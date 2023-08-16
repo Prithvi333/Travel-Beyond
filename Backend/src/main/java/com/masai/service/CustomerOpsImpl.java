@@ -45,48 +45,49 @@ public class CustomerOpsImpl implements CustomerOps {
 	}
 
 	@Override
-	public Customer updateCustomer(Customer customer) {
+	public Customer updateCustomer(Integer cid,Customer cus) {
 
-		Optional<Customer> cust = cd.findById(customer.getCustomerId());
+		Optional<Customer> cust = cd.findById(cid);
 		if (cust.isPresent()) {
-			Customer cus = cust.get();
+			Customer customer = cust.get();
 			if (!cus.isStatus()) {
 				throw new EntityAlreadyAlteredException("Unable to update already deleted customer");
 			}
-//			customer.setCustomerName(cus.getCustomerName());
-//			customer.setCustomerPassword(cus.getCustomerPassword());
-//			customer.setAddress(cus.getAddress());
-//			customer.setAadharId(cus.getAadharId());
-//			customer.setGender(cus.getGender());
-//			customer.setCountry(cus.getCountry());
-//			customer.setMobileNo(cus.getMobileNo());
-//			customer.setEmail(cus.getEmail());
-//			return cd.save(customer);
+			customer.setCustomerName(cus.getCustomerName());
+			customer.setCustomerPassword(cus.getCustomerPassword());
+			customer.setAddress(cus.getAddress());
+			customer.setAadharId(cus.getAadharId());
+			customer.setGender(cus.getGender());
+			customer.setCountry(cus.getCountry());
+			customer.setMobileNo(cus.getMobileNo());
+			customer.setEmail(cus.getEmail());
+			return cd.save(customer);
 
-			cus.setCustomerName(customer.getCustomerName());
-			cus.setCustomerPassword(customer.getCustomerPassword());
-			cus.setAddress(customer.getAddress());
-			cus.setAadharId(customer.getAadharId());
-			cus.setGender(customer.getGender());
-			cus.setCountry(customer.getCountry());
-			cus.setMobileNo(customer.getMobileNo());
-			cus.setEmail(customer.getEmail());
+//			cus.setCustomerName(customer.getCustomerName());
+//			cus.setCustomerPassword(customer.getCustomerPassword());
+//			cus.setAddress(customer.getAddress());
+//			cus.setAadharId(customer.getAadharId());
+//			cus.setGender(customer.getGender());
+//			cus.setCountry(customer.getCountry());
+//			cus.setMobileNo(customer.getMobileNo());
+//			cus.setEmail(customer.getEmail());
 
-			return cd.save(cus);
+//			return cd.save(cus);
 		}
 		throw new CustomerNotFoundException("Customer not found with the given id to update");
 	}
 
 	@Override
-	public Customer deleteCustomer(Customer customer) {
+	public Customer deleteCustomer(Integer cid) {
 
-		Optional<Customer> cust = cd.findById(customer.getCustomerId());
+		Optional<Customer> cust = cd.findById(cid);
 		if (!cust.isEmpty()) {
 			if (!cust.get().isStatus()) {
 				throw new EntityAlreadyAlteredException("Unable to remove already deleted customer");
 			}
-			cd.delete(cust.get());
-			return cust.get();
+			Customer cus=cust.get();
+	       cus.setStatus(false);
+			return cd.save(cus);
 		}
 		throw new CustomerNotFoundException("Customer not found with the given id to delete");
 	}

@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.entity.Admin;
+import com.masai.entity.CredDto;
 import com.masai.entity.Customer;
 import com.masai.service.AdminOps;
 import com.masai.service.CustomerOps;
 
+import io.swagger.v3.oas.models.media.MediaType;
 import jakarta.validation.Valid;
 
 @RestController
@@ -29,13 +31,19 @@ public class EntryController {
 
     @Autowired
     private AdminOps adminService;
-    @GetMapping("/cusLogin")
-	public ResponseEntity<String> loginCustomerHandler(Authentication auth){
+    @GetMapping(value =  "/cusLogin")
+	public ResponseEntity<CredDto> loginCustomerHandler(Authentication auth){
 //        System.out.println(auth); // principal object
 
         Customer customer = customerService.getCustomerByEmail(auth.getName());
+//         org.springframework.http.HttpHeaders hh= new org.springframework.http.HttpHeaders();
+//         hh.add("role", customer.getRole());
+        
+           CredDto c=new CredDto();
+           c.setName(customer.getCustomerName());
+           c.setRole(customer.getRole());
 
-        return new  ResponseEntity<>("log in successfully with name "+customer.getCustomerName(), HttpStatus.OK);
+        return new  ResponseEntity<>(c,HttpStatus.OK);
 
     }
 
