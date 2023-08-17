@@ -31,7 +31,7 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 	PackageDao pd;
 
 	@Override
-	public PackageBooking makeBooking(int customerId, int packageId, PackageBooking booking) {
+	public PackageBooking makeBooking(int customerId, int packageId) {
 
 		Optional<Customer> customer = cd.findById(customerId);
 		Optional<Packages> pakage = pd.findById(packageId);
@@ -46,6 +46,11 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 		if (!pakage.get().isStatus()) {
 			throw new EntityAlreadyAlteredException("Package is not exist now");
 		}
+		PackageBooking booking= new PackageBooking();
+		booking.setBookingType("online booking");
+		booking.setDescription("Booking has been completed enjoy your trip");
+		booking.setBookingTitle(pakage.get().getPackageName());
+		booking.setNumber_Of_Person(4);
 		booking.setPackageName(pakage.get().getPackageName());
 		booking.setBookingDate(LocalDate.now());
 		booking.setStatus(true);

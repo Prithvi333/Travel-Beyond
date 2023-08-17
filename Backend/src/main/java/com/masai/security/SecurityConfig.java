@@ -49,18 +49,18 @@ public class SecurityConfig {
 					auth.requestMatchers(HttpMethod.POST, "travel/customer/signup", "travel/addAdmin").permitAll()
 
 							.requestMatchers(HttpMethod.POST, "travel/updateAdmin", "travel/adddestination",
-									"travel/bus", "travel/bus/travels", "travel/destination", "travel/feedback",
-									"travel/hotel", "travel/Packages", "travel/route", "travel/travels")
+									"travel/bus", "travel/bus/travels", "travel/destination",
+									"travel/hotel", "travel/Packages")
 							.hasRole("ADMIN")
 
-							.requestMatchers("travel/Destination", "travel/Destination/travels", "travel/feedback",
-									"travel/Packages", "travel/reports", "travel/route","travel/route/update", "travel/travels")
+							.requestMatchers("travel/Destination", "travel/Destination/travels",
+									"travel/Packages", "travel/reports","travel/route/update")
 							.hasRole("ADMIN")
 
-							.requestMatchers("travel/customers", "travel/bus", "travel/customers",
+							.requestMatchers("travel/customers", "travel/bus", "travel/customers","travel/feedback",
 									"travel/customer/delete", "travel/customer/update", "travel/customer",
 									"travel/Destination", "travel/feedback/customer", "travel/Hotel/Destination",
-									"travel/package", "travel/Payment", "travel/report")
+									"travel/package", "travel/Payment", "travel/report","travel/travels","travel/route")
 							.hasAnyRole("USER","ADMIN")
 
 							.requestMatchers("/swagger-ui*/**", "/v3/api-docs/**").permitAll()

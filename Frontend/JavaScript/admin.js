@@ -384,7 +384,8 @@ function veiwAllDestination() {
       return data.json();
     })
     .then((dat) => {
-      if (dat.message == "Bus list is empty") alert("Empty bus list");
+      if (dat.message == "Destination list is empty")
+        alert("Destination bus list");
       else getData9(dat);
     })
     .catch((error) => console.log(error));
@@ -445,13 +446,13 @@ function searchDestination() {
         console.log(dat);
         if (dat.message == "This destinaton is not available now") {
           alert("This destinaton is not available now");
-          window.assign.location("admin.html");
+          window.location.assign("admin.html");
         } else if (dat.message == "Destination not found with the given id") {
           alert("Destination not found with the given id");
-          window.assign.location("admin.html");
+          window.location.assign("admin.html");
         } else if (dat.desId != undefined) {
           getData10(dat);
-        } else window.assign.location("admin.html");
+        } else window.location.assign("admin.html");
       })
       .catch((error) => console.log(error));
   });
@@ -1879,6 +1880,379 @@ function getData30(result) {
     <h4>Amount : ${element.paymentMoney} </h4>
     <h4>Booking Id : ${element.bookingId} </h4>
     <h4>Customer Id : ${element.customerId} </h4>
+    </div>`);
+  });
+  div.innerHTML = arr.join("");
+  div.setAttribute("class", "grid-1");
+  bid.append(div);
+}
+
+function addPackage() {
+  let auth = Authentication();
+  let hotelId;
+  let destinationId;
+  let packageName;
+  let hotelType;
+  let daysAndNight;
+  let packageSeason;
+  let packageDescription1;
+  let packageDescription2;
+  let packageDescription3;
+  let packageDescription4;
+  let packageDescription5;
+  let packageCost;
+  let div = document.createElement("div");
+  bid.innerHTML = null;
+  div.innerHTML = `<h2>Enter Details</h2>
+  <form id="frm" action="javascript:void(0);">
+  <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+
+  <div class="inputElement">
+      <label for="hid"><h4>Enter the hotel Id </h4></label> <br>
+      <input type="text" name="enviroment" id="hid" />
+    </div>
+
+    <div class="inputElement">
+      <label for="did"><h4>Enter the destination Id </h4></label> <br>
+      <input type="text" name="enviroment" id="did" />
+    </div>
+
+    <div class="inputElement">
+      <label for="pn"><h4>Enter package name </h4></label> <br>
+      <input type="text" name="enviroment" id="pn" />
+    </div>
+    <div class="inputElement">
+      <label for="ht"><h4>Enter hotel type</h4></label><br>
+      <input type="text" name="env" id="ht" />
+    </div>
+   
+    <div class="inputElement">
+      <label for="tt"><h4>Enter day or night</h4></label><br>
+      <input type="text" name="env" id="tt" />
+    </div>
+
+    <div class="inputElement">
+      <label for="ps"><h4>Enter package session</h4></label><br>
+      <input type="text" name="env" id="ps" />
+    </div>
+
+    <div class="inputElement">
+      <label for="pd1"><h4>Enter package description 1</h4></label><br>
+      <input type="text" name="env" id="pd1" />
+    </div>
+
+    <div class="inputElement">
+      <label for="pd2"><h4>Enter package description 2</h4></label><br>
+      <input type="text" name="env" id="pd2" />
+    </div>
+
+    <div class="inputElement">
+      <label for="pd3"><h4>Enter package description 3</h4></label><br>
+      <input type="text" name="env" id="pd3" />
+    </div>
+
+    <div class="inputElement">
+      <label for="pd4"><h4>Enter package description 4</h4></label><br>
+      <input type="text" name="env" id="pd4" />
+    </div>
+
+    <div class="inputElement">
+      <label for="pd5"><h4>Enter package description 5</h4></label><br>
+      <input type="text" name="env" id="pd5" />
+    </div>
+
+    <div class="inputElement">
+    <label for="pc"><h4>Enter package cost</h4></label><br>
+    <input type="text" name="env" id="pc" />
+  </div>
+
+    <input id="sb" type="submit" name="Login" class="sub" />
+  </form>`;
+  div.setAttribute("class", "form");
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
+
+  document.getElementById("sb").addEventListener("click", () => {
+    hotelId = document.getElementById("hid").value;
+    destinationId = document.getElementById("did").value;
+    packageName = document.getElementById("pn").value;
+    hotelType = document.getElementById("ht").value;
+    daysAndNight = document.getElementById("tt").value;
+    packageSeason = document.getElementById("ps").value;
+    packageDescription1 = document.getElementById("pd1").value;
+    packageDescription2 = document.getElementById("pd2").value;
+    packageDescription3 = document.getElementById("pd3").value;
+    packageDescription4 = document.getElementById("pd4").value;
+    packageDescription5 = document.getElementById("pd5").value;
+    packageCost = document.getElementById("pc").value;
+    bid.removeChild(div);
+    fetch(
+      "http://localhost:8080/travel/Packages/" + hotelId + "/" + destinationId,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
+        body: JSON.stringify({
+          packageName: packageName,
+          hotelType: hotelType,
+          daysAndNight: daysAndNight,
+          packageSeason: packageSeason,
+          packageDescription1: packageDescription1,
+          packageDescription2: packageDescription2,
+          packageDescription3: packageDescription3,
+          packageDescription4: packageDescription4,
+          packageDescription5: packageDescription5,
+          packageCost: packageCost,
+        }),
+      }
+    )
+      .then((data) => data.json())
+      .then((dat) => {
+        if (dat.message == "Unable to add package in deleted hotel") {
+          alert("Unable to add package in deleted hotel");
+          window.location.assign("admin.html");
+        } else if (
+          dat.message == "Unable to add package in deleted destination"
+        ) {
+          alert("Unable to add package in deleted destination");
+          window.location.assign("admin.html");
+        } else if (dat.message == "Hotel not found with the given id") {
+          alert("Hotel not found with the given id");
+          window.location.assign("admin.html");
+        } else if (dat.packageId != undefined) {
+          getData31(dat.packageId);
+        } else {
+          window.location.assign("admin.html");
+        }
+      })
+      .catch((error) => console.log(error));
+  });
+}
+function getData31(dat) {
+  alert("Package added successfully with package id " + dat);
+  window.location.assign("admin.html");
+}
+
+function searchPackage() {
+  let auth = Authentication();
+  let pid;
+  let div = document.createElement("div");
+  bid.innerHTML = null;
+  div.innerHTML = `<h2>Enter Details</h2>
+  <form id="frm" action="javascript:void(0);">
+  <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+
+  <div class="inputElement">
+  <label for="pid"><h4>Enter the package id</h4></label> <br>
+  <input type="text" name="enviroment" id="pid" /> 
+  </div>
+    <input id="sb" type="submit" name="Login" class="sub" />
+  </form>`;
+  div.setAttribute("class", "form");
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
+
+  document.getElementById("sb").addEventListener("click", () => {
+    pid = document.getElementById("pid").value;
+    bid.removeChild(div);
+    if (pid == "") window.location.assign("admin.html");
+    fetch("http://localhost:8080/travel/Packages/" + pid, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${auth}`,
+      },
+    })
+      .then((data) => data.json())
+      .then((dat) => {
+        if (dat.message == "Package is not exist now") {
+          alert("Package is not exist now");
+          window.location.assign("admin.html");
+        } else if (dat.message == "No package is found to view") {
+          alert("No package is found to view");
+          window.location.assign("admin.html");
+        } else {
+          getData32(dat);
+        }
+      })
+      .catch((error) => console.log(error));
+  });
+}
+function getData32(result) {
+  console.log(result);
+  bid.innerHTML = null;
+  let div = document.createElement("div");
+  div.innerHTML = `<div class="busentry" >
+     <h4>Package Id : ${result.packageId} </h4>
+     <h4>Package name : ${result.packageName}</h4>
+     <h4>Hotel type : ${result.hotelType}</h4>
+     <h4>Days and Night : ${result.daysAndNight} </h4>
+     <h4>Package season : ${result.packageSeason} </h4>
+     <h4>Package description 1 : ${result.packageDescription1} </h4>
+     <h4>Package description 2 : ${result.packageDescription2} </h4>
+     <h4>Package description 3 : ${result.packageDescription3} </h4>
+     <h4>Package description 4 : ${result.packageDescription4} </h4>
+     <h4>Package description 5 : ${result.packageDescription5} </h4>
+     <h4>Package cost : ${result.packageCost} </h4>
+     <h4>Status : ${result.status} </h4>
+     </div>`;
+  div.setAttribute("class", "grid-1");
+  bid.append(div);
+}
+
+function viewAllPackage() {
+  let auth = Authentication();
+  bid.innerHTML = null;
+
+  fetch("http://localhost:8080/travel/Packages", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${auth}`,
+    },
+  })
+    .then((data) => {
+      console.log(data);
+      return data.json();
+    })
+    .then((dat) => {
+      if (dat.message == "Package list is empty") {
+        alert("Package list is empty");
+        window.location.assign("admin.html");
+      } else {
+        getData33(dat);
+      }
+    })
+    .catch((error) => console.log(error));
+}
+function getData33(data) {
+  bid.innerHTML = null;
+  let div = document.createElement("div");
+  let arr = [];
+  data.forEach((result) => {
+    arr.push(`<div class="busentry" >
+    <h4>Package Id : ${result.packageId} </h4>
+    <h4>Package name : ${result.packageName}</h4>
+    <h4>Hotel type : ${result.hotelType}</h4>
+    <h4>Days and Night : ${result.daysAndNight} </h4>
+    <h4>Package season : ${result.packageSeason} </h4>
+    <h4>Package description 1 : ${result.packageDescription1} </h4>
+    <h4>Package description 2 : ${result.packageDescription2} </h4>
+    <h4>Package description 3 : ${result.packageDescription3} </h4>
+    <h4>Package description 4 : ${result.packageDescription4} </h4>
+    <h4>Package description 5 : ${result.packageDescription5} </h4>
+    <h4>Package cost : ${result.packageCost} </h4>
+    <h4>Status : ${result.status} </h4>
+    </div>`);
+  });
+  div.innerHTML = arr.join("");
+  div.setAttribute("class", "grid-1");
+  bid.append(div);
+}
+
+function removePackage() {
+  let auth = Authentication();
+  let pid;
+  let div = document.createElement("div");
+  bid.innerHTML = null;
+  div.innerHTML = `<h2>Enter Details</h2>
+  <form id="frm" action="javascript:void(0);">
+  <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+
+  <div class="inputElement">
+  <label for="pid"><h4>Enter the package id</h4></label> <br>
+  <input type="text" name="enviroment" id="pid" /> 
+  </div>
+    <input id="sb" type="submit" name="Login" class="sub" />
+  </form>`;
+  div.setAttribute("class", "form");
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
+
+  document.getElementById("sb").addEventListener("click", () => {
+    pid = document.getElementById("pid").value;
+    bid.removeChild(div);
+    if (pid == "") window.location.assign("admin.html");
+    fetch("http://localhost:8080/travel/Packages/" + pid, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${auth}`,
+      },
+    })
+      .then((data) => data.json())
+      .then((dat) => {
+        if (dat.message == "Unable to remove already deleted package") {
+          alert("Unable to remove already deleted package");
+          window.location.assign("admin.html");
+        } else if (dat.message == "No package is found to remove") {
+          alert("No package is found to remove");
+          window.location.assign("admin.html");
+        } else if (dat.packageId != undefined) {
+          getData34(dat.packageId);
+        } else window.location.assign("admin.html");
+      })
+      .catch((error) => console.log(error));
+  });
+}
+function getData34(result) {
+  console.log(result);
+  alert("Package removed successfully with package id " + result);
+  window.location.assign("admin.html");
+}
+
+function viewAllPackageBooking() {
+  let auth = Authentication();
+  bid.innerHTML = null;
+
+  fetch("http://localhost:8080/travel/packages", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${auth}`,
+    },
+  })
+    .then((data) => {
+      console.log(data);
+      return data.json();
+    })
+    .then((dat) => {
+      if (dat.message == "Booking list is empty") {
+        alert("Booking list is empty");
+        window.location.assign("admin.html");
+      } else {
+        getData35(dat);
+      }
+    })
+    .catch((error) => console.log(error));
+}
+function getData35(result) {
+  console.log(result);
+  bid.innerHTML = null;
+  let div = document.createElement("div");
+  let arr = [];
+  result.forEach((element) => {
+    arr.push(`<div class="busentry" >
+    <h4>Booking Id : ${element.bookingId} </h4>
+    <h4>Booking type : ${element.bookingType}</h4>
+    <h4>Description : ${element.description}</h4>
+    <h4>Status : ${element.status} </h4>
+    <h4>Booking title : ${element.bookingTitle} </h4>
+    <h4>Booking date : ${element.bookingDate} </h4>
+    <h4>Package name : ${element.packageName} </h4>
+    <h4>Numbe of person : ${element.number_Of_Person} </h4>
+    <h4>Package Id : ${element.apackage.packageId} </h4>
     </div>`);
   });
   div.innerHTML = arr.join("");

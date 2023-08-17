@@ -58,7 +58,7 @@ public class PackageOpsImpl implements PackageOps {
 		Optional<Packages> packages = pd.findById(packageId);
 		if (!packages.isEmpty()) {
 			if (!packages.get().isStatus()) {
-				throw new EntityAlreadyAlteredException("Unable to remove already deleted hotel");
+				throw new EntityAlreadyAlteredException("Unable to remove already deleted package");
 			}
 			packages.get().setStatus(false);
 			return pd.save(packages.get());

@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/CSS/user.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
     <title>user</title>
   </head>
   <body>
@@ -34,70 +38,75 @@
       </div>
     </nav>
     <main>
-      <div class="maincontainer">
+      <div id="mc" class="maincontainer">
         <div class="left">
           <h2 id="user">Welcome to user menu</h2>
           <form id="form" action="submit"></form>
         </div>
         <div class="grid-1">
-          <div class="report">
+          <!-- <div class="report">
             <h2>Report</h2>
             <h3>Add report</h3>
             <h3>Delete report</h3>
             <h3>View report</h3>
             <h3>Get all reports</h3>
-          </div>
+          </div> -->
           <div class="feedback">
             <h2>Feedback</h2>
-            <h3>Give feedback</h3>
-            <h3>Get feedback by feedback Id</h3>
-            <h3>View feedback by customer Id</h3>
-            <h3>Show all feedbacks</h3>
+            <h3 onclick="addFeedback()">Give feedback</h3>
+            <h3 onclick="searchFeedBackByfeedBackId()">
+              Get feedback by feedback Id
+            </h3>
+            <h3 onclick="searchFeedBackByCustomerId()">
+              View feedback by customer Id
+            </h3>
+            <h3 onclick="viewAllFeedBack()">Show all feedbacks</h3>
           </div>
           <div class="packagebooking">
             <h2>Package</h2>
-            <h3>Book packages</h3>
-            <h3>Get all packages</h3>
-            <h3>Get package by booking id</h3>
-            <h3>Cancle booking</h3>
+            <h3 onclick="bookPackage()">Book packages</h3>
+            <h3 onclick="searchPackage()">View package</h3>
+            <h3 onclick="removePackage()">Cancle booking</h3>
           </div>
           <div class="bus">
             <h2>Bus</h2>
-            <h3>Search bus</h3>
-            <h3>Get bus by travels id</h3>
-            <h3>View all buses</h3>
+            <h3 onclick="searchBusById()">Search bus</h3>
+            <h3 onclick="searchBusByTravelId()">Get bus by travels id</h3>
+            <h3 onclick="viewAllBuses()">View all buses</h3>
           </div>
           <div class="customer">
             <h2>Customer</h2>
-            <h3>Get customer by id</h3>
+            <h3 onclick="searchCustomer()">Get customer by id</h3>
             <h3>Update customer</h3>
-            <h3>Delete customer</h3>
+            <h3 onclick="removeCustomer()">Delete customer</h3>
           </div>
           <div class="destination">
             <h2>Destination</h2>
-            <h3>View all destinations</h3>
-            <h3>Search destination</h3>
-            <h3>Get destination by bus id</h3>
+            <h3 onclick="viewAllDestination()">View all destinations</h3>
+            <h3 onclick="searchDestination()">Search destination</h3>
+            <h3 onclick="searchDestinationByBusId()">
+              Get destination by bus id
+            </h3>
           </div>
           <div class="hotel">
             <h2>Hotel</h2>
-            <h3>Veiw all hotels</h3>
-            <h3>Show hotls by destination Id</h3>
+            <h3 onclick="viewAllHotel()">Veiw all hotels</h3>
+            <h3 onclick="showByDesId()">Show hotls by destination Id</h3>
           </div>
           <div class="travels">
             <h2>Travels</h2>
-            <h3>Search travels</h3>
-            <h3>View all travels</h3>
+            <h3 onclick="searchTravel()">Search travels</h3>
+            <h3 onclick="viewAllTravel()">View all travels</h3>
           </div>
           <div class="route">
             <h2>Route</h2>
-            <h3>View route</h3>
-            <h3>Show all routes</h3>
+            <h3 onclick="searchRoute()">View route</h3>
+            <h3 onclick="viewAllRoute()">Show all routes</h3>
           </div>
           <div class="payment">
             <h2>Payment</h2>
-            <h3>Make payment</h3>
-            <h3>Cancle payment</h3>
+            <h3 onclick="makePayment()">Make payment</h3>
+            <h3 onclick="canclePayment()">Cancle payment</h3>
           </div>
         </div>
       </div>
@@ -184,4 +193,4 @@
     </footer>
   </body>
 </html>
-<script src="/Frontend/JavaScript/user.js"></script>
+<script src="/JavaScript/user.js"></script>
