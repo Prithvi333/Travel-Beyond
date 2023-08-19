@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.masai.entity.Customer;
 import com.masai.entity.PackageBooking;
 import com.masai.entity.PaymentDetails;
+import com.masai.entity.PaymentStatus;
+import com.masai.entity.PaymentType;
 import com.masai.exception.CustomerNotFoundException;
 import com.masai.exception.EmptyPaymentDetialsListException;
 import com.masai.exception.EntityAlreadyAlteredException;
@@ -48,7 +50,7 @@ public class PaymentDetailsOpsImpl implements PaymentDetailsOps {
 //
 //	}
 	@Override
-	public PaymentDetails makePayment(int packgageBookingId, int customerId, PaymentDetails paymentDetails) {
+	public PaymentDetails makePayment(int packgageBookingId, int customerId) {
 
 		Optional<PackageBooking> packageBooking = pbd.findById(packgageBookingId);
 		Optional<Customer> customer = cd.findById(customerId);
@@ -59,6 +61,9 @@ public class PaymentDetailsOpsImpl implements PaymentDetailsOps {
 			if (!packageBooking.get().isStatus()) {
 				throw new EntityAlreadyAlteredException("Package Booking not exist now");
 			}
+			PaymentDetails paymentDetails = new PaymentDetails();
+			paymentDetails.setPaymentType(PaymentType.DEBIT_CARD);
+			paymentDetails.setPaymentStatus(PaymentStatus.COMPLETED);
 			paymentDetails.setCustomerId(customerId);
 			paymentDetails.setLocalDate(LocalDate.now());
 			paymentDetails.setPaymentMoney(packageBooking.get().getAPackage().getPackageCost());
@@ -72,13 +77,15 @@ public class PaymentDetailsOpsImpl implements PaymentDetailsOps {
 	}
 
 	@Override
-	public PaymentDetails canclePayment(int paymentId) {
+	public PaymentDetails canclePayment(int paymentId,int customerId) {
 
 		Optional<PaymentDetails> paymentDetails = pd.findById(paymentId);
 		if (!paymentDetails.isEmpty()) {
 			if (!paymentDetails.get().isStatus()) {
 				throw new EntityAlreadyAlteredException("Unable to cancle already cancled payment");
 			}
+			if(paymentDetails.get().getCustomerId()!=customerId)
+				throw new PaymentDetailsNotFoundException("Not valid customer");
 			paymentDetails.get().setStatus(false);
 			return pd.save(paymentDetails.get());
 		}

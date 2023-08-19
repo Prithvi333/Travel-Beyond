@@ -32,7 +32,7 @@ public class DestinationOpsImpl implements DestinationOps {
 //			Bus b = bus.get();
 //			b.getDestinationList().add(destination);
 //			destination.getBus().add(b);
-//			return destination;
+//			return dd.save(destination);
 //		}
 //		throw new BusNotFoundException("Bus not found with the given id");
 //	}
@@ -45,9 +45,9 @@ public class DestinationOpsImpl implements DestinationOps {
 		destination.setStatus(true);
 		return dd.save(destination);
 
-//		}
+		}
 //		throw new DestinationNotFoundException("Destination already exist");
-	}
+//		}
 
 	@Override
 	public Destination updateDestination(Destination destination, Integer desId) {
@@ -56,8 +56,9 @@ public class DestinationOpsImpl implements DestinationOps {
 		if (destinationOptional.isPresent()) {
 			Destination des = destinationOptional.get();
 			if (des.isStatus()) {
-				dd.save(destination);
-				return destination;
+				des.setName(destination.getName());
+				des.setDesEnvironment(destination.getDesEnvironment());
+              return dd.save(des);
 			}
 		}
 		throw new DestinationNotFoundException("Destination does not exist");

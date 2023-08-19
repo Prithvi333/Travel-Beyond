@@ -39,7 +39,7 @@ public class BusOpsImpl implements BusOps {
 			bus.setTravel(travels.get());
 			return bd.save(bus);
 		}
-		throw new TravelsNotFoundException("Tranvels not found to add bus");
+		throw new TravelsNotFoundException("Travels not found to add bus");
 	}
 
 	public Bus addDestination(int destId, int bId) {
@@ -80,7 +80,7 @@ public class BusOpsImpl implements BusOps {
 			}
 			return bus.get();
 		}
-		throw new BusNotFoundException("Bus not found ");
+		throw new BusNotFoundException("Bus not found");
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class BusOpsImpl implements BusOps {
 				return buses.stream().filter(a -> a.isStatus()).toList();
 			throw new EmptyBusListException("No bus is added by this traveler yet");
 		}
-		throw new TravelsNotFoundException("Tranvels not found to add bus");
+		throw new TravelsNotFoundException("Travels not found to add bus");
 	}
 
 	@Override

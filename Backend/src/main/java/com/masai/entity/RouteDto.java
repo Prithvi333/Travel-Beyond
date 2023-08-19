@@ -1,7 +1,5 @@
 package com.masai.entity;
 
-import java.time.LocalDateTime;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,9 +21,9 @@ public class RouteDto {
 	@NotBlank(message = "Please provide the departureTime")
 	@NotNull(message = "Please provide the departureTime")
 
-	private LocalDateTime departureTime;
+	private String departureTime;
 
 	@NotBlank(message = "Please provide the arrivalTime")
 	@NotNull(message = "Please provide the arrivalTime")
-	private LocalDateTime arrivalTime;
+	private String arrivalTime;
 }

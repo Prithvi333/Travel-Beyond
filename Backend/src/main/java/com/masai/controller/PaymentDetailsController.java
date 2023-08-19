@@ -29,13 +29,13 @@ public class PaymentDetailsController {
 
 	@PostMapping("/Payment/{PackageBookingID}/{customerId}")
 	public ResponseEntity<PaymentDetails> makePayment(@PathVariable("PackageBookingID") Integer id,
-			@PathVariable Integer customerId, @RequestBody @Valid PaymentDetails payment) {
-		return new ResponseEntity<>(p.makePayment(id, customerId, payment), HttpStatus.CREATED);
+			@PathVariable Integer customerId) {
+		return new ResponseEntity<>(p.makePayment(id, customerId), HttpStatus.CREATED);
 	}
 
-	@DeleteMapping("/Payment/{PaymentID}")
-	public ResponseEntity<PaymentDetails> cancelPayment(@PathVariable("PaymentID") Integer id) {
-		return new ResponseEntity<>(p.canclePayment(id), HttpStatus.OK);
+	@DeleteMapping("/Payment/{PaymentID}/{customerId}")
+	public ResponseEntity<PaymentDetails> cancelPayment(@PathVariable("PaymentID") Integer id,@PathVariable Integer customerId) {
+		return new ResponseEntity<>(p.canclePayment(id,customerId), HttpStatus.OK);
 	}
 
 	@GetMapping("/Payment")

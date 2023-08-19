@@ -6,7 +6,7 @@ import com.masai.entity.PackageBooking;
 
 public interface PackageBookingOps {
 
-	PackageBooking makeBooking(int custoemrId,int packageId,PackageBooking booking);
+	PackageBooking makeBooking(int custoemrId,int packageId);
 
 	PackageBooking cancleBooking(int id);
 

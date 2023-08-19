@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.entity.Customer;
+import com.masai.entity.SubscribedEmail;
 import com.masai.service.CustomerOps;
 
 import jakarta.validation.Valid;
+import lombok.val;
 
 @RestController
 //@CrossOrigin(origins = "*")
@@ -35,16 +38,16 @@ public class CustomerController {
 	}
 	
 	
-	@PutMapping("/customer/update")
-	public ResponseEntity<Customer> updateCustomer(@RequestBody @Valid Customer customer) {
-		Customer c = co.updateCustomer(customer);
+	@PutMapping("/customer/update/{cid}")
+	public ResponseEntity<Customer> updateCustomer( @PathVariable Integer cid, @RequestBody @Valid Customer customer) {
+		Customer c = co.updateCustomer(cid,customer);
 		return new ResponseEntity<>(c,HttpStatus.OK);
 	}
 	
 	
-	@DeleteMapping("/customer/delete")
-	public ResponseEntity<Customer> deleteCustomer(@RequestBody @Valid Customer customer) {
-		Customer c = co.deleteCustomer(customer);
+	@DeleteMapping("/customer/delete/{cid}")
+	public ResponseEntity<Customer> deleteCustomer(@PathVariable Integer cid) {
+		Customer c = co.deleteCustomer(cid);
 		return new ResponseEntity<>(c,HttpStatus.OK);
 	}
 	
@@ -60,6 +63,8 @@ public class CustomerController {
 		return new ResponseEntity<>(co.viewAllCustomer(),HttpStatus.OK);
 	}
 	
-
-	
+   @PostMapping("/subscriber")
+   public ResponseEntity<String> subscribe(@Valid @RequestBody SubscribedEmail se){
+	   return new ResponseEntity<>("Subscribed!",HttpStatus.OK);
+   }
 }

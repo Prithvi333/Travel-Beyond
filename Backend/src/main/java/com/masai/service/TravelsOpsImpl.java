@@ -34,10 +34,10 @@ public class TravelsOpsImpl implements TravelsOps {
 
 			Travels travel = travels.get();
 			if (!travel.isStatus()) {
-				throw new EntityAlreadyAlteredException("Travel is not available to update ");
+				throw new EntityAlreadyAlteredException("Travel is not available to update");
 			}
 			travel.setAgentName(travelsdto.getAgentName());
-			travel.setAddress(travelsdto.getAgentName());
+			travel.setAddress(travelsdto.getAddress());
 			travel.setContact(travelsdto.getContact());
 			return td.save(travel);
 		}
@@ -51,7 +51,7 @@ public class TravelsOpsImpl implements TravelsOps {
 		Optional<Travels> travels = td.findById(id);
 		if (!travels.isEmpty()) {
 			if (!travels.get().isStatus()) {
-				throw new EntityAlreadyAlteredException("Travel is not available to remove ");
+				throw new EntityAlreadyAlteredException("Travel is not available to remove");
 			}
 			travels.get().setStatus(false);
 			return td.save(travels.get());

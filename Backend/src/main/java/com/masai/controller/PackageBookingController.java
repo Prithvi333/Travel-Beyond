@@ -27,8 +27,8 @@ public class PackageBookingController {
 	PackageBookingOps b;
 
 	@PostMapping("/package/{CutomerId}/{PackageId}")
-	public ResponseEntity<PackageBooking> bookPackage(@PathVariable("CutomerId") Integer id,@PathVariable("PackageId") Integer id1,@RequestBody @Valid PackageBooking p){
-		PackageBooking p1 = b.makeBooking(id,id1,p);
+	public ResponseEntity<PackageBooking> bookPackage(@PathVariable("CutomerId") Integer id,@PathVariable("PackageId") Integer id1){
+		PackageBooking p1 = b.makeBooking(id,id1);
 		return new ResponseEntity<>(p1,HttpStatus.ACCEPTED);
 	}
 	
