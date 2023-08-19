@@ -1,6 +1,5 @@
 # Travel-Beyond
 
-![a9fa4fe9-61e8-47bd-bfa5-6039d5dd70bb](https://github.com/Prithvi333/Travel-Beyond/assets/119488008/f1d73c94-0880-4387-a294-a779f3c8fc84)
 
 TRAVEL BEYOND 
 
@@ -35,7 +34,4 @@ TECH STACK
 
 E-R DIAGRAM
 
-![Screenshot (1023)](https://github.com/Prithvi333/Travel-Beyond/assets/119488008/91907d84-8532-4f9f-b657-22ba8d00688f)
 
-
-![Screenshot (1025)](https://github.com/Prithvi333/Travel-Beyond/assets/119488008/9056951f-666d-476f-939b-d50679130b8b)
