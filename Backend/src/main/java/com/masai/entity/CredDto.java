@@ -7,4 +7,6 @@ public class CredDto {
 
 	String name;
 	String role;
+	String email;
+	String password;
 }

@@ -42,6 +42,8 @@ public class EntryController {
            CredDto c=new CredDto();
            c.setName(customer.getCustomerName());
            c.setRole(customer.getRole());
+           c.setEmail(customer.getEmail());
+           c.setPassword(customer.getCustomerPassword());
 
         return new  ResponseEntity<>(c,HttpStatus.OK);
 

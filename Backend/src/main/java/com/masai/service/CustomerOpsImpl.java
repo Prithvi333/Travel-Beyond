@@ -8,10 +8,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.masai.entity.Customer;
+import com.masai.entity.SubscribedEmail;
 import com.masai.exception.CustomerNotFoundException;
 import com.masai.exception.EmptyCustomerListException;
 import com.masai.exception.EntityAlreadyAlteredException;
 import com.masai.repository.CustomerDao;
+import com.masai.repository.SubsRepo;
 
 @Service
 public class CustomerOpsImpl implements CustomerOps {
@@ -19,7 +21,10 @@ public class CustomerOpsImpl implements CustomerOps {
 	@Autowired
 	CustomerDao cd;
 	@Autowired
+	private SubsRepo sr;
+	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
 
 	@Override
 	public Customer addCustomer(Customer customer) {
@@ -116,6 +121,18 @@ public class CustomerOpsImpl implements CustomerOps {
 	public Customer getCustomerByEmail(String email) {
 		Customer customer = cd.findByEmail(email).orElseThrow(()-> new CustomerNotFoundException("username and password is not matched with our database"));
 		return customer;
+	}
+
+	@Override
+	public String subsCustomer(SubscribedEmail se) {
+		List<SubscribedEmail> list= sr.findAll();
+		for(SubscribedEmail value:list) {
+			
+			if(value.getEmail().equals(se.getEmail()))
+				return "Email is already there";
+		}
+		sr.save(se);
+		return "Subscribed!";
 	}
 
 }

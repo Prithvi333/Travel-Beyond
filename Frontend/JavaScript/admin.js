@@ -9,27 +9,75 @@ function closepopup() {
 
 let bid = document.getElementById("mc");
 function Authentication() {
-  let username = "pthakur.pt21@gmail.com";
-  let password = "121121";
+  // let username = "pthakur.pt21@gmail.com";
+  // let password = "121121";
+  let username = localStorage.getItem("User");
+  let password = localStorage.getItem("Password");
   let auth = btoa(`${username}:${password}`);
   return auth;
 }
+let nid = document.getElementById("notify");
+let so = document.getElementById("so");
+
+so.addEventListener("click", () => {
+  localStorage.clear();
+  window.location.assign("index.html");
+});
+
+function notify(message) {
+  nid.innerHTML = message;
+  nid.style.opacity = 1;
+  setInterval(() => {
+    nid.style.opacity = 0;
+  }, 2000);
+}
+
 function searchBusById() {
   let auth = Authentication();
-  let id = prompt("Please enter the bus Id");
-  fetch("http://localhost:8080/travel/bus/" + id, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Basic ${auth}`,
-    },
-  })
-    .then((data) => data.json())
-    .then((dat) => {
-      if (dat.message == "Bus not found") alert("Bus not found");
-      else if (dat.busId != undefined) getData1(dat);
+  let pid;
+  let div = document.createElement("div");
+  bid.innerHTML = null;
+  div.innerHTML = `<h2>Enter Details</h2>
+  <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
+
+  <div class="inputElement">
+  <label for="pid"><h4>Enter the bus id</h4></label> <br>
+  <input type="text" name="enviroment" id="pid" /> 
+  </div>
+  </form>
+    <input id="sb" type="submit" name="Login" class="sub" />`;
+  div.setAttribute("class", "form");
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
+
+  document.getElementById("sb").addEventListener("click", () => {
+    pid = document.getElementById("pid").value;
+    // bid.removeChild(div);
+    if (pid == "") window.location.assign("user.html");
+    fetch("http://localhost:8080/travel/bus/" + pid, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${auth}`,
+      },
     })
-    .catch((error) => console.log(error));
+      .then((data) => data.json())
+      .then((dat) => {
+        if (dat.message == "This bus is not exist now") {
+          notify(dat.message);
+        } else if (dat.message == "Bus not found") {
+          alert("Bus not found");
+          notify(dat.message);
+        } else if (dat.busId != undefined) {
+          getData1(dat);
+        } else window.location.assign("admin.html");
+      })
+      .catch((error) => console.log(error));
+  });
 }
 function getData1(result) {
   console.log(result);
@@ -43,6 +91,12 @@ function getData1(result) {
         <h4>Status : ${result.status}</h3>
         </div>`;
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 function viewAllBuses() {
@@ -59,8 +113,9 @@ function viewAllBuses() {
       return data.json();
     })
     .then((dat) => {
-      if (dat.message == "Bus list is empty") alert("Empty bus list");
-      else getData2(dat);
+      if (dat.message == "Bus list is empty") {
+        notify(dat.message);
+      } else getData2(dat);
     })
     .catch((error) => console.log(error));
 }
@@ -80,58 +135,107 @@ function getData2(result) {
   });
   div.innerHTML = arr.join("");
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 
 function removeBus() {
   let auth = Authentication();
-  let bvalue = confirm("Are you sure");
-  let id;
-  if (bvalue) {
-    id = prompt("Enter bus id");
-  }
-  fetch("http://localhost:8080/travel/bus/" + id, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Basic ${auth}`,
-    },
-  })
-    .then((data) => data.json())
-    .then((dat) => {
-      if (dat.message == "Bus not found with the given id to remove")
-        alert("Bus not found");
-      else if (dat.message == "Bus is already removed")
-        alert("Bus not exist yet");
-      else if (dat.busId != undefined) getData3(dat);
+  let busid;
+
+  let div = document.createElement("div");
+  bid.innerHTML = null;
+  div.innerHTML = `<h2>Enter Details</h2>
+  <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
+
+  <div class="inputElement">
+  <label for="bid"><h4>Enter the bus id</h4></label> <br>
+  <input type="text" name="enviroment" id="bid" /> 
+  </div>
+  </form>
+    <input id="sb" type="submit" name="Login" class="sub" />`;
+  div.setAttribute("class", "form");
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
+
+  document.getElementById("sb").addEventListener("click", () => {
+    busid = document.getElementById("bid").value;
+    fetch("http://localhost:8080/travel/bus/" + busid, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${auth}`,
+      },
     })
-    .catch((error) => console.log(error));
+      .then((data) => data.json())
+      .then((dat) => {
+        if (dat.message == "Bus not found with the given id to remove") {
+          notify(dat.message);
+        } else if (dat.message == "Bus is already removed") {
+          notify(dat.message);
+        } else if (dat.busId != undefined) getData3(dat);
+      })
+      .catch((error) => console.log(error));
+  });
 }
 function getData3(result) {
   console.log(result);
   alert("Bus Successfully deleted with bud id " + result.busId);
 }
-function getBusByTravelId() {
+function searchBusByTravelId() {
   let auth = Authentication();
-  let id = prompt("Enter travel id");
-  fetch("http://localhost:8080/travel/bus/travels/" + id, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Basic ${auth}`,
-    },
-  })
-    .then((data) => data.json())
-    .then((dat) => {
-      if (dat.message == "This travels is not available now")
-        alert("Travels no longer available");
-      else if (dat.message == "No bus is added by this traveler yet")
-        alert("Empty bus list");
-      else if (dat.message == "Travels not found to add bus")
-        alert("Travels not exist");
-      else if (dat.busId != undefined) getData4(dat);
+  let pid;
+  let div = document.createElement("div");
+  bid.innerHTML = null;
+  div.innerHTML = `<h2>Enter Details</h2>
+  <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
+
+  <div class="inputElement">
+  <label for="pid"><h4>Enter the travel id</h4></label> <br>
+  <input type="text" name="enviroment" id="pid" /> 
+  </div>
+  </form>
+    <input id="sb" type="submit" name="Login" class="sub" />`;
+  div.setAttribute("class", "form");
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
+
+  document.getElementById("sb").addEventListener("click", () => {
+    pid = document.getElementById("pid").value;
+    // bid.removeChild(div);
+    if (pid == "") window.location.assign("admin.html");
+    fetch("http://localhost:8080/travel/bus/travels/" + pid, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${auth}`,
+      },
     })
-    .catch((error) => console.log(error));
+      .then((data) => data.json())
+      .then((dat) => {
+        if (dat.message == "This travels is not available now") {
+          notify(dat.message);
+        } else if (dat.message == "No bus is added by this traveler yet") {
+          notify(dat.message);
+        } else if (dat.message == "Travels not found to add bus") {
+          notify(dat.message);
+        } else getData4(dat);
+      })
+      .catch((error) => console.log(error));
+  });
 }
 function getData4(result) {
   console.log(result);
@@ -139,46 +243,84 @@ function getData4(result) {
   let div = document.createElement("div");
   let arr = [];
   result.forEach((element) => {
-    arr.push(`<div class="busentry" >
-     <h4>Bus ID : ${element.busId} </h4>
-     <h4>Bus Type : ${element.busType}</h4>
-     <h4>Bus Number : ${element.busNumber}</h4>
-     <h4>Capacity : ${element.capacity} </h4>
-     <h4>Status : ${element.status}</h3>
-     </div>`);
+    arr.push(`<div class="singlecontainer" >
+    <h4>Bus ID : ${element.busId} </h4>
+    <h4>Bus Type : ${element.busType}</h4>
+    <h4>Bus Number : ${element.busNumber}</h4>
+    <h4>Capacity : ${element.capacity} </h4>
+    <h4>Status : ${element.status}</h3>
+    </div>`);
   });
+
   div.innerHTML = arr.join("");
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
   bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
 }
 function addBus() {
   let auth = Authentication();
   let travelId;
   let bustype;
   let busnumber;
-  travelId = prompt("Please enter the travels Id");
-  if (travelId != null) bustype = prompt("Please enter the bus type");
-  if (bustype != null) busnumber = prompt("Please enter the bus number");
-  if (busnumber != null) buscapacity = prompt("Please enter the bus capacity");
-  fetch("http://localhost:8080/travel/Bus/" + travelId, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Basic ${auth}`,
-    },
-    body: JSON.stringify({
-      busType: bustype,
-      busNumber: busnumber,
-      capacity: buscapacity,
-    }),
-  })
-    .then((data) => data.json())
-    .then((dat) => {
-      if (dat.message == "Travels not found to add bus")
-        alert("Travels id not valid");
-      else if (dat.busId != undefined) getData5(dat.busId);
+  let div = document.createElement("div");
+  bid.innerHTML = null;
+  div.innerHTML = `<h2>Enter Details</h2>
+  <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
+
+  <div class="inputElement">
+  <label for="tid"><h4>Enter the travel id</h4></label> <br>
+  <input type="text"  id="tid" /> 
+  </div>
+
+  <div class="inputElement">
+  <label for="bt"><h4>Enter the bus type</h4></label> <br>
+  <input type="text"  id="bt" /> 
+  </div>
+
+  <div class="inputElement">
+  <label for="bn"><h4>Enter the bus number</h4></label> <br>
+  <input type="text"  id="bn" /> 
+  </div>
+
+  <div class="inputElement">
+  <label for="bc"><h4>Enter the capacity</h4></label> <br>
+  <input type="text"  id="bc" /> 
+  </div>
+  </form>
+    <input id="sb" type="submit" name="Login" class="sub" />`;
+  div.setAttribute("class", "form");
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
+
+  document.getElementById("sb").addEventListener("click", () => {
+    travelId = document.getElementById("tid").value;
+    fetch("http://localhost:8080/travel/Bus/" + travelId, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${auth}`,
+      },
+      body: JSON.stringify({
+        busType: bustype,
+        busNumber: busnumber,
+        capacity: buscapacity,
+      }),
     })
-    .catch((error) => console.log(error));
+      .then((data) => data.json())
+      .then((dat) => {
+        if (dat.message == "Travels not found to add bus") notify(dat.message);
+        else if (dat.busId != undefined) getData5(dat.busId);
+      })
+      .catch((error) => console.log(error));
+  });
 }
 function getData5(result) {
   console.log(result);
@@ -191,30 +333,30 @@ function addDestination() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
     <div class="inputElement">
-      <label for="desName"><h4>Enter the destination name</h4></label> <br>
-      <input type="text" name="enviroment" id="desName" />
+    <label for="desName"><h4>Enter the destination name</h4></label> <br>
+    <input type="text" name="enviroment" id="desName" />
     </div>
     <div class="inputElement">
       <label for="enviroment"><h4>Enter the destination weather</h4></label><br>
       <input type="text" name="env" id="enviroment" />
     </div>
 
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+    </form>
+    <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     desname = document.getElementById("desName").value;
     desenviroment = document.getElementById("enviroment").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     fetch("http://localhost:8080/travel/destination", {
       method: "POST",
       headers: {
@@ -226,11 +368,13 @@ function addDestination() {
         desEnvironment: desenviroment,
       }),
     })
-      .then((data) => data.json())
+      .then((data) => {
+        console.log(data);
+        return data.json();
+      })
       .then((dat) => {
         if (dat.message == "Travels not found to add bus") {
-          alert("Travels id not valid");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.desId != undefined) {
           getData6(dat.desId, div);
         } else {
@@ -254,8 +398,8 @@ function updateDestination() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="desid"><h4>Enter the destination id</h4></label> <br>
@@ -270,12 +414,12 @@ function updateDestination() {
       <input type="text" name="env" id="enviroment" />
     </div>
 
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+    </form>
+    <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
@@ -283,7 +427,7 @@ function updateDestination() {
     desname = document.getElementById("desName").value;
     desenviroment = document.getElementById("enviroment").value;
     desId = document.getElementById("desid").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     fetch("http://localhost:8080/travel/destination/" + deseId, {
       method: "PUT",
       headers: {
@@ -299,8 +443,7 @@ function updateDestination() {
       .then((dat) => {
         console.log(dat);
         if (dat.message == "Destination does not exist") {
-          alert("Destination does not exist");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.desId != undefined) {
           getData7(dat.desId, div);
         } else {
@@ -312,7 +455,7 @@ function updateDestination() {
 }
 function getData7(result) {
   console.log(result);
-  alert("Destination Updated successfully with dest id " + result);
+  notify("Destination Updated successfully with dest id " + result);
   window.location.assign("admin.html");
 }
 
@@ -322,25 +465,25 @@ function removeDestination() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="desid"><h4>Enter the destination id</h4></label> <br>
   <input type="text" name="enviroment" id="desid" /> 
   </div>
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     desId = document.getElementById("desid").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     if (desId == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/Destination/" + desId, {
       method: "PUT",
@@ -352,13 +495,11 @@ function removeDestination() {
       .then((data) => data.json())
       .then((dat) => {
         if (dat.message == "Unable to remove alerady deleted destination") {
-          alert("Unable to remove alerady deleted destination");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "Destination not found with the given id") {
-          alert("Destination not found with the given id");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.desId != undefined) {
-          getData8(dat.desId, div);
+          getData8(dat.desId);
         } else window.location.assign("admin.html");
       })
       .catch((error) => console.log(error));
@@ -366,8 +507,7 @@ function removeDestination() {
 }
 function getData8(result) {
   console.log(result);
-  alert("Destination removed successfully with dest id " + result);
-  window.location.assign("admin.html");
+  notify("Destination removed successfully with dest id " + result);
 }
 
 function veiwAllDestination() {
@@ -384,8 +524,7 @@ function veiwAllDestination() {
       return data.json();
     })
     .then((dat) => {
-      if (dat.message == "Destination list is empty")
-        alert("Destination bus list");
+      if (dat.message == "Destination list is empty") notify(dat.message);
       else getData9(dat);
     })
     .catch((error) => console.log(error));
@@ -405,6 +544,12 @@ function getData9(result) {
   });
   div.innerHTML = arr.join("");
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 function searchDestination() {
@@ -413,25 +558,25 @@ function searchDestination() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="desid"><h4>Enter the destination id</h4></label> <br>
   <input type="text" name="enviroment" id="desid" /> 
   </div>
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     desId = document.getElementById("desid").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     console.log(desId);
     if (desId == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/Destination/" + desId, {
@@ -445,11 +590,9 @@ function searchDestination() {
       .then((dat) => {
         console.log(dat);
         if (dat.message == "This destinaton is not available now") {
-          alert("This destinaton is not available now");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "Destination not found with the given id") {
-          alert("Destination not found with the given id");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.desId != undefined) {
           getData10(dat);
         } else window.location.assign("admin.html");
@@ -468,6 +611,12 @@ function getData10(element) {
   <h4>Destination status : ${element.status} </h4>
   </div>`;
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 
@@ -485,9 +634,8 @@ function addRoute() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
-
+  <form id="frm" action="javascript:void(0);">
   <div class="inputElement">
       <label for="bi"><h4>Enter the bus Id </h4></label> <br>
       <input type="text" name="enviroment" id="bi" />
@@ -522,12 +670,12 @@ function addRoute() {
     <input type="text" name="env" id="f" />
   </div>
 
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
@@ -539,7 +687,7 @@ function addRoute() {
     pickUpPoint = document.getElementById("pp").value;
     fare = document.getElementById("f").value;
     busId = document.getElementById("bi").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     fetch("http://localhost:8080/travel/route/" + busId, {
       method: "POST",
       headers: {
@@ -558,13 +706,12 @@ function addRoute() {
       .then((data) => data.json())
       .then((dat) => {
         if (dat.message == "Bus is not exist now") {
-          alert("Bus is not exist now");
+          notify(dat.message);
           window.location.assign("admin.html");
         } else if (dat.message == "Bus not found with the given id") {
-          alert("Bus not found with the given id");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.routeId != undefined) {
-          getData11(dat.routeId, div);
+          getData11(dat.routeId);
         } else {
           window.location.assign("admin.html");
         }
@@ -574,8 +721,7 @@ function addRoute() {
 }
 function getData11(result) {
   console.log(result);
-  alert("Route added successfully with route id " + result);
-  window.location.assign("admin.html");
+  notify("Route added successfully with route id " + result);
 }
 
 function updateRoute() {
@@ -588,8 +734,8 @@ function updateRoute() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
   <div class="inputElement">
   <label for="ri"><h4>Enter route id </h4></label> <br>
   <input type="text" name="enviroment" id="ri" />
@@ -613,12 +759,12 @@ function updateRoute() {
       <input type="text" name="env" id="at" />
     </div>
 
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+    </form>
+    <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
@@ -628,7 +774,7 @@ function updateRoute() {
     derpaureTime = document.getElementById("dt").value;
     arrivalTime = document.getElementById("at").value;
     routeId = document.getElementById("ri").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     fetch("http://localhost:8080/travel/route/update/" + routeId, {
       method: "PUT",
       headers: {
@@ -646,11 +792,9 @@ function updateRoute() {
       .then((dat) => {
         console.log(dat);
         if (dat.message == "Route is not available to update now") {
-          alert("Route is not available to update now");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "Route not found to update") {
-          alert("Route not found to update");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.routeId != undefined) {
           getData12(dat.routeId);
         } else {
@@ -662,8 +806,7 @@ function updateRoute() {
 }
 function getData12(result) {
   console.log(result);
-  alert("Route Updated successfully with route id " + result);
-  window.location.assign("admin.html");
+  notify("Route Updated successfully with route id " + result);
 }
 
 function removeRoute() {
@@ -672,25 +815,25 @@ function removeRoute() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="rid"><h4>Enter the route id</h4></label> <br>
   <input type="text" name="enviroment" id="rid" /> 
   </div>
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     routeId = document.getElementById("rid").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     if (routeId == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/route/" + routeId, {
       method: "DELETE",
@@ -702,11 +845,9 @@ function removeRoute() {
       .then((data) => data.json())
       .then((dat) => {
         if (dat.message == "Route is not available to remove now") {
-          alert("Route is not available to remove now");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "Route not found to remove") {
-          alert("Route not found to remove");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.routeId != undefined) {
           getData13(dat.routeId, div);
         } else window.location.assign("admin.html");
@@ -716,8 +857,7 @@ function removeRoute() {
 }
 function getData13(result) {
   console.log(result);
-  alert("Route removed successfully with route id " + result);
-  window.location.assign("admin.html");
+  notify("Route removed successfully with route id " + result);
 }
 
 function viewAllRoute() {
@@ -734,8 +874,9 @@ function viewAllRoute() {
       return data.json();
     })
     .then((dat) => {
-      if (dat.message == "Empty route list") alert("Empty route list");
-      else getData14(dat);
+      if (dat.message == "Empty route list") {
+        notify(dat.message);
+      } else getData14(dat);
     })
     .catch((error) => console.log(error));
 }
@@ -759,6 +900,12 @@ function getData14(result) {
   });
   div.innerHTML = arr.join("");
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 function searchRoute() {
@@ -767,25 +914,25 @@ function searchRoute() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="rid"><h4>Enter the route id</h4></label> <br>
   <input type="text" name="enviroment" id="rid" /> 
   </div>
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     routeId = document.getElementById("rid").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     if (routeId == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/route/" + routeId, {
       method: "GET",
@@ -798,11 +945,9 @@ function searchRoute() {
       .then((dat) => {
         console.log(dat);
         if (dat.message == "Route is not available now") {
-          alert("Route is not available now");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "Route not found to view") {
-          alert("Route not found to view");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.routeId != undefined) {
           getData15(dat);
         } else window.location.assign("admin.html");
@@ -826,6 +971,12 @@ function getData15(element) {
   <h4>Fare : ${element.fare} </h4>
   </div>`;
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 
@@ -845,8 +996,8 @@ function updateCustomer() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="ci"><h4>Enter customer id</h4></label> <br>
@@ -891,12 +1042,12 @@ function updateCustomer() {
     <input type="text" name="env" id="ce" />
   </div>
 
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
@@ -910,7 +1061,7 @@ function updateCustomer() {
     country = document.getElementById("cc").value;
     mobileNumber = document.getElementById("cm").value;
     emailAddress = document.getElementById("ce").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     fetch("http://localhost:8080/travel/customer/update/" + cid, {
       method: "PUT",
       headers: {
@@ -932,13 +1083,11 @@ function updateCustomer() {
       .then((dat) => {
         console.log(dat.status);
         if (dat.message == "Unable to update already deleted customer") {
-          alert("Unable to update already deleted customer");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (
           dat.message == "Customer not found with the given id to update"
         ) {
-          alert("Customer not found with the given id to update");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.customerId != undefined) {
           getData16(dat.customerId);
         } else {
@@ -950,8 +1099,7 @@ function updateCustomer() {
 }
 function getData16(result) {
   console.log(result);
-  alert("Customer Updated successfully with customer id " + result);
-  window.location.assign("admin.html");
+  notify("Customer Updated successfully with customer id " + result);
 }
 
 function removeCustomer() {
@@ -960,25 +1108,25 @@ function removeCustomer() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="cid"><h4>Enter the customer id</h4></label> <br>
   <input type="text" name="enviroment" id="cid" /> 
   </div>
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     cid = document.getElementById("cid").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     if (cid == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/customer/delete/" + cid, {
       method: "DELETE",
@@ -990,13 +1138,11 @@ function removeCustomer() {
       .then((data) => data.json())
       .then((dat) => {
         if (dat.message == "Unable to remove already deleted customer") {
-          alert("Unable to remove already deleted customer");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (
           dat.message == "Customer not found with the given id to delete"
         ) {
-          alert("Customer not found with the given id to delete");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.customerId != undefined) {
           getData17(dat.customerId);
         } else window.location.assign("admin.html");
@@ -1006,8 +1152,7 @@ function removeCustomer() {
 }
 function getData17(result) {
   console.log(result);
-  alert("Customer removed successfully with customer id " + result);
-  window.location.assign("admin.html");
+  notify("Customer removed successfully with customer id " + result);
 }
 
 function viewAllCustomer() {
@@ -1052,6 +1197,12 @@ function getData18(result) {
   });
   div.innerHTML = arr.join("");
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 function searchCustomer() {
@@ -1060,25 +1211,25 @@ function searchCustomer() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="cid"><h4>Enter the customer id</h4></label> <br>
   <input type="text" name="enviroment" id="cid" /> 
   </div>
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     cid = document.getElementById("cid").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     if (cid == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/customer/" + cid, {
       method: "GET",
@@ -1091,13 +1242,11 @@ function searchCustomer() {
       .then((dat) => {
         console.log(dat);
         if (dat.message == "This customer is not exist now") {
-          alert("This customer is not exist now");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (
           dat.message == "Customer not found with the given id to delete"
         ) {
-          alert("Customer not found with the given id to delete");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.customerId != undefined) {
           getData19(dat);
         } else window.location.assign("admin.html");
@@ -1123,6 +1272,12 @@ function getData19(element) {
    <h4>Role : ${element.role} </h4>
    </div>`;
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 
@@ -1139,8 +1294,8 @@ function addHotel() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
       <label for="di"><h4>Enter destination id </h4></label> <br>
@@ -1176,12 +1331,12 @@ function addHotel() {
     <input type="text" name="env" id="hs" />
   </div>
 
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
@@ -1193,7 +1348,7 @@ function addHotel() {
     rent = document.getElementById("hn").value;
     status = document.getElementById("hs").value;
     desId = document.getElementById("di").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     if (desId == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/hotel/" + desId, {
       method: "POST",
@@ -1213,11 +1368,9 @@ function addHotel() {
       .then((data) => data.json())
       .then((dat) => {
         if (dat.message == "Invalid destination ID") {
-          alert("Invalid destination ID");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "Destination is not available") {
-          alert("Destination is not available");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.hotelId != undefined) {
           getData20(dat.hotelId);
         } else {
@@ -1229,8 +1382,7 @@ function addHotel() {
 }
 function getData20(result) {
   console.log(result);
-  alert("Hotel added successfully with hotel id " + result);
-  window.location.assign("admin.html");
+  notify("Hotel added successfully with hotel id " + result);
 }
 
 function removeHotel() {
@@ -1239,25 +1391,25 @@ function removeHotel() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="hid"><h4>Enter the hotel id</h4></label> <br>
   <input type="text" name="enviroment" id="hid" /> 
   </div>
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     hid = document.getElementById("hid").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     if (hid == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/Hotel/" + hid, {
       method: "PUT",
@@ -1269,11 +1421,9 @@ function removeHotel() {
       .then((data) => data.json())
       .then((dat) => {
         if (dat.message == "Unable to remove already deleted hotel") {
-          alert("Unable to remove already deleted hotel");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "Hotel not found with given id") {
-          alert("Hotel not found with given id");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.hotelId != undefined) {
           getData21(dat.hotelId);
         } else window.location.assign("admin.html");
@@ -1283,8 +1433,7 @@ function removeHotel() {
 }
 function getData21(result) {
   console.log(result);
-  alert("Hotel removed successfully with hotel id " + result);
-  window.location.assign("admin.html");
+  notify("Hotel removed successfully with hotel id " + result);
 }
 
 function viewAllHotel() {
@@ -1301,7 +1450,7 @@ function viewAllHotel() {
       return data.json();
     })
     .then((dat) => {
-      if (dat.message == "Hotels list is empty") alert("Hotels list is empty");
+      if (dat.message == "Hotels list is empty") notify(dat.message);
       else getData22(dat);
     })
     .catch((error) => console.log(error));
@@ -1325,6 +1474,12 @@ function getData22(result) {
   });
   div.innerHTML = arr.join("");
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 
@@ -1334,25 +1489,25 @@ function showByDesId() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="did"><h4>Enter the Destination id</h4></label> <br>
   <input type="text" name="enviroment" id="did" /> 
   </div>
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     did = document.getElementById("did").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     if (did == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/Hotel/Destination/" + did, {
       method: "GET",
@@ -1367,14 +1522,11 @@ function showByDesId() {
       })
       .then((dat) => {
         if (dat.message == "This destination is not available now") {
-          alert("This destination is not available nowHotels list is empty");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "Empty hotel list") {
-          alert("Empty hotel list");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "No destination is found with the given id") {
-          alert("No destination is found with the given id");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else {
           getData23(dat);
         }
@@ -1401,6 +1553,12 @@ function getData23(result) {
   });
   div.innerHTML = arr.join("");
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 
@@ -1416,8 +1574,8 @@ function addTravel() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
     <div class="inputElement">
       <label for="tn"><h4>Enter travels name</h4></label> <br>
@@ -1439,12 +1597,12 @@ function addTravel() {
     </div>
 
 
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+    </form>
+    <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
@@ -1454,7 +1612,7 @@ function addTravel() {
     address = document.getElementById("td").value;
     contact = document.getElementById("tc").value;
 
-    bid.removeChild(div);
+    // bid.removeChild(div);
     // if (desId == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/travels", {
       method: "POST",
@@ -1482,8 +1640,7 @@ function addTravel() {
 }
 function getData24(result) {
   console.log(result);
-  alert("Travels added successfully with travel id " + result);
-  window.location.assign("admin.html");
+  notify("Travels added successfully with travel id " + result);
 }
 
 function removeTravel() {
@@ -1492,25 +1649,25 @@ function removeTravel() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="tid"><h4>Enter the travel id</h4></label> <br>
   <input type="text" name="enviroment" id="tid" /> 
   </div>
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     tid = document.getElementById("tid").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     if (tid == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/travels/remove/" + tid, {
       method: "PUT",
@@ -1522,11 +1679,9 @@ function removeTravel() {
       .then((data) => data.json())
       .then((dat) => {
         if (dat.message == "Travel is not available to remove") {
-          alert("Travel is not available to remove");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "Travels not found to remove") {
-          alert("Travels not found to remove");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.travelsId != undefined) {
           getData25(dat.travelsId);
         } else window.location.assign("admin.html");
@@ -1536,8 +1691,7 @@ function removeTravel() {
 }
 function getData25(result) {
   console.log(result);
-  alert("Travels removed successfully with Travel id " + result);
-  window.location.assign("admin.html");
+  notify("Travels removed successfully with Travel id " + result);
 }
 
 function viewAllTravel() {
@@ -1554,8 +1708,7 @@ function viewAllTravel() {
       return data.json();
     })
     .then((dat) => {
-      if (dat.message == "Travels list is empty")
-        alert("Travels list is empty");
+      if (dat.message == "Travels list is empty") notify(dat.message);
       else getData26(dat);
     })
     .catch((error) => console.log(error));
@@ -1577,6 +1730,12 @@ function getData26(result) {
   });
   div.innerHTML = arr.join("");
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 
@@ -1589,8 +1748,8 @@ function updateTravel() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="tid"><h4>Enter travels id</h4></label> <br>
@@ -1614,12 +1773,12 @@ function updateTravel() {
       <input type="text" name="env" id="ac" />
     </div>
 
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+    </form>
+    <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
@@ -1629,7 +1788,7 @@ function updateTravel() {
     address = document.getElementById("ta").value;
     contact = document.getElementById("ac").value;
 
-    bid.removeChild(div);
+    // bid.removeChild(div);
     fetch("http://localhost:8080/travel/travels/update/" + tid, {
       method: "POST",
       headers: {
@@ -1646,11 +1805,9 @@ function updateTravel() {
       .then((dat) => {
         console.log(dat.status);
         if (dat.message == "Travel is not available to update") {
-          alert("Travel is not available to update");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "Travels not found to update") {
-          alert("Travels not found to update");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.travelsId != undefined) {
           getData27(dat.travelsId);
         } else {
@@ -1662,8 +1819,7 @@ function updateTravel() {
 }
 function getData27(result) {
   console.log(result);
-  alert("Travels Updated successfully with travel id " + result);
-  window.location.assign("admin.html");
+  notify("Travels Updated successfully with travel id " + result);
 }
 
 function searchFeedBackByfeedBackId() {
@@ -1672,25 +1828,25 @@ function searchFeedBackByfeedBackId() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="fid"><h4>Enter the feedBack id</h4></label> <br>
   <input type="text" name="enviroment" id="fid" /> 
   </div>
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     fid = document.getElementById("fid").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     if (fid == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/feedback/" + fid, {
       method: "GET",
@@ -1705,8 +1861,7 @@ function searchFeedBackByfeedBackId() {
       })
       .then((dat) => {
         if (dat.message == "Feedback not found with the  given id") {
-          alert("Feedback not found with the  given id");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else {
           getData27(dat);
         }
@@ -1726,6 +1881,12 @@ function getData27(result) {
      <h4>Customer ID : ${result.customerFeedback.customerId} </h4>
      </div>`;
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 
@@ -1735,25 +1896,25 @@ function searchFeedBackByCustomerId() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="cid"><h4>Enter the customer id</h4></label> <br>
   <input type="text" name="enviroment" id="cid" /> 
   </div>
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     cid = document.getElementById("cid").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     if (cid == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/feedback/customer/" + cid, {
       method: "GET",
@@ -1768,11 +1929,9 @@ function searchFeedBackByCustomerId() {
       })
       .then((dat) => {
         if (dat.message == "Customer gave no feedback yet") {
-          alert("Customer gave no feedback yet");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "Customer not found with the  given id") {
-          alert("Customer not found with the  given id");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else {
           getData28(dat);
         }
@@ -1793,6 +1952,12 @@ function getData28(result) {
     <h4>Customer ID : ${result.customerFeedback.customerId} </h4>
     </div>`;
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 
@@ -1813,8 +1978,7 @@ function viewAllFeedBack() {
     })
     .then((dat) => {
       if (dat.message == "Feedback list is empty") {
-        alert("Feedback list is empty");
-        window.location.assign("admin.html");
+        notify(dat.message);
       } else {
         getData29(dat);
       }
@@ -1837,6 +2001,12 @@ function getData29(result) {
   });
   div.innerHTML = arr.join("");
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 
@@ -1857,8 +2027,7 @@ function viewAllPayment() {
     })
     .then((dat) => {
       if (dat.message == "Payment details list is empty") {
-        alert("Payment details list is empty");
-        window.location.assign("admin.html");
+        notify(dat.message);
       } else {
         getData30(dat);
       }
@@ -1884,6 +2053,12 @@ function getData30(result) {
   });
   div.innerHTML = arr.join("");
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 
@@ -1904,8 +2079,8 @@ function addPackage() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
       <label for="hid"><h4>Enter the hotel Id </h4></label> <br>
@@ -1966,12 +2141,12 @@ function addPackage() {
     <input type="text" name="env" id="pc" />
   </div>
 
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
@@ -1988,7 +2163,7 @@ function addPackage() {
     packageDescription4 = document.getElementById("pd4").value;
     packageDescription5 = document.getElementById("pd5").value;
     packageCost = document.getElementById("pc").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     fetch(
       "http://localhost:8080/travel/Packages/" + hotelId + "/" + destinationId,
       {
@@ -2014,16 +2189,13 @@ function addPackage() {
       .then((data) => data.json())
       .then((dat) => {
         if (dat.message == "Unable to add package in deleted hotel") {
-          alert("Unable to add package in deleted hotel");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (
           dat.message == "Unable to add package in deleted destination"
         ) {
-          alert("Unable to add package in deleted destination");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "Hotel not found with the given id") {
-          alert("Hotel not found with the given id");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.packageId != undefined) {
           getData31(dat.packageId);
         } else {
@@ -2034,8 +2206,7 @@ function addPackage() {
   });
 }
 function getData31(dat) {
-  alert("Package added successfully with package id " + dat);
-  window.location.assign("admin.html");
+  notify("Package added successfully with package id " + dat);
 }
 
 function searchPackage() {
@@ -2044,25 +2215,25 @@ function searchPackage() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="pid"><h4>Enter the package id</h4></label> <br>
   <input type="text" name="enviroment" id="pid" /> 
   </div>
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     pid = document.getElementById("pid").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     if (pid == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/Packages/" + pid, {
       method: "GET",
@@ -2074,11 +2245,9 @@ function searchPackage() {
       .then((data) => data.json())
       .then((dat) => {
         if (dat.message == "Package is not exist now") {
-          alert("Package is not exist now");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "No package is found to view") {
-          alert("No package is found to view");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else {
           getData32(dat);
         }
@@ -2105,6 +2274,12 @@ function getData32(result) {
      <h4>Status : ${result.status} </h4>
      </div>`;
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 
@@ -2125,8 +2300,7 @@ function viewAllPackage() {
     })
     .then((dat) => {
       if (dat.message == "Package list is empty") {
-        alert("Package list is empty");
-        window.location.assign("admin.html");
+        notify(dat.message);
       } else {
         getData33(dat);
       }
@@ -2155,6 +2329,12 @@ function getData33(data) {
   });
   div.innerHTML = arr.join("");
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }
 
@@ -2164,25 +2344,25 @@ function removePackage() {
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
-  <form id="frm" action="javascript:void(0);">
   <i  id="cb" class="fa-solid fa-circle-xmark"></i>
+  <form id="frm" action="javascript:void(0);">
 
   <div class="inputElement">
   <label for="pid"><h4>Enter the package id</h4></label> <br>
   <input type="text" name="enviroment" id="pid" /> 
   </div>
-    <input id="sb" type="submit" name="Login" class="sub" />
-  </form>`;
+  </form>
+  <input id="sb" type="submit" name="Login" class="sub" />`;
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    bid.removeChild(div);
+    // bid.removeChild(div);
     window.location.assign("admin.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     pid = document.getElementById("pid").value;
-    bid.removeChild(div);
+    // bid.removeChild(div);
     if (pid == "") window.location.assign("admin.html");
     fetch("http://localhost:8080/travel/Packages/" + pid, {
       method: "DELETE",
@@ -2194,11 +2374,9 @@ function removePackage() {
       .then((data) => data.json())
       .then((dat) => {
         if (dat.message == "Unable to remove already deleted package") {
-          alert("Unable to remove already deleted package");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.message == "No package is found to remove") {
-          alert("No package is found to remove");
-          window.location.assign("admin.html");
+          notify(dat.message);
         } else if (dat.packageId != undefined) {
           getData34(dat.packageId);
         } else window.location.assign("admin.html");
@@ -2208,8 +2386,7 @@ function removePackage() {
 }
 function getData34(result) {
   console.log(result);
-  alert("Package removed successfully with package id " + result);
-  window.location.assign("admin.html");
+  notify("Package removed successfully with package id " + result);
 }
 
 function viewAllPackageBooking() {
@@ -2229,8 +2406,7 @@ function viewAllPackageBooking() {
     })
     .then((dat) => {
       if (dat.message == "Booking list is empty") {
-        alert("Booking list is empty");
-        window.location.assign("admin.html");
+        notify(dat.message);
       } else {
         getData35(dat);
       }
@@ -2257,5 +2433,11 @@ function getData35(result) {
   });
   div.innerHTML = arr.join("");
   div.setAttribute("class", "grid-1");
+  bid.innerHTML = `<i id="cb" class="fa-solid fa-circle-xmark"></i>`;
+  bid.append(div);
+  document.getElementById("cb").addEventListener("click", () => {
+    // bid.removeChild(div);
+    window.location.assign("admin.html");
+  });
   bid.append(div);
 }

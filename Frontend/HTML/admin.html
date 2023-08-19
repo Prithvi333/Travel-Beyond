@@ -12,17 +12,18 @@
   </head>
   <body>
     <nav class="navbar">
+      <div id="notify">Notification alert</div>
       <div id="navmid">
         <div id="topnavmid">
           <div class="logo">
-            <img src="/Frontend/Travel  Beyond-logos_transparent.png" alt="" />
+            <img src="/Travel  Beyond-logos_transparent.png" alt="" />
           </div>
           <ul>
-            <li>Hotel</li>
-            <li>Buses</li>
-            <li>Travels</li>
-            <li>Destination</li>
-            <li>Packages</li>
+            <li onclick="viewAllHotel()">Hotel</li>
+            <li onclick="viewAllBuses()">Buses</li>
+            <li onclick="viewAllTravel()">Travels</li>
+            <li onclick="veiwAllDestination()">Destination</li>
+            <li onclick="viewAllPackage()">Packages</li>
           </ul>
         </div>
         <div class="tag">
@@ -31,8 +32,7 @@
             <p>Search low price hotels,buses and much more...</p>
           </div>
           <div>
-            <button>Register</button>
-            <button onclick="signIn()">SignIn</button>
+            <button id="so">Signout</button>
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@
             <!-- <h3>Link Bus with destination</h3> -->
             <h3 onclick="searchBusById()">Search bus</h3>
             <h3 onclick="removeBus()">Remove bus</h3>
-            <h3 onclick="getBusByTravelId()">Get bus by travels id</h3>
+            <h3 onclick="searchBusByTravelId()">Get bus by travels id</h3>
             <h3 onclick="viewAllBuses()">View all buses</h3>
           </div>
           <div class="destination">
@@ -119,7 +119,7 @@
     <footer>
       <div class="bottom1">
         <div class="popup" id="pop">
-          <img src="/Frontend/404-tick.png" alt="thanks" />
+          <img src="/404-tick.png" alt="thanks" />
           <h2>Thanks</h2>
           <h3>We will reach to you soon!</h3>
           <button id="close" onclick="closepopup()">Close</button>

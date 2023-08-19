@@ -3,6 +3,7 @@ package com.masai.service;
 import java.util.List;
 
 import com.masai.entity.Customer;
+import com.masai.entity.SubscribedEmail;
 
 public interface CustomerOps {
 
@@ -18,5 +19,6 @@ public interface CustomerOps {
 
 
 	Customer getCustomerByEmail(String email);
+	String subsCustomer(SubscribedEmail se);
 
 }
