@@ -32,6 +32,3 @@ TECH STACK
   7. Lombok
 
 
-E-R DIAGRAM
-
-
