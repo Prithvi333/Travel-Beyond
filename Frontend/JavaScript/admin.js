@@ -266,6 +266,7 @@ function addBus() {
   let travelId;
   let bustype;
   let busnumber;
+  let capacity;
   let div = document.createElement("div");
   bid.innerHTML = null;
   div.innerHTML = `<h2>Enter Details</h2>
@@ -302,6 +303,9 @@ function addBus() {
 
   document.getElementById("sb").addEventListener("click", () => {
     travelId = document.getElementById("tid").value;
+    bustype = document.getElementById("bt").value;
+    busnumber = document.getElementById("bn").value;
+    capacity = document.getElementById("bc").value;
     fetch("http://localhost:8080/travel/Bus/" + travelId, {
       method: "POST",
       headers: {
@@ -311,7 +315,7 @@ function addBus() {
       body: JSON.stringify({
         busType: bustype,
         busNumber: busnumber,
-        capacity: buscapacity,
+        capacity: capacity,
       }),
     })
       .then((data) => data.json())
@@ -323,8 +327,7 @@ function addBus() {
   });
 }
 function getData5(result) {
-  console.log(result);
-  alert("Bus Added successfully with id " + result);
+  notify("Bus Added successfully with id " + result);
 }
 function addDestination() {
   let auth = Authentication();
@@ -385,9 +388,7 @@ function addDestination() {
   });
 }
 function getData6(result) {
-  console.log(result);
-  alert("Destination added successfully with dest id " + result);
-  window.location.assign("admin.html");
+  notify("Destination added successfully with dest id " + result);
 }
 
 function updateDestination() {
@@ -2198,8 +2199,6 @@ function addPackage() {
           notify(dat.message);
         } else if (dat.packageId != undefined) {
           getData31(dat.packageId);
-        } else {
-          window.location.assign("admin.html");
         }
       })
       .catch((error) => console.log(error));

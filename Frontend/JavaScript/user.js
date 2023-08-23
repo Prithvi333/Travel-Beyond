@@ -23,7 +23,6 @@ so.addEventListener("click", () => {
   window.location.assign("index.html");
 });
 function notify(message) {
-  console.log("running");
   nid.innerHTML = message;
   nid.style.opacity = 1;
   setInterval(() => {
@@ -81,11 +80,12 @@ function addFeedback() {
     })
       .then((dat) => dat.json())
       .then((data) => {
+        console.log(data);
         if (data.message == "Customer not valid") {
           notify(data.message);
         } else if (data.feedbackId != undefined) {
-          notify(data.message);
-        } else window.location.assign("user.html");
+          getData1(data.message);
+        }
       })
       .catch((error) => console.log(error));
   });
@@ -335,9 +335,7 @@ function bookPackage() {
   });
 }
 function getData5(result) {
-  console.log(result);
-  alert("Package booked successfully with  id " + result);
-  window.location.assign("user.html");
+  notify("Package booked successfully with  id " + result);
 }
 
 function searchPackage() {
@@ -1390,7 +1388,7 @@ function makePayment() {
         } else if (data.paymentId != undefined) {
           getData23(data.paymentId);
           window.location.assign("user.html");
-        } else window.location.assign("user.html");
+        }
       })
       .catch((error) => console.log(error));
   });

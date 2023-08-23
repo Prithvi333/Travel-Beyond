@@ -102,15 +102,15 @@ btt.addEventListener("click", () => {
 });
 
 function signup() {
-  let name = document.getElementById("name");
-  let password = document.getElementById("password");
-  let address = document.getElementById("address");
-  let aadhar = document.getElementById("aadhar");
-  let gender = document.getElementById("gender");
-  let country = document.getElementById("country");
-  let role = document.getElementById("role");
-  let moblie = document.getElementById("mobile");
-  let email = document.getElementById("email");
+  let name = document.getElementById("name").value;
+  let password = document.getElementById("password").value;
+  let address = document.getElementById("address").value;
+  let aadhar = document.getElementById("aadhar").value;
+  let gender = document.getElementById("gender").value;
+  let country = document.getElementById("country").value;
+  let role = document.getElementById("role").value;
+  let moblie = document.getElementById("mobile").value;
+  let email = document.getElementById("email").value;
 
   fetch("http://localhost:8080/travel/customer/signup", {
     method: "POST",
