@@ -34,17 +34,25 @@ public class CustomerOpsImpl implements CustomerOps {
 		if(customer.getRole()==null){
 			customer.setRole("ROLE_USER");
 		}
-		 if(customer.getRole().equals("ADMIN")){
-			customer.setRole("ROLE_ADMIN");
-		}else if(customer.getRole().equals("USER")){
-			customer.setRole("ROLE_USER");
-		}else if(customer.getRole().equals("ROLE_USER")){
-			 customer.setRole("ROLE_USER");
-		}else if(customer.getRole().equals("ROLE_ADMIN")){
-			 customer.setRole("ROLE_ADMIN");
-		}else{
+		else {
 			customer.setRole("ROLE_USER");
 		}
+			
+//		 if(customer.getRole().equals("ADMIN")){
+//			customer.setRole("ROLE_ADMIN");
+//		}
+//		 else if(customer.getRole().equals("USER")){
+//			customer.setRole("ROLE_USER");
+//		}
+//		 else if(customer.getRole().equals("ROLE_USER")){
+//			 customer.setRole("ROLE_USER");
+//		}
+//		 else if(customer.getRole().equals("ROLE_ADMIN")){
+//			 customer.setRole("ROLE_ADMIN");
+//		}
+//		 else{
+//			customer.setRole("ROLE_USER");
+//		}
 		return cd.save(customer);
 
 	}

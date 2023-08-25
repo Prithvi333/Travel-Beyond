@@ -87,8 +87,10 @@ function signIn() {
         if (res != undefined) {
           localStorage.setItem("User", user);
           localStorage.setItem("Password", password);
-          if (res.role == "ROLE_ADMIN") window.location.assign("admin.html");
-          else if (res.role == "ROLE_USER") window.location.assign("user.html");
+          if (res.role == "ROLE_ADMIN")
+            window.location.assign("HTML/admin.html");
+          else if (res.role == "ROLE_USER")
+            window.location.assign("HTML/user.html");
         }
       })
       .catch((error) => console.log(error));
@@ -108,7 +110,7 @@ function signup() {
   let aadhar = document.getElementById("aadhar").value;
   let gender = document.getElementById("gender").value;
   let country = document.getElementById("country").value;
-  let role = document.getElementById("role").value;
+  // let role = document.getElementById("role").value;
   let moblie = document.getElementById("mobile").value;
   let email = document.getElementById("email").value;
 
@@ -117,23 +119,23 @@ function signup() {
     headers: {
       "Content-Type": "application/json",
     },
-    body: {
+    body: JSON.stringify({
       customerName: name,
       customerPassword: password,
       address: address,
       aadharId: aadhar,
       gender: gender,
       country: country,
-      role: role,
+      role: "USER",
       mobileNo: moblie,
       email: email,
-    },
+    }),
   })
     .then((data) => {
       if (data.ok == false) notify("Registration failed");
       else return data.json();
     })
     .then((dat) => {
-      if (dat != undefined) notify("Register successfully");
+      if (dat.customerId != undefined) notify("Register successfully");
     });
 }

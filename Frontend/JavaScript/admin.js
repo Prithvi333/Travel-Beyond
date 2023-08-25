@@ -21,7 +21,7 @@ let so = document.getElementById("so");
 
 so.addEventListener("click", () => {
   localStorage.clear();
-  window.location.assign("index.html");
+  window.location.assign("/index.html");
 });
 
 function notify(message) {
