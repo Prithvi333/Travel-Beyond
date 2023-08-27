@@ -46,8 +46,8 @@ public class SecurityConfig {
 					});
 
 				}).authorizeHttpRequests(auth -> {
-					auth.requestMatchers("/**").permitAll();
-					auth.requestMatchers(HttpMethod.POST, "travel/customer/signup", "travel/addAdmin").permitAll()
+//					auth.requestMatchers("/**").permitAll();
+					auth.requestMatchers(HttpMethod.POST, "travel/customer/signup", "travel/addAdmin","travel/subscriber").permitAll()
 
 							.requestMatchers(HttpMethod.POST, "travel/updateAdmin", "travel/adddestination",
 									"travel/bus", "travel/bus/travels", "travel/destination",

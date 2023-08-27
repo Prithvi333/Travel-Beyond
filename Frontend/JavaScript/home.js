@@ -8,9 +8,9 @@ function openpopup() {
     headers: {
       "Content-Type": "application/json",
     },
-    body: {
+    body: JSON.stringify({
       email: email,
-    },
+    }),
   })
     .then((data) => {
       if (data.ok == false) {
@@ -25,11 +25,12 @@ function closepopup() {
   pops.classList.remove("open-pop");
 }
 let nid = document.getElementById("notify");
-
+let timeout;
 function notify(message) {
+  window.clearTimeout(timeout);
   nid.innerHTML = message;
   nid.style.opacity = 1;
-  setInterval(() => {
+  timeout = setInterval(() => {
     nid.style.opacity = 0;
   }, 2000);
 }
@@ -69,29 +70,36 @@ function signIn() {
     let user = document.getElementById("userName").value;
     let password = document.getElementById("userPass").value;
 
-    let auth = btoa(`${user}:${password}`);
-    fetch("http://localhost:8080/travel/cusLogin", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => {
-        console.log(data);
-        if (data.ok == false) {
-          notify("Verification failed");
-        } else return data.json();
+    if (user == "" || user == " ") notify("Username is mandatory");
+    else if (password == "" || password == " ") notify("Password is mandatory");
+    else {
+      let auth = btoa(`${user}:${password}`);
+      fetch("http://localhost:8080/travel/cusLogin", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .then((res) => {
-        if (res != undefined) {
-          localStorage.setItem("User", user);
-          localStorage.setItem("Password", password);
-          if (res.role == "ROLE_ADMIN") window.location.assign("admin.html");
-          else if (res.role == "ROLE_USER") window.location.assign("user.html");
-        }
-      })
-      .catch((error) => console.log(error));
+        .then((data) => {
+          console.log(data);
+          if (data.ok == false) {
+            notify("Verification failed");
+          } else return data.json();
+        })
+        .then((res) => {
+          if (res != undefined) {
+            bid.removeChild(div);
+            localStorage.setItem("User", user);
+            localStorage.setItem("Password", password);
+            if (res.role == "ROLE_ADMIN")
+              window.location.assign("HTML/admin.html");
+            else if (res.role == "ROLE_USER")
+              window.location.assign("HTML/user.html");
+          }
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function reg() {
@@ -111,29 +119,44 @@ function signup() {
   let role = document.getElementById("role").value;
   let moblie = document.getElementById("mobile").value;
   let email = document.getElementById("email").value;
-
-  fetch("http://localhost:8080/travel/customer/signup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: {
-      customerName: name,
-      customerPassword: password,
-      address: address,
-      aadharId: aadhar,
-      gender: gender,
-      country: country,
-      role: role,
-      mobileNo: moblie,
-      email: email,
-    },
-  })
-    .then((data) => {
-      if (data.ok == false) notify("Registration failed");
-      else return data.json();
+  if (name == "" || name == " ") notify("Name is mandatory");
+  else if (password == "" || password == " ") notify("Password is mandatory");
+  else if (address == "" || address == " ") notify("Aadress is mandatory");
+  else if (aadhar == "" || aadhar == " ") notify("Aadhar is mandatory");
+  else if (gender == "" || gender == " ") notify("Gender is mandatory");
+  else if (country == "" || country == " ") notify("Country is mandatory");
+  else if (moblie == "" || moblie == " ") notify("Mobile number is mandatory");
+  else if (email == "" || email == " ") notify("Email is mandatory");
+  else {
+    fetch("http://localhost:8080/travel/customer/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        customerName: name,
+        customerPassword: password,
+        address: address,
+        aadharId: aadhar,
+        gender: gender,
+        country: country,
+        role: role,
+        mobileNo: moblie,
+        email: email,
+      }),
     })
-    .then((dat) => {
-      if (dat != undefined) notify("Register successfully");
-    });
+      .then((data) => {
+        console.log(data);
+        if (data.message == "Customer already registered")
+          notify("Customer already registered");
+        else if (data.ok == false) notify("Registration failed");
+        else return data.json();
+      })
+      .then((dat) => {
+        if (dat.customerId != undefined) {
+          rgst.style.opacity = 0;
+          notify("Register successfully");
+        }
+      });
+  }
 }

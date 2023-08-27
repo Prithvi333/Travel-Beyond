@@ -12,7 +12,7 @@
   </head>
   <body>
     <nav class="navbar">
-      <div id="notify">Notification alert</div>
+      <span><div id="notify">Notification alert</div></span>
       <div id="navmid">
         <div id="topnavmid">
           <div class="logo">
@@ -115,7 +115,7 @@
     <footer>
       <div class="bottom1">
         <div class="popup" id="pop">
-          <img src="404-tick.png" alt="thanks" />
+          <img src="/404-tick.png" alt="thanks" />
           <h2>Thanks</h2>
           <h3>We will reach to you soon!</h3>
           <button id="close" onclick="closepopup()">Close</button>
@@ -193,5 +193,14 @@
       </div>
     </footer>
   </body>
+  <script type="text/javascript">
+    function preback() {
+      window.history.forward();
+    }
+    setTimeout("preback()", 0);
+    window.onload = function () {
+      null;
+    };
+  </script>
 </html>
 <script src="/JavaScript/user.js"></script>

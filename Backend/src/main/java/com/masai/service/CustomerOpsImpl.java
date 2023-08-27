@@ -34,18 +34,32 @@ public class CustomerOpsImpl implements CustomerOps {
 		if(customer.getRole()==null){
 			customer.setRole("ROLE_USER");
 		}
-		 if(customer.getRole().equals("ADMIN")){
-			customer.setRole("ROLE_ADMIN");
-		}else if(customer.getRole().equals("USER")){
+		else {
 			customer.setRole("ROLE_USER");
-		}else if(customer.getRole().equals("ROLE_USER")){
-			 customer.setRole("ROLE_USER");
-		}else if(customer.getRole().equals("ROLE_ADMIN")){
-			 customer.setRole("ROLE_ADMIN");
-		}else{
-			customer.setRole("ROLE_USER");
-		}
+		}			
+		List<Customer> list= viewAllCustomer();
+		
+		list.forEach(data->{
+			if(data.getEmail().equals((customer.getEmail())))
+				throw new EntityAlreadyAlteredException("Customer already registered");
+		});
+		
 		return cd.save(customer);
+//		 if(customer.getRole().equals("ADMIN")){
+//			customer.setRole("ROLE_ADMIN");
+//		}
+//		 else if(customer.getRole().equals("USER")){
+//			customer.setRole("ROLE_USER");
+//		}
+//		 else if(customer.getRole().equals("ROLE_USER")){
+//			 customer.setRole("ROLE_USER");
+//		}
+//		 else if(customer.getRole().equals("ROLE_ADMIN")){
+//			 customer.setRole("ROLE_ADMIN");
+//		}
+//		 else{
+//			customer.setRole("ROLE_USER");
+//		}
 
 	}
 
@@ -58,6 +72,7 @@ public class CustomerOpsImpl implements CustomerOps {
 			if (!cus.isStatus()) {
 				throw new EntityAlreadyAlteredException("Unable to update already deleted customer");
 			}
+			
 			customer.setCustomerName(cus.getCustomerName());
 			customer.setCustomerPassword(cus.getCustomerPassword());
 			customer.setAddress(cus.getAddress());

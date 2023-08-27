@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.entity.Customer;
@@ -20,7 +19,6 @@ import com.masai.entity.SubscribedEmail;
 import com.masai.service.CustomerOps;
 
 import jakarta.validation.Valid;
-import lombok.val;
 
 @RestController
 //@CrossOrigin(origins = "*")
@@ -65,6 +63,6 @@ public class CustomerController {
 	
    @PostMapping("/subscriber")
    public ResponseEntity<String> subscribe(@Valid @RequestBody SubscribedEmail se){
-	   return new ResponseEntity<>("Subscribed!",HttpStatus.OK);
+	   return new ResponseEntity<>(co.subsCustomer(se),HttpStatus.OK);
    }
 }

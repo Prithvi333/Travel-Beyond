@@ -1,4 +1,4 @@
-package com.masai.entity;
+	package com.masai.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +55,7 @@ public class Customer {
 	private boolean status;
 	@NotBlank(message = "Please provide the customer password")
 	@NotNull(message = "Please provide the customer password")
-	@Size(min = 10, max = 10, message = "min 10 and max 10 characters allowed only")
+//	@Size(min = 10, max = 10, message = "min 10 and max 10 characters allowed only")
 	private String mobileNo;
 
 	@Email(message = "email is not in correct format")
