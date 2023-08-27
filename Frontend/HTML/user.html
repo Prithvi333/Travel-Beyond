@@ -12,7 +12,7 @@
   </head>
   <body>
     <nav class="navbar">
-      <div id="notify">Notification alert</div>
+      <span><div id="notify">Notification alert</div></span>
       <div id="navmid">
         <div id="topnavmid">
           <div class="logo">
@@ -193,5 +193,14 @@
       </div>
     </footer>
   </body>
+  <script type="text/javascript">
+    function preback() {
+      window.history.forward();
+    }
+    setTimeout("preback()", 0);
+    window.onload = function () {
+      null;
+    };
+  </script>
 </html>
 <script src="/JavaScript/user.js"></script>

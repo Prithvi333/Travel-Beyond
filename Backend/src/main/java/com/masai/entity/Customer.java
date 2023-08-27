@@ -1,4 +1,4 @@
-package com.masai.entity;
+	package com.masai.entity;
 
 import java.util.ArrayList;
 import java.util.List;

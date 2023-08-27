@@ -531,11 +531,11 @@ bottom1 {
 }
 #notify {
   border: 2px solid black;
-  width: 25%;
-  right: 37.5%;
+  margin: auto;
+  width: 20%;
+  font-style: italic;
   text-align: center;
   color: brown;
-  position: absolute;
   font-weight: bolder;
   background-color: #e1f5fe;
   border-radius: 10px;
@@ -544,7 +544,6 @@ bottom1 {
   border: none;
   opacity: 0;
   padding: 6px;
-
   /* border: 2px solid brown; */
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }

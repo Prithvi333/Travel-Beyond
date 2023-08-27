@@ -22,10 +22,12 @@ so.addEventListener("click", () => {
   localStorage.clear();
   window.location.assign("/index.html");
 });
+let timeout;
 function notify(message) {
+  window.clearTimeout(timeout);
   nid.innerHTML = message;
   nid.style.opacity = 1;
-  setInterval(() => {
+  timeout = setInterval(() => {
     nid.style.opacity = 0;
   }, 2000);
 }
@@ -67,27 +69,34 @@ function addFeedback() {
     cid = document.getElementById("cid").value;
     feedback = document.getElementById("fb").value;
     rating = document.getElementById("cr").value;
-    fetch("http://localhost:8080/travel/feedback/" + cid, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-      body: JSON.stringify({
-        feedback: feedback,
-        rating: rating,
-      }),
-    })
-      .then((dat) => dat.json())
-      .then((data) => {
-        console.log(data);
-        if (data.message == "Customer not valid") {
-          notify(data.message);
-        } else if (data.feedbackId != undefined) {
-          getData1(data.message);
-        }
+
+    if (cid == "" || cid == " ") notify("Customer id is mandatory");
+    else if (feedback == "" || feedback == " ")
+      notify("Feedback description is mandatory");
+    else if (rating == "" || rating == " ") notify("Rating is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/feedback/" + cid, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
+        body: JSON.stringify({
+          feedback: feedback,
+          rating: rating,
+        }),
       })
-      .catch((error) => console.log(error));
+        .then((dat) => dat.json())
+        .then((data) => {
+          console.log(data);
+          if (data.message == "Customer not valid") {
+            notify(data.message);
+          } else if (data.feedbackId != undefined) {
+            getData1(data.message);
+          }
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData1(result) {
@@ -118,23 +127,25 @@ function searchFeedBackByfeedBackId() {
   document.getElementById("sb").addEventListener("click", () => {
     fid = document.getElementById("fid").value;
     // bid.removeChild(div);
-    if (fid == "") window.location.assign("user.html");
-    fetch("http://localhost:8080/travel/feedback/" + fid, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => data.json())
-      .then((dat) => {
-        if (dat.message == "Feedback not found with the  given id") {
-          notify(dat.message);
-        } else {
-          getData2(dat);
-        }
+    if (fid == "" || fid == " ") notify("Feedback id is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/feedback/" + fid, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .catch((error) => console.log(error));
+        .then((data) => data.json())
+        .then((dat) => {
+          if (dat.message == "Feedback not found with the  given id") {
+            notify(dat.message);
+          } else {
+            getData2(dat);
+          }
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData2(result) {
@@ -175,14 +186,12 @@ function searchFeedBackByCustomerId() {
   div.setAttribute("class", "form");
   bid.append(div);
   document.getElementById("cb").addEventListener("click", () => {
-    // bid.removeChild(div);
     window.location.assign("user.html");
   });
 
   document.getElementById("sb").addEventListener("click", () => {
     cid = document.getElementById("cid").value;
-    // bid.removeChild(div);
-    if (cid == "") window.location.assign("user.html");
+    if (cid == "" || cid == " ") notify("Customer id is mandatory");
     fetch("http://localhost:8080/travel/feedback/customer/" + cid, {
       method: "GET",
       headers: {
@@ -308,30 +317,33 @@ function bookPackage() {
   document.getElementById("sb").addEventListener("click", () => {
     cid = document.getElementById("cid").value;
     pid = document.getElementById("pid").value;
-    // bid.removeChild(div);
-    if (cid == "" || pid == "") window.location.assign("user.html");
-    fetch("http://localhost:8080/travel/package/" + cid + "/" + pid, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => data.json())
-      .then((dat) => {
-        if (dat.message == "Not valid customer to make booking") {
-          notify(dat.message);
-        } else if (dat.message == "Package not found") {
-          notify(dat.message);
-        } else if (dat.message == "Customer is not exist now") {
-          notify(dat.message);
-        } else if (dat.message == "Package is not exist now") {
-          notify(dat.message);
-        } else if (dat.bookingId != undefined) {
-          getData5(dat.bookingId);
-        } else window.location.assign("user.html");
+
+    if (cid == "" || cid == " ") notify("Customer id is mandatory");
+    else if (pid == "" || pid == " ") notify("Package id is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/package/" + cid + "/" + pid, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .catch((error) => console.log(error));
+        .then((data) => data.json())
+        .then((dat) => {
+          if (dat.message == "Not valid customer to make booking") {
+            notify(dat.message);
+          } else if (dat.message == "Package not found") {
+            notify(dat.message);
+          } else if (dat.message == "Customer is not exist now") {
+            notify(dat.message);
+          } else if (dat.message == "Package is not exist now") {
+            notify(dat.message);
+          } else if (dat.bookingId != undefined) {
+            getData5(dat.bookingId);
+          } else window.location.assign("user.html");
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData5(result) {
@@ -363,28 +375,30 @@ function searchPackage() {
   document.getElementById("sb").addEventListener("click", () => {
     bookingId = document.getElementById("bid").value;
     // bid.removeChild(div);
-    if (bookingId == "") window.location.assign("user.html");
-    fetch("http://localhost:8080/travel/package/" + bookingId, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => data.json())
-      .then((dat) => {
-        console.log(dat);
-        if (dat.message == "Booking is not exist now") {
-          notify(dat.message);
-        } else if (
-          dat.message == "No booking found with the given id to view"
-        ) {
-          notify(dat.message);
-        } else if (dat.bookingId != undefined) {
-          getData7(dat);
-        }
+    if (bookingId == "" || bookingId == " ") notify("Booking id is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/package/" + bookingId, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .catch((error) => console.log(error));
+        .then((data) => data.json())
+        .then((dat) => {
+          console.log(dat);
+          if (dat.message == "Booking is not exist now") {
+            notify(dat.message);
+          } else if (
+            dat.message == "No booking found with the given id to view"
+          ) {
+            notify(dat.message);
+          } else if (dat.bookingId != undefined) {
+            getData7(dat);
+          }
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData7(result) {
@@ -437,27 +451,29 @@ function removePackage() {
   document.getElementById("sb").addEventListener("click", () => {
     pid = document.getElementById("pid").value;
     // bid.removeChild(div);
-    if (pid == "") window.location.assign("user.html");
-    fetch("http://localhost:8080/travel/package/" + pid, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => data.json())
-      .then((dat) => {
-        if (dat.message == "Unable to cancle already canceld booking") {
-          notify(dat.message);
-        } else if (
-          dat.message == "No booking found with the given id to cancle"
-        ) {
-          notify(dat.message);
-        } else if (dat.bookingId != undefined) {
-          getData8(dat.bookingId);
-        } else window.location.assign("user.html");
+    if (pid == "" || pid == " ") notify("Package id is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/package/" + pid, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .catch((error) => console.log(error));
+        .then((data) => data.json())
+        .then((dat) => {
+          if (dat.message == "Unable to cancle already canceld booking") {
+            notify(dat.message);
+          } else if (
+            dat.message == "No booking found with the given id to cancle"
+          ) {
+            notify(dat.message);
+          } else if (dat.bookingId != undefined) {
+            getData8(dat.bookingId);
+          } else window.location.assign("user.html");
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData8(result) {
@@ -492,25 +508,27 @@ function searchBusById() {
   document.getElementById("sb").addEventListener("click", () => {
     pid = document.getElementById("pid").value;
     // bid.removeChild(div);
-    if (pid == "") window.location.assign("user.html");
-    fetch("http://localhost:8080/travel/bus/" + pid, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => data.json())
-      .then((dat) => {
-        if (dat.message == "This bus is not exist now") {
-          notify(dat.message);
-        } else if (dat.message == "Bus not found") {
-          notify(dat.message);
-        } else if (dat.busId != undefined) {
-          getData9(dat);
-        } else window.location.assign("user.html");
+    if (pid == "" || pid == " ") notify("Bus id is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/bus/" + pid, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .catch((error) => console.log(error));
+        .then((data) => data.json())
+        .then((dat) => {
+          if (dat.message == "This bus is not exist now") {
+            notify(dat.message);
+          } else if (dat.message == "Bus not found") {
+            notify(dat.message);
+          } else if (dat.busId != undefined) {
+            getData9(dat);
+          } else window.location.assign("user.html");
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData9(result) {
@@ -559,25 +577,27 @@ function searchBusByTravelId() {
   document.getElementById("sb").addEventListener("click", () => {
     pid = document.getElementById("pid").value;
     // bid.removeChild(div);
-    if (pid == "") window.location.assign("user.html");
-    fetch("http://localhost:8080/travel/bus/travels/" + pid, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => data.json())
-      .then((dat) => {
-        if (dat.message == "This travels is not available now") {
-          notify(dat.message);
-        } else if (dat.message == "No bus is added by this traveler yet") {
-          notify(dat.message);
-        } else if (dat.message == "Travels not found to add bus") {
-          notify(dat.message);
-        } else getData10(dat);
+    if (pid == "" || pid == " ") notify("Travel id is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/bus/travels/" + pid, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .catch((error) => console.log(error));
+        .then((data) => data.json())
+        .then((dat) => {
+          if (dat.message == "This travels is not available now") {
+            notify(dat.message);
+          } else if (dat.message == "No bus is added by this traveler yet") {
+            notify(dat.message);
+          } else if (dat.message == "Travels not found to add bus") {
+            notify(dat.message);
+          } else getData10(dat);
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData10(result) {
@@ -676,28 +696,30 @@ function searchCustomer() {
   document.getElementById("sb").addEventListener("click", () => {
     cid = document.getElementById("cid").value;
     // bid.removeChild(div);
-    if (cid == "") window.location.assign("user.html");
-    fetch("http://localhost:8080/travel/customer/" + cid, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => data.json())
-      .then((dat) => {
-        console.log(dat);
-        if (dat.message == "This customer is not exist now") {
-          notify(dat.message);
-        } else if (
-          dat.message == "Customer not found with the given id to delete"
-        ) {
-          notify(dat.message);
-        } else if (dat.customerId != undefined) {
-          getData12(dat);
-        } else window.location.assign("user.html");
+    if (cid == "" || cid == " ") notify("Customer id is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/customer/" + cid, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .catch((error) => console.log(error));
+        .then((data) => data.json())
+        .then((dat) => {
+          console.log(dat);
+          if (dat.message == "This customer is not exist now") {
+            notify(dat.message);
+          } else if (
+            dat.message == "Customer not found with the given id to delete"
+          ) {
+            notify(dat.message);
+          } else if (dat.customerId != undefined) {
+            getData12(dat);
+          } else window.location.assign("user.html");
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData12(element) {
@@ -794,6 +816,7 @@ function viewAllDestination() {
     })
     .then((dat) => {
       if (dat.message == "Destination list is empty") notify(dat.message);
+      else getData14(dat);
     })
     .catch((error) => console.log(error));
 }
@@ -847,26 +870,28 @@ function searchDestination() {
     desId = document.getElementById("desid").value;
     // bid.removeChild(div);
     console.log(desId);
-    if (desId == "") window.location.assign("user.html");
-    fetch("http://localhost:8080/travel/Destination/" + desId, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => data.json())
-      .then((dat) => {
-        console.log(dat);
-        if (dat.message == "This destinaton is not available now") {
-          notify(dat.message);
-        } else if (dat.message == "Destination not found with the given id") {
-          notify(dat.message);
-        } else if (dat.desId != undefined) {
-          getData15(dat);
-        } else window.location.assign("user.html");
+    if (desId == "" || desId == " ") notify("Destination id is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/Destination/" + desId, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .catch((error) => console.log(error));
+        .then((data) => data.json())
+        .then((dat) => {
+          console.log(dat);
+          if (dat.message == "This destinaton is not available now") {
+            notify(dat.message);
+          } else if (dat.message == "Destination not found with the given id") {
+            notify(dat.message);
+          } else if (dat.desId != undefined) {
+            getData15(dat);
+          } else window.location.assign("user.html");
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData15(element) {
@@ -915,26 +940,28 @@ function searchDestinationByBusId() {
     desId = document.getElementById("desid").value;
     // bid.removeChild(div);
     console.log(desId);
-    if (desId == "") window.location.assign("user.html");
-    fetch("http://localhost:8080/travel/Destination/travels/" + desId, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => data.json())
-      .then((dat) => {
-        console.log(dat);
-        if (dat.message == "Bus is not exist now") {
-          notify(dat.message);
-        } else if (dat.message == "Given bus not go any destination yet") {
-          notify(dat.message);
-        } else if (dat.message == "Bus not found with the given id") {
-          notify(dat.message);
-        } else getData16(dat);
+    if (desId == "" || desId == " ") notify("Bus id is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/Destination/travels/" + desId, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .catch((error) => console.log(error));
+        .then((data) => data.json())
+        .then((dat) => {
+          console.log(dat);
+          if (dat.message == "Bus is not exist now") {
+            notify(dat.message);
+          } else if (dat.message == "Given bus not go any destination yet") {
+            notify(dat.message);
+          } else if (dat.message == "Bus not found with the given id") {
+            notify(dat.message);
+          } else getData16(dat);
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData16(data) {
@@ -1036,30 +1063,34 @@ function showByDesId() {
   document.getElementById("sb").addEventListener("click", () => {
     did = document.getElementById("did").value;
     // bid.removeChild(div);
-    if (did == "") window.location.assign("admin.html");
-    fetch("http://localhost:8080/travel/Hotel/Destination/" + did, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => {
-        console.log(data);
-        return data.json();
+    if (did == "" || did == " ") notify("Destination id is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/Hotel/Destination/" + did, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .then((dat) => {
-        if (dat.message == "This destination is not available now") {
-          notify(dat.message);
-        } else if (dat.message == "Empty hotel list") {
-          notify(dat.message);
-        } else if (dat.message == "No destination is found with the given id") {
-          notify(dat.message);
-        } else {
-          getData18(dat);
-        }
-      })
-      .catch((error) => console.log(error));
+        .then((data) => {
+          console.log(data);
+          return data.json();
+        })
+        .then((dat) => {
+          if (dat.message == "This destination is not available now") {
+            notify(dat.message);
+          } else if (dat.message == "Empty hotel list") {
+            notify(dat.message);
+          } else if (
+            dat.message == "No destination is found with the given id"
+          ) {
+            notify(dat.message);
+          } else {
+            getData18(dat);
+          }
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData18(result) {
@@ -1117,26 +1148,28 @@ function searchTravel() {
   document.getElementById("sb").addEventListener("click", () => {
     cid = document.getElementById("cid").value;
     // bid.removeChild(div);
-    if (cid == "") window.location.assign("user.html");
-    fetch("http://localhost:8080/travel/travels/" + cid, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => data.json())
-      .then((dat) => {
-        console.log(dat);
-        if (dat.message == "Travel is not available now") {
-          notify(dat.message);
-        } else if (dat.message == "Travels not found to view") {
-          notify(dat.message);
-        } else if (dat.travelsId != undefined) {
-          getData19(dat);
-        } else window.location.assign("user.html");
+    if (cid == "" || cid == " ") notify("Travel id is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/travels/" + cid, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .catch((error) => console.log(error));
+        .then((data) => data.json())
+        .then((dat) => {
+          console.log(dat);
+          if (dat.message == "Travel is not available now") {
+            notify(dat.message);
+          } else if (dat.message == "Travels not found to view") {
+            notify(dat.message);
+          } else if (dat.travelsId != undefined) {
+            getData19(dat);
+          } else window.location.assign("user.html");
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData19(element) {
@@ -1287,26 +1320,28 @@ function searchRoute() {
   document.getElementById("sb").addEventListener("click", () => {
     routeId = document.getElementById("rid").value;
     // bid.removeChild(div);
-    if (routeId == "") window.location.assign("user.html");
-    fetch("http://localhost:8080/travel/route/" + routeId, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => data.json())
-      .then((dat) => {
-        console.log(dat);
-        if (dat.message == "Route is not available now") {
-          notify(dat.message);
-        } else if (dat.message == "Route not found to view") {
-          notify(dat.message);
-        } else if (dat.routeId != undefined) {
-          getData22(dat);
-        } else window.location.assign("user.html");
+    if (routeId == "") notify("Route id is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/route/" + routeId, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .catch((error) => console.log(error));
+        .then((data) => data.json())
+        .then((dat) => {
+          console.log(dat);
+          if (dat.message == "Route is not available now") {
+            notify(dat.message);
+          } else if (dat.message == "Route not found to view") {
+            notify(dat.message);
+          } else if (dat.routeId != undefined) {
+            getData22(dat);
+          } else window.location.assign("user.html");
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData22(element) {
@@ -1367,30 +1402,38 @@ function makePayment() {
   document.getElementById("sb").addEventListener("click", () => {
     bookingId = document.getElementById("bid").value;
     customerId = document.getElementById("cid").value;
-    fetch(
-      "http://localhost:8080/travel/Payment/" + bookingId + "/" + customerId,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Basic ${auth}`,
-        },
-      }
-    )
-      .then((dat) => dat.json())
-      .then((data) => {
-        if (data.message == "Please enter valid customer id") {
-          notify(data.message);
-        } else if (data.message == "Package Booking not exist now") {
-          notify(data.message);
-        } else if (data.message == "No hotel booking found with the given id") {
-          notify(data.message);
-        } else if (data.paymentId != undefined) {
-          getData23(data.paymentId);
-          window.location.assign("user.html");
+
+    if (bookingId == "" || bookingId == " ") notify("Booking id is mandatory");
+    else if (customerId == "" || customerId == " ")
+      notify("Customer id is mandatory");
+    else {
+      fetch(
+        "http://localhost:8080/travel/Payment/" + bookingId + "/" + customerId,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Basic ${auth}`,
+          },
         }
-      })
-      .catch((error) => console.log(error));
+      )
+        .then((dat) => dat.json())
+        .then((data) => {
+          if (data.message == "Please enter valid customer id") {
+            notify(data.message);
+          } else if (data.message == "Package Booking not exist now") {
+            notify(data.message);
+          } else if (
+            data.message == "No hotel booking found with the given id"
+          ) {
+            notify(data.message);
+          } else if (data.paymentId != undefined) {
+            getData23(data.paymentId);
+            window.location.assign("user.html");
+          }
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData23(result) {
@@ -1429,27 +1472,30 @@ function canclePayment() {
     pid = document.getElementById("pid").value;
     cid = document.getElementById("cid").value;
     // bid.removeChild(div);
-    if (cid == "" || pid == "") window.location.assign("user.html");
-    fetch("http://localhost:8080/travel/Payment/" + pid + "/" + cid, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
-    })
-      .then((data) => data.json())
-      .then((dat) => {
-        if (dat.message == "Unable to cancle already cancled payment") {
-          notify(dat.message);
-        } else if (dat.message == "Payment details not found") {
-          notify(dat.message);
-        } else if (dat.message == "Not valid customer") {
-          notify(dat.message);
-        } else if (dat.paymentId != undefined) {
-          getData24(dat.paymentId);
-        } else window.location.assign("user.html");
+    if (cid == "" || cid == " ") notify("Customer id is mandatory");
+    else if (pid == "" || pid == " ") notify("Payment id is mandatory");
+    else {
+      fetch("http://localhost:8080/travel/Payment/" + pid + "/" + cid, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
+        },
       })
-      .catch((error) => console.log(error));
+        .then((data) => data.json())
+        .then((dat) => {
+          if (dat.message == "Unable to cancle already cancled payment") {
+            notify(dat.message);
+          } else if (dat.message == "Payment details not found") {
+            notify(dat.message);
+          } else if (dat.message == "Not valid customer") {
+            notify(dat.message);
+          } else if (dat.paymentId != undefined) {
+            getData24(dat.paymentId);
+          } else window.location.assign("user.html");
+        })
+        .catch((error) => console.log(error));
+    }
   });
 }
 function getData24(result) {

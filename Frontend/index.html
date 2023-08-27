@@ -9,7 +9,7 @@
   </head>
   <body>
     <nav class="navbar">
-      <div id="notify">Notification alert</div>
+      <span> <div id="notify">Notification alert</div></span>
       <div id="navmid">
         <div id="topnavmid">
           <div class="logo" >
@@ -65,11 +65,11 @@
           <br>
           <input type="text" id="country">
         </div>
-        <!-- <div class="inputelement">
+        <div class="inputelement">
           <label for="role">Role</label>
           <br>
-          <input type="text" id="role">
-        </div> -->
+          <input type="text" id="role" value="USER" disabled>
+        </div>
         <div class="inputelement">
           <label for="mobile">Moblile number</label>
           <br>
@@ -271,5 +271,11 @@
        </div>
     </footer>
   </body>
+  <script type="text/javascript">
+
+  function preback(){window.history.forward();}
+  setTimeout("preback()",0);
+  window.onload=function(){null};
+  </script>
   </html>
   <script src="/JavaScript/home.js"></script>
