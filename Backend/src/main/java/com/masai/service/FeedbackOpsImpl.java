@@ -23,6 +23,7 @@ public class FeedbackOpsImpl implements FeedbackOps {
 	@Autowired
 	CustomerDao cd;
 
+//	Using this method customer is adding feedback
 	@Override
 	public Feedback addFeedback(int customerId, Feedback feedback) {
 		Optional<Customer> customer = cd.findById(customerId);
@@ -36,6 +37,7 @@ public class FeedbackOpsImpl implements FeedbackOps {
 		throw new CustomerNotFoundException("Customer not valid");
 	}
 
+//	Finding feedback based on the feedback id
 	@Override
 	public Feedback findFeedbackbyFeedbackId(int feedbackId) {
 
@@ -45,6 +47,7 @@ public class FeedbackOpsImpl implements FeedbackOps {
 		throw new FeedbackNotFoundException("Feedback not found with the  given id");
 	}
 
+//	Finding feedback based on the customer  id
 	@Override
 	public Feedback findFeedbackbyCustomerId(int customerId) {
 		Optional<Customer> customer = cd.findById(customerId);
@@ -59,6 +62,8 @@ public class FeedbackOpsImpl implements FeedbackOps {
 		throw new CustomerNotFoundException("Customer not found with the  given id");
 	}
 
+//	Getting all the feedbacks here
+	
 	@Override
 	public List<Feedback> getAllFeedback() {
 

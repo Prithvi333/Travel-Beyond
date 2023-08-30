@@ -18,6 +18,9 @@ import com.masai.service.PackageBookingOps;
 
 import jakarta.validation.Valid;
 
+/*This class containing access to the service layer 
+which containing the functionality related to the package booking 
+*/
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/travel")

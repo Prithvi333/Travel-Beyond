@@ -49,6 +49,8 @@ public class PaymentDetailsOpsImpl implements PaymentDetailsOps {
 //		throw new HotelBookingNotFoundException("No hotel booking found with the given id");
 //
 //	}
+	
+// By using this method customer can make the payment after booking the package
 	@Override
 	public PaymentDetails makePayment(int packgageBookingId, int customerId) {
 
@@ -75,7 +77,7 @@ public class PaymentDetailsOpsImpl implements PaymentDetailsOps {
 		throw new PackageBookingNotFoundException("No hotel booking found with the given id");
 
 	}
-
+// Using this method customer can cancle the payment and he/she will be refunded soon
 	@Override
 	public PaymentDetails canclePayment(int paymentId,int customerId) {
 
@@ -92,6 +94,7 @@ public class PaymentDetailsOpsImpl implements PaymentDetailsOps {
 		throw new PaymentDetailsNotFoundException("Payment details not found");
 	}
 
+//	Using the method admin can see all the payments that are done
 	@Override
 	public List<PaymentDetails> viewPaymentList() {
 

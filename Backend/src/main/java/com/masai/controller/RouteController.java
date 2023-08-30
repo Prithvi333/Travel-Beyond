@@ -22,6 +22,9 @@ import com.masai.service.RouteOps;
 
 import jakarta.validation.Valid;
 
+/*Controller used to provide the access to all 
+the functionality which are used to performe route related operations
+*/
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/travel")

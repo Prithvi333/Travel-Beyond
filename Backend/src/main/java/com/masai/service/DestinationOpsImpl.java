@@ -37,6 +37,7 @@ public class DestinationOpsImpl implements DestinationOps {
 //		throw new BusNotFoundException("Bus not found with the given id");
 //	}
 
+//	This method is intended to add the destination by the admin/
 	@Override
 	public Destination addDestination(Destination destination) {
 
@@ -48,7 +49,8 @@ public class DestinationOpsImpl implements DestinationOps {
 		}
 //		throw new DestinationNotFoundException("Destination already exist");
 //		}
-
+ 
+//	Method to update the destination
 	@Override
 	public Destination updateDestination(Destination destination, Integer desId) {
 
@@ -63,7 +65,8 @@ public class DestinationOpsImpl implements DestinationOps {
 		}
 		throw new DestinationNotFoundException("Destination does not exist");
 	}
-
+   
+//	Method to remove the destination
 	@Override
 	public Destination removeDestination(int destinationId) {
 		Optional<Destination> destination = dd.findById(destinationId);
@@ -77,7 +80,7 @@ public class DestinationOpsImpl implements DestinationOps {
 		}
 		throw new DestinationNotFoundException("Destination not found with the given id");
 	}
-
+//Method to search the destinaton
 	@Override
 	public Destination searchDestination(int destinationId) {
 		Optional<Destination> destination = dd.findById(destinationId);
@@ -91,6 +94,7 @@ public class DestinationOpsImpl implements DestinationOps {
 		throw new DestinationNotFoundException("Destination not found with the given id");
 	}
 
+//	 Method to see the destination according to the given id 
 	@Override
 	public List<Destination> viewDestinationByBusId(int busId) {
 		Optional<Bus> bus = bd.findById(busId);
@@ -116,7 +120,9 @@ public class DestinationOpsImpl implements DestinationOps {
 //			return destinations;
 //		throw new EmptyDestinationListException("Destination list is empty");
 //	}
-
+	
+	
+//	Method that shows all the destination 
 	public List<Destination> viewAllDestination() {
 
 		List<Destination> destinations = dd.findAll();

@@ -37,6 +37,7 @@ public class HotelOpsImpl implements HotelOps {
 //		throw new DestinationNotFoundException("No destination found");
 //	}
 
+//	Here admin is allowed to add the hotel based destination and hotel availablity
 	@Override
 	public Hotel addHotel(Integer destinationId, Hotel hotel) {
 
@@ -72,6 +73,7 @@ public class HotelOpsImpl implements HotelOps {
 
 	}
 
+// Using this method we can remover hotel based on its id
 	@Override
 	public Hotel removeHotel(Integer hotelId) {
 
@@ -85,7 +87,7 @@ public class HotelOpsImpl implements HotelOps {
 		}
 		throw new HotelNotFoundException("Hotel not found with given id");
 	}
-
+// Method that is used to find the hotel based on its id applicable for both customer and admin
 	@Override
 	public Hotel searchHotel(int hotelId) {
 		Optional<Hotel> hotel = hd.findById(hotelId);
@@ -97,7 +99,7 @@ public class HotelOpsImpl implements HotelOps {
 		}
 		throw new HotelNotFoundException("Hotel not found to view");
 	}
-
+// If user have only destination id he can able to search hotel based on it
 	@Override
 	public List<Hotel> viewHotelsBydestinationId(int destinationId) {
 
@@ -113,7 +115,7 @@ public class HotelOpsImpl implements HotelOps {
 		}
 		throw new DestinationNotFoundException("No destination is found with the given id");
 	}
-
+// This method is used to show the all hotels at a time
 	@Override
 	public List<Hotel> viewAllHotels() {
 		List<Hotel> hotels = hd.findAll();

@@ -20,6 +20,9 @@ import com.masai.service.BusOps;
 import jakarta.validation.Valid;
 import lombok.val;
 
+/* This is the bus controller of which some method can be accessed 
+by customer and some by admin*/
+
 @RestController
 //@CrossOrigin(origins = "*")
 @RequestMapping("/travel")

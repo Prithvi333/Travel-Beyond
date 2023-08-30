@@ -18,6 +18,8 @@ import com.masai.service.HotelBookingOps;
 
 import jakarta.validation.Valid;
 
+//This controller can be use in fututre for the additional functionality
+
 @RestController
 //@CrossOrigin(origins = "*")
 @RequestMapping("/travel")

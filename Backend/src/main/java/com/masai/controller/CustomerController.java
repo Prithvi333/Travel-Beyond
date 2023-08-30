@@ -20,6 +20,9 @@ import com.masai.service.CustomerOps;
 
 import jakarta.validation.Valid;
 
+/*This controller is very useful to perform 
+mostly task relate to the customer*/
+
 @RestController
 //@CrossOrigin(origins = "*")
 @RequestMapping("/travel")

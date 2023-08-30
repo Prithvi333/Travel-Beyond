@@ -25,6 +25,8 @@ public class RouteOpsImpl implements RouteOps {
 	@Autowired
 	RouteDao rd;
 
+//	Using this method routes are added by the admin
+	
 	@Override
 	public Route addRoute(int busId, Route route) {
 
@@ -42,6 +44,7 @@ public class RouteOpsImpl implements RouteOps {
 		throw new BusNotFoundException("Bus not found with the given id");
 	}
 
+//	Admin use this functionality in oreder to update route
 	@Override
 	public Route updateRoute(RouteDto routedto, Integer routeId) {
 		Optional<Route> rt = rd.findById(routeId);
@@ -59,6 +62,7 @@ public class RouteOpsImpl implements RouteOps {
 		throw new RouteNotFoundException("Route not found to update");
 	}
 
+//	Deleting route based on the route id
 	@Override
 	public Route removeRoute(int routeId) {
 
@@ -73,7 +77,7 @@ public class RouteOpsImpl implements RouteOps {
 		}
 		throw new RouteNotFoundException("Route not found to remove");
 	}
-
+//Search route based on the route id
 	@Override
 	public Route searchRoute(int routeId) {
 		Optional<Route> route = rd.findById(routeId);
@@ -86,6 +90,7 @@ public class RouteOpsImpl implements RouteOps {
 		throw new RouteNotFoundException("Route not found to view");
 	}
 
+//	Using this we can see all the routes through which bus passes
 	@Override
 	public List<Route> viewRouteList() {
 

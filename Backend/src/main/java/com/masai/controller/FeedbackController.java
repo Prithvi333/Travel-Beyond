@@ -17,6 +17,9 @@ import com.masai.service.FeedbackOps;
 
 import jakarta.validation.Valid;
 
+/*This controller is used to manage all the
+feedbacks throughout the whole application*/
+
 @RestController
 //@CrossOrigin(origins = "*")
 @RequestMapping("/travel")

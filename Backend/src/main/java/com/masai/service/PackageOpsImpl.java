@@ -27,6 +27,7 @@ public class PackageOpsImpl implements PackageOps {
 	@Autowired
 	DestinationDao dd;
 
+//	Using this method admin can add the packages available based on hotel id and destination id
 	@Override
 	public Packages addPackage(int hotelId, int destinationId, Packages pack) {
 
@@ -51,7 +52,7 @@ public class PackageOpsImpl implements PackageOps {
 		throw new HotelNotFoundException("Hotel not found with the given id");
 
 	}
-
+// Admin can also delete the package using this method if any mismatch is happened
 	@Override
 	public Packages deletePackage(int packageId) {
 
@@ -65,7 +66,7 @@ public class PackageOpsImpl implements PackageOps {
 		}
 		throw new PackageNotFoundException("No package is found to remove");
 	}
-
+//  From there customer can view the package based on that he can take the id from there and then also able to book it
 	@Override
 	public Packages viewPackage(int packageId) {
 		Optional<Packages> packages = pd.findById(packageId);
@@ -77,7 +78,7 @@ public class PackageOpsImpl implements PackageOps {
 		}
 		throw new PackageNotFoundException("No package is found to view");
 	}
-
+// Using the functionality customer can be able to see all the package at the same time 
 	@Override
 	public List<Packages> viewAllPackages() {
 		List<Packages> packages = pd.findAll();

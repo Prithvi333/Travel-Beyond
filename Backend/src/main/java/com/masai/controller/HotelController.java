@@ -19,6 +19,9 @@ import com.masai.service.HotelOps;
 
 import jakarta.validation.Valid;
 
+/*controller responsible for providing the functionalities related
+to the hotels which are further used to create an package
+*/
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/travel")

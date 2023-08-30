@@ -25,7 +25,7 @@ public class CustomerOpsImpl implements CustomerOps {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-
+//  Method intended to add the user 
 	@Override
 	public Customer addCustomer(Customer customer) {
 		customer.setStatus(true);
@@ -62,7 +62,7 @@ public class CustomerOpsImpl implements CustomerOps {
 //		}
 
 	}
-
+//   Behaviour to update the customer
 	@Override
 	public Customer updateCustomer(Integer cid,Customer cus) {
 
@@ -97,6 +97,7 @@ public class CustomerOpsImpl implements CustomerOps {
 		throw new CustomerNotFoundException("Customer not found with the given id to update");
 	}
 
+//	 Functionality to delete the customer
 	@Override
 	public Customer deleteCustomer(Integer cid) {
 
@@ -112,6 +113,7 @@ public class CustomerOpsImpl implements CustomerOps {
 		throw new CustomerNotFoundException("Customer not found with the given id to delete");
 	}
 
+//	 Method to view the customer by its id
 	@Override
 	public Customer viewCustomerById(int id) {
 		Optional<Customer> cust = cd.findById(id);
@@ -124,6 +126,7 @@ public class CustomerOpsImpl implements CustomerOps {
 		throw new CustomerNotFoundException("Customer not found with the given id to delete");
 	}
 
+//	Functionality that show all the customers
 	@Override
 	public List<Customer> viewAllCustomer() {
 		List<Customer> customers = cd.findAll();
@@ -132,12 +135,14 @@ public class CustomerOpsImpl implements CustomerOps {
 		throw new EmptyCustomerListException("Customer list is empty");
 	}
 
+//	Getting customer by email address
 	@Override
 	public Customer getCustomerByEmail(String email) {
 		Customer customer = cd.findByEmail(email).orElseThrow(()-> new CustomerNotFoundException("username and password is not matched with our database"));
 		return customer;
 	}
 
+//	Some kind of extra functionality
 	@Override
 	public String subsCustomer(SubscribedEmail se) {
 		List<SubscribedEmail> list= sr.findAll();

@@ -19,6 +19,9 @@ import com.masai.service.PackageOps;
 
 import jakarta.validation.Valid;
 
+/*Controller that is taking the date send by 
+frontend application and adding the data in related table to use it later
+*/
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/travel")

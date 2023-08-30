@@ -20,6 +20,9 @@ import com.masai.service.TravelsOps;
 
 import jakarta.validation.Valid;
 
+/*This controller is responsible for performing all 
+the functionalities related to the destinations*/
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/travel")

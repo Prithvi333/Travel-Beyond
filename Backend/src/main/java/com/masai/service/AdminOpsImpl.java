@@ -19,6 +19,8 @@ public class AdminOpsImpl implements AdminOps{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    
+//    Function or method to add admin
     @Override
     public void addAdmin(Admin admin) {
 
@@ -28,12 +30,14 @@ public class AdminOpsImpl implements AdminOps{
             adminDao.save(admin);
     }
 
+//    Method that helps in  getting the admin based on email id
     @Override
     public Admin getAdminByEmail(String email) {
         Admin admin = adminDao.findByEmail(email).orElseThrow(()-> new AdminException("username and password is not matched with our database"));
         return admin;
     }
 
+//    Updating the admin here which requres to parametere first is admin itself and its id
     @Override
     public void updateAdmin(Admin admin, Integer adId) {
 

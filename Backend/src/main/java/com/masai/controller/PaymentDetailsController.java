@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.masai.entity.PaymentDetails;
 import com.masai.service.PaymentDetailsOps;
 
-import jakarta.validation.Valid;
-
+/*This controller take care of the all 
+operation related to the payments done by the customer
+*/
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/travel")

@@ -30,6 +30,7 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 	@Autowired
 	PackageDao pd;
 
+//	In this functionality customer can book the package using customer and package id
 	@Override
 	public PackageBooking makeBooking(int customerId, int packageId) {
 
@@ -63,7 +64,7 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 		return bd.save(booking);
 
 	}
-
+// This method is used to canle the booking if customer change his mind later
 	@Override
 	public PackageBooking cancleBooking(int id) {
 
@@ -78,7 +79,7 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 		}
 		throw new PackageBookingNotFoundException("No booking found with the given id to cancle");
 	}
-
+// Using this method we can view the booking based on its id
 	@Override
 	public PackageBooking viewBooking(int id) {
 		Optional<PackageBooking> booking = bd.findById(id);
@@ -92,7 +93,7 @@ public class PackageBookingOpsImpl implements PackageBookingOps {
 		throw new PackageBookingNotFoundException("No booking found with the given id to view");
 
 	}
-
+// Admin can see all the booking by customers using this method
 	@Override
 	public List<PackageBooking> viewAllBooking() {
 

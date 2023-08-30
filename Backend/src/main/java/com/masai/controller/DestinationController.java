@@ -18,6 +18,9 @@ import com.masai.service.DestinationOps;
 
 import jakarta.validation.Valid;
 
+/*Controller that is user to perform action related to the destination and
+also responsible for authorization and converting json in to object
+*/
 @RestController
 //@CrossOrigin(origins = "*")
 @RequestMapping("/travel")

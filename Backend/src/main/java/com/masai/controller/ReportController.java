@@ -19,6 +19,9 @@ import com.masai.service.ReportOps;
 
 import jakarta.validation.Valid;
 
+/*Some kind of add on functional controller that 
+can be used in future to provide more access to the customer 
+*/
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/travel")

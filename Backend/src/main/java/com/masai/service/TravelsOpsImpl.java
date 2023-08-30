@@ -19,13 +19,14 @@ public class TravelsOpsImpl implements TravelsOps {
 	@Autowired
 	TravelDao td;
 
+//	Adding travel that is done by admin only
 	@Override
 	public Travels addTravels(Travels travel) {
 		travel.setStatus(true);
 		return td.save(travel);
 
 	}
-
+// Updating travel using data transfer object
 	@Override
 	public Travels updateTravels(int travelsId, TravelsDto travelsdto) {
 
@@ -45,6 +46,7 @@ public class TravelsOpsImpl implements TravelsOps {
 
 	}
 
+//	Deleting travel i.e it not available anymore
 	@Override
 	public Travels removeTravels(int id) {
 
@@ -60,6 +62,7 @@ public class TravelsOpsImpl implements TravelsOps {
 
 	}
 
+//	Finding travel based on its id
 	@Override
 	public Travels searchTravels(int id) {
 
@@ -72,6 +75,8 @@ public class TravelsOpsImpl implements TravelsOps {
 		}
 		throw new TravelsNotFoundException("Travels not found to view");
 	}
+	
+//	Getting all the travels available to serve
 
 	@Override
 	public List<Travels> viewTravels() {

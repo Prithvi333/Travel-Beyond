@@ -21,6 +21,9 @@ import com.masai.service.CustomerOps;
 import io.swagger.v3.oas.models.media.MediaType;
 import jakarta.validation.Valid;
 
+/*All the operation relate to admin 
+control by this controller*/
+
 @RestController
 //@CrossOrigin(origins = "*")
 @RequestMapping("/travel")
